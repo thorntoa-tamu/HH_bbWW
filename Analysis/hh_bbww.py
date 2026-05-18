@@ -498,7 +498,7 @@ def AddDNNVariables(df):
     )
     df = df.Define(
         "MT2_blbl",
-        f"(lep1_legType > 0 && lep2_legType > 0) ? float(analysis::Calculate_MT2_func(lep1_p4 + centralJet_p4[1], lep2_p4 + centralJet_p4[1], PuppiMET_p4, 0.0, 0.0)) : -100.",
+        f"(lep1_legType > 0 && lep2_legType > 0) ? float(analysis::Calculate_MT2_func(lep1_p4 + centralJet_p4[0], lep2_p4 + centralJet_p4[1], PuppiMET_p4, 0.0, 0.0)) : -100.",
     )
 
     df = df.Define(
