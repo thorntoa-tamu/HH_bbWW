@@ -433,7 +433,7 @@ def AddDNNVariablesDL(df, isData=False):
         "MT2_blbl2",
         f"(lep1_legType > 0 && lep2_legType > 0) && std::isfinite(l1b2_p4.mass()) && std::isfinite(l2b1_p4.mass()) ? float(analysis::Calculate_MT2_func(l1b2_p4, l2b1_p4, PuppiMET_p4, 0.0, 0.0)) : -100.",
     )
-        # New MT2 implementation for ttbar and returning invisible splitting solution
+    # New MT2 implementation for ttbar and returning invisible splitting solution
     # MT2_blbl / MT2_blbl2: two b-lepton pairings — (lep1+b1, lep2+b2) and (lep1+b2, lep2+b1).
     # vis=(lep+b, lep+b), invis=MET, chi=0 (neutrino)
     # Both computed via _withSolution which is added into MT2.h to recover the neutrino momentum splitting at the MT2 minimum.
