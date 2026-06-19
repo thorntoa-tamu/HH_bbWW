@@ -425,23 +425,16 @@ def AddDNNVariablesDL(df, isData=False):
         "MT2_bb",
         f"(lep1_legType > 0 && lep2_legType > 0) ? float(analysis::Calculate_MT2_func(bjet1_p4, bjet2_p4, ll_p4 + PuppiMET_p4, 80.4, 80.4)) : -100.",
     )
-    df = df.Define(
-        "MT2_blbl",
-        f"(lep1_legType > 0 && lep2_legType > 0) && std::isfinite(l1b1_p4.mass()) && std::isfinite(l2b2_p4.mass()) ? float(analysis::Calculate_MT2_func(l1b1_p4, l2b2_p4, PuppiMET_p4, 0.0, 0.0)) : -100.",
-    )
-    df = df.Define(
-        "MT2_blbl2",
-        f"(lep1_legType > 0 && lep2_legType > 0) && std::isfinite(l1b2_p4.mass()) && std::isfinite(l2b1_p4.mass()) ? float(analysis::Calculate_MT2_func(l1b2_p4, l2b1_p4, PuppiMET_p4, 0.0, 0.0)) : -100.",
-    )
+    df = df.Define("l1b1_p4", "lep1_p4 + bjet1_p4")
+    df = df.Define("l1b2_p4", "lep1_p4 + bjet2_p4")
+    df = df.Define("l2b1_p4", "lep2_p4 + bjet1_p4")
+    df = df.Define("l2b2_p4", "lep2_p4 + bjet2_p4")
     # New MT2 implementation for ttbar and returning invisible splitting solution
-    # MT2_blbl / MT2_blbl2: two b-lepton pairings — (lep1+b1, lep2+b2) and (lep1+b2, lep2+b1).
     # vis=(lep+b, lep+b), invis=MET, chi=0 (neutrino)
     # Both computed via _withSolution which is added into MT2.h to recover the neutrino momentum splitting at the MT2 minimum.
-    # Note: ben_findsols uses a 10k-step grid scan; returns (0,0) for kinematically unbalanced
-    # events where the ellipses never become tangent — flag these with MT2_blbl>0 && nu1_px==0.
     df = df.Define(
         "MT2_blbl_sol",
-        f"(lep1_legType > 0 && lep2_legType > 0) ? analysis::Calculate_MT2_func_withSolution(lep1_p4 + bjet1_p4, lep2_p4 + bjet2_p4, PuppiMET_p4, 0.0, 0.0) : analysis::MT2Result{{-100., 0., 0., 0., 0.}}",
+        f"(lep1_legType > 0 && lep2_legType > 0) ? analysis::Calculate_MT2_func_withSolution(l1b1_p4, l2b2_p4, PuppiMET_p4, 0.0, 0.0) : analysis::MT2Result{{-100., 0., 0., 0., 0.}}",
     )
     df = df.Define("MT2_blbl", "float(MT2_blbl_sol.mt2)")
     df = df.Define("MT2_blbl_nu1_px", "float(MT2_blbl_sol.px_inv_A)")
@@ -450,7 +443,7 @@ def AddDNNVariablesDL(df, isData=False):
     df = df.Define("MT2_blbl_nu2_py", "float(MT2_blbl_sol.py_inv_B)")
     df = df.Define(
         "MT2_blbl2_sol",
-        f"(lep1_legType > 0 && lep2_legType > 0) ? analysis::Calculate_MT2_func_withSolution(lep1_p4 + bjet2_p4, lep2_p4 + bjet1_p4, PuppiMET_p4, 0.0, 0.0) : analysis::MT2Result{{-100., 0., 0., 0., 0.}}",
+        f"(lep1_legType > 0 && lep2_legType > 0) ? analysis::Calculate_MT2_func_withSolution(l1b2_p4, l2b1_p4, PuppiMET_p4, 0.0, 0.0) : analysis::MT2Result{{-100., 0., 0., 0., 0.}}",
     )
     df = df.Define("MT2_blbl2", "float(MT2_blbl2_sol.mt2)")
     df = df.Define("MT2_blbl2_nu1_px", "float(MT2_blbl2_sol.px_inv_A)")
@@ -465,8 +458,8 @@ def AddDNNVariablesDL(df, isData=False):
         f"(lep1_legType > 0 && lep2_legType > 0) ? float("
         f"(ROOT::Math::VectorUtil::DeltaR(lep1_p4, bjet1_p4) + ROOT::Math::VectorUtil::DeltaR(lep2_p4, bjet2_p4)) <= "
         f"(ROOT::Math::VectorUtil::DeltaR(lep1_p4, bjet2_p4) + ROOT::Math::VectorUtil::DeltaR(lep2_p4, bjet1_p4)) ? "
-        f"analysis::Calculate_MT2_func(lep1_p4+bjet1_p4, lep2_p4+bjet2_p4, PuppiMET_p4, 0.0, 0.0) : "
-        f"analysis::Calculate_MT2_func(lep1_p4+bjet2_p4, lep2_p4+bjet1_p4, PuppiMET_p4, 0.0, 0.0)"
+        f"analysis::Calculate_MT2_func(l1b1_p4, l2b2_p4, PuppiMET_p4, 0.0, 0.0) : "
+        f"analysis::Calculate_MT2_func(l1b2_p4, l2b1_p4, PuppiMET_p4, 0.0, 0.0)"
         f") : -100.",
     )
 
