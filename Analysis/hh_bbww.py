@@ -446,10 +446,10 @@ def AddDNNVariablesDL(df, isData=False):
     df = df.Define("MT2_blbl2_nu1_py", "float(MT2_blbl2_sol.pyInvisible1)")
     df = df.Define("MT2_blbl2_nu2_px", "float(MT2_blbl2_sol.pxInvisible2)")
     df = df.Define("MT2_blbl2_nu2_py", "float(MT2_blbl2_sol.pyInvisible2)")
-    
+
     df = df.Define("MT2_blbl_min", "float(min(MT2_blbl, MT2_blbl2))")
     df = df.Define("MT2_blbl_max", "float(max(MT2_blbl, MT2_blbl2))")
-    
+
     # dR pairing: assign lep+b by smallest total deltaR sum
     df = df.Define(
         "MT2_blbl_dR",
