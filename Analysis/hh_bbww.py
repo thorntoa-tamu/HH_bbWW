@@ -425,10 +425,6 @@ def AddDNNVariablesDL(df, isData=False):
         "MT2_bb",
         f"(lep1_legType > 0 && lep2_legType > 0) ? float(analysis::Calculate_MT2_func(bjet1_p4, bjet2_p4, ll_p4 + PuppiMET_p4, 80.4, 80.4)) : -100.",
     )
-    df = df.Define("l1b1_p4", "lep1_p4 + bjet1_p4")
-    df = df.Define("l1b2_p4", "lep1_p4 + bjet2_p4")
-    df = df.Define("l2b1_p4", "lep2_p4 + bjet1_p4")
-    df = df.Define("l2b2_p4", "lep2_p4 + bjet2_p4")
     # New MT2 implementation for ttbar and returning invisible splitting solution
     # vis=(lep+b, lep+b), invis=MET, chi=0 (neutrino)
     # Both computed via _withSolution which is added into MT2.h to recover the neutrino momentum splitting at the MT2 minimum.
