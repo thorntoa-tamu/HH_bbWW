@@ -433,19 +433,19 @@ def AddDNNVariablesDL(df, isData=False):
         f"(lep1_legType > 0 && lep2_legType > 0) ? analysis::Calculate_MT2_func_withSolution(l1b1_p4, l2b2_p4, PuppiMET_p4, 0.0, 0.0) : analysis::MT2Result{{-100., 0., 0., 0., 0.}}",
     )
     df = df.Define("MT2_blbl", "float(MT2_blbl_sol.mt2)")
-    df = df.Define("MT2_blbl_nu1_px", "float(MT2_blbl_sol.px_inv_A)")
-    df = df.Define("MT2_blbl_nu1_py", "float(MT2_blbl_sol.py_inv_A)")
-    df = df.Define("MT2_blbl_nu2_px", "float(MT2_blbl_sol.px_inv_B)")
-    df = df.Define("MT2_blbl_nu2_py", "float(MT2_blbl_sol.py_inv_B)")
+    df = df.Define("MT2_blbl_nu1_px", "float(MT2_blbl_sol.pxInvisible1)")
+    df = df.Define("MT2_blbl_nu1_py", "float(MT2_blbl_sol.pyInvisible1)")
+    df = df.Define("MT2_blbl_nu2_px", "float(MT2_blbl_sol.pxInvisible2)")
+    df = df.Define("MT2_blbl_nu2_py", "float(MT2_blbl_sol.pyInvisible2)")
     df = df.Define(
         "MT2_blbl2_sol",
         f"(lep1_legType > 0 && lep2_legType > 0) ? analysis::Calculate_MT2_func_withSolution(l1b2_p4, l2b1_p4, PuppiMET_p4, 0.0, 0.0) : analysis::MT2Result{{-100., 0., 0., 0., 0.}}",
     )
     df = df.Define("MT2_blbl2", "float(MT2_blbl2_sol.mt2)")
-    df = df.Define("MT2_blbl2_nu1_px", "float(MT2_blbl2_sol.px_inv_A)")
-    df = df.Define("MT2_blbl2_nu1_py", "float(MT2_blbl2_sol.py_inv_A)")
-    df = df.Define("MT2_blbl2_nu2_px", "float(MT2_blbl2_sol.px_inv_B)")
-    df = df.Define("MT2_blbl2_nu2_py", "float(MT2_blbl2_sol.py_inv_B)")
+    df = df.Define("MT2_blbl2_nu1_px", "float(MT2_blbl2_sol.pxInvisible1)")
+    df = df.Define("MT2_blbl2_nu1_py", "float(MT2_blbl2_sol.pyInvisible1)")
+    df = df.Define("MT2_blbl2_nu2_px", "float(MT2_blbl2_sol.pxInvisible2)")
+    df = df.Define("MT2_blbl2_nu2_py", "float(MT2_blbl2_sol.pyInvisible2)")
     # min over both bl pairings: guarantees ttbar is always bounded by m_top regardless of jet/lepton pT ordering
     df = df.Define("MT2_blbl_min", "float(min(MT2_blbl, MT2_blbl2))")
     # dR pairing: assign lep+b by smallest total deltaR sum
