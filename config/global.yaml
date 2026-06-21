@@ -609,6 +609,7 @@ variables:
   - MT2_bb
   - MT2_blbl
   - MT2_blbl2
+  - MT2_blbl_min
   - ll_mass
   - bb_CosTheta
 

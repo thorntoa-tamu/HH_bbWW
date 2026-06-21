@@ -710,6 +710,21 @@ MT2_blbl2:
   max_y_sf: 1.5
   divide_by_bin_width: False
 
+MT2_blbl_min:
+  x_bins: "100|0:200"
+  x_title: MT2 blbl minimum
+  y_title: Events
+  use_log_y: False
+  max_y_sf: 1.5
+  divide_by_bin_width: False
+
+m_bbllmet:
+  x_bins: "1000|0:2500"
+  x_title: m(bbllmet)
+  y_title: Events
+  use_log_y: False
+  max_y_sf: 1.5
+  divide_by_bin_width: False
 
 ########## dR BEGIN ##########
 
