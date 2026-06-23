@@ -480,7 +480,7 @@ histTuple_flavors:
       - MT
       - MT2_ll
       - MT2_bb
-      - MT2_blbl
+      - MT2_blbl1
       - MT2_blbl2
       - ll_mass
       - bb_CosTheta
@@ -541,7 +541,6 @@ histTuple_flavors:
     variables:
       - DeepHME_mass
       - lep1_pt
-
 histTuple_fullResolution_variables: [ ]
 
 # DNN Inputs
@@ -605,11 +604,15 @@ variables:
   - total_MT
   - MT2_ll
   - MT2_bb
-  - MT2_blbl
+  - MT2_blbl1
   - MT2_blbl2
   - MT2_blbl_min
   - MT2_blbl_max
   - MT2_blbl_dR
+  - MT2_blbl1_delta_phi
+  - MT2_blbl2_delta_phi
+  - MT2_blbl1_ptratio
+  - MT2_blbl2_ptratio
   - ll_mass
   - bb_CosTheta
 

@@ -22,7 +22,7 @@ highlevelfeatures: &id002
   - MT
   - MT2_ll
   - MT2_bb
-  - MT2_blbl
+  - MT2_blbl1
   - ll_mass
   - CosTheta_bb
 listfeatures:

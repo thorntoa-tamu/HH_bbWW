@@ -428,27 +428,35 @@ def AddDNNVariablesDL(df, isData=False):
     # New MT2 implementation for ttbar and returning invisible splitting solution
     # vis=(lep+b, lep+b), invis=MET, chi=0 (neutrino)
     # Both computed via _withSolution which is added into MT2.h to recover the neutrino momentum splitting at the MT2 minimum.
-    df = df.Define(
-        "MT2_blbl_sol",
-        f"(lep1_legType > 0 && lep2_legType > 0) ? analysis::Calculate_MT2_func_withSolution(l1b1_p4, l2b2_p4, PuppiMET_p4, 0.0, 0.0) : analysis::MT2Result{{-100., 0., 0., 0., 0.}}",
-    )
-    df = df.Define("MT2_blbl", "float(MT2_blbl_sol.mt2)")
-    df = df.Define("MT2_blbl_nu1_px", "float(MT2_blbl_sol.pxInvisible1)")
-    df = df.Define("MT2_blbl_nu1_py", "float(MT2_blbl_sol.pyInvisible1)")
-    df = df.Define("MT2_blbl_nu2_px", "float(MT2_blbl_sol.pxInvisible2)")
-    df = df.Define("MT2_blbl_nu2_py", "float(MT2_blbl_sol.pyInvisible2)")
-    df = df.Define(
-        "MT2_blbl2_sol",
-        f"(lep1_legType > 0 && lep2_legType > 0) ? analysis::Calculate_MT2_func_withSolution(l1b2_p4, l2b1_p4, PuppiMET_p4, 0.0, 0.0) : analysis::MT2Result{{-100., 0., 0., 0., 0.}}",
-    )
-    df = df.Define("MT2_blbl2", "float(MT2_blbl2_sol.mt2)")
-    df = df.Define("MT2_blbl2_nu1_px", "float(MT2_blbl2_sol.pxInvisible1)")
-    df = df.Define("MT2_blbl2_nu1_py", "float(MT2_blbl2_sol.pyInvisible1)")
-    df = df.Define("MT2_blbl2_nu2_px", "float(MT2_blbl2_sol.pxInvisible2)")
-    df = df.Define("MT2_blbl2_nu2_py", "float(MT2_blbl2_sol.pyInvisible2)")
+    blbl_pairings = [("l1b1_p4", "l2b2_p4"), ("l1b2_p4", "l2b1_p4")]
+    for i, (vis1, vis2) in enumerate(blbl_pairings, start=1):
+        df = df.Define(
+            f"MT2_blbl{i}_sol",
+            f"(lep1_legType > 0 && lep2_legType > 0) ? analysis::Calculate_MT2_func_withSolution({vis1}, {vis2}, PuppiMET_p4, 0.0, 0.0) : analysis::MT2Result{{-100., 0., 0., 0., 0.}}",
+        )
+        df = df.Define(f"MT2_blbl{i}", f"float(MT2_blbl{i}_sol.mt2)")
+        df = df.Define(f"MT2_blbl{i}_nu1_px", f"float(MT2_blbl{i}_sol.pxInvisible1)")
+        df = df.Define(f"MT2_blbl{i}_nu1_py", f"float(MT2_blbl{i}_sol.pyInvisible1)")
+        df = df.Define(f"MT2_blbl{i}_nu2_px", f"float(MT2_blbl{i}_sol.pxInvisible2)")
+        df = df.Define(f"MT2_blbl{i}_nu2_py", f"float(MT2_blbl{i}_sol.pyInvisible2)")
+        df = df.Define(
+            f"MT2_blbl{i}_nu1_p4",
+            f"ROOT::Math::PxPyPzEVector(MT2_blbl{i}_nu1_px, MT2_blbl{i}_nu1_py, 0.0, sqrt(MT2_blbl{i}_nu1_px*MT2_blbl{i}_nu1_px + MT2_blbl{i}_nu1_py*MT2_blbl{i}_nu1_py))",
+        )  # MT2 is a transverse quantity so pz = 0
+        df = df.Define(
+            f"MT2_blbl{i}_nu2_p4",
+            f"ROOT::Math::PxPyPzEVector(MT2_blbl{i}_nu2_px, MT2_blbl{i}_nu2_py, 0.0, sqrt(MT2_blbl{i}_nu2_px*MT2_blbl{i}_nu2_px + MT2_blbl{i}_nu2_py*MT2_blbl{i}_nu2_py))",
+        )
+        df = df.Define(
+            f"MT2_blbl{i}_delta_phi",
+            f"ROOT::Math::VectorUtil::DeltaPhi(MT2_blbl{i}_nu1_p4, MT2_blbl{i}_nu2_p4)",
+        )
+        df = df.Define(
+            f"MT2_blbl{i}_ptratio", f"MT2_blbl{i}_nu1_p4.Pt() / PuppiMET_p4.Pt()"
+        )
 
-    df = df.Define("MT2_blbl_min", "float(min(MT2_blbl, MT2_blbl2))")
-    df = df.Define("MT2_blbl_max", "float(max(MT2_blbl, MT2_blbl2))")
+    df = df.Define("MT2_blbl_min", "float(min(MT2_blbl1, MT2_blbl2))")
+    df = df.Define("MT2_blbl_max", "float(max(MT2_blbl1, MT2_blbl2))")
 
     # dR pairing: assign lep+b by smallest total deltaR sum
     df = df.Define(

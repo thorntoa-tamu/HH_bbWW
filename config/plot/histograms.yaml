@@ -678,8 +678,16 @@ lep2_MT:
   max_y_sf: 1.5
   divide_by_bin_width: False
 
+MT2:
+  x_bins: "100|0:500"
+  x_title: MT2
+  y_title: Events
+  use_log_y: False
+  max_y_sf: 1.5
+  divide_by_bin_width: False
+
 MT2_ll:
-  x_bins: "100|0:200"
+  x_bins: "100|0:500"
   x_title: MT2 ll
   y_title: Events
   use_log_y: False
@@ -687,23 +695,23 @@ MT2_ll:
   divide_by_bin_width: False
 
 MT2_bb:
-  x_bins: "100|0:200"
+  x_bins: "100|0:500"
   x_title: MT2 bb
   y_title: Events
   use_log_y: False
   max_y_sf: 1.5
   divide_by_bin_width: False
 
-MT2_blbl:
-  x_bins: "100|0:200"
-  x_title: MT2 blbl
+MT2_blbl1:
+  x_bins: "100|0:500"
+  x_title: MT2 blbl1
   y_title: Events
   use_log_y: False
   max_y_sf: 1.5
   divide_by_bin_width: False
 
 MT2_blbl2:
-  x_bins: "100|0:200"
+  x_bins: "100|0:500"
   x_title: MT2 blbl2
   y_title: Events
   use_log_y: False
@@ -711,7 +719,7 @@ MT2_blbl2:
   divide_by_bin_width: False
 
 MT2_blbl_min:
-  x_bins: "100|0:200"
+  x_bins: "100|0:500"
   x_title: MT2 blbl minimum
   y_title: Events
   use_log_y: False
@@ -719,7 +727,7 @@ MT2_blbl_min:
   divide_by_bin_width: False
 
 MT2_blbl_max:
-  x_bins: "100|0:200"
+  x_bins: "100|0:500"
   x_title: MT2 blbl maximum
   y_title: Events
   use_log_y: False
@@ -727,8 +735,40 @@ MT2_blbl_max:
   divide_by_bin_width: False
 
 MT2_blbl_dR:
-  x_bins: "100|0:200"
+  x_bins: "100|0:500"
   x_title: MT2 blbl (min dR pairing)
+  y_title: Events
+  use_log_y: False
+  max_y_sf: 1.5
+  divide_by_bin_width: False
+
+MT2_blbl1_delta_phi:
+  x_bins: "10|0:4.0"
+  x_title: MT2 blbl1 delta phi
+  y_title: Events
+  use_log_y: False
+  max_y_sf: 1.5
+  divide_by_bin_width: False
+
+MT2_blbl2_delta_phi:
+  x_bins: "10|0:4.0"
+  x_title: MT2 blbl2 delta phi
+  y_title: Events
+  use_log_y: False
+  max_y_sf: 1.5
+  divide_by_bin_width: False
+
+MT2_blbl1_ptratio:
+  x_bins: "50|0:3"
+  x_title: MT2 blbl1 pt ratio
+  y_title: Events
+  use_log_y: False
+  max_y_sf: 1.5
+  divide_by_bin_width: False
+
+MT2_blbl2_ptratio:
+  x_bins: "50|0:3"
+  x_title: MT2 blbl2 pt ratio
   y_title: Events
   use_log_y: False
   max_y_sf: 1.5
