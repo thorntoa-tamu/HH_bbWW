@@ -101,6 +101,11 @@ loss_scale: 0.2
 n_layers: 5
 n_units: 512
 n_units_reduction_ratio: 1.0
+# DiscoModel (DNN_Class.py) builds its hidden layers only from the n_disco_*
+# keys; without them the model degenerates to a linear softmax
+n_disco_layers: 5
+n_disco_units: 512
+disco_activation: tanh
 n_epochs: 100
 parametric_list:
   - 300

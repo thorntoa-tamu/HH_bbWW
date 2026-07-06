@@ -3,10 +3,12 @@ import numpy as np
 import uproot
 import awkward as ak
 import os
+import matplotlib
+
+matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import sklearn.metrics
 import yaml
-import ROOT
 import tf2onnx
 import onnx
 import onnxruntime as ort
@@ -1272,7 +1274,7 @@ class DiscoModel(tf.keras.Model):
                 )
                 layer_list.append(dropout)
 
-        for n in range(setup["n_disco_layers"]):
+        for n in range(setup.get("n_disco_layers", 0)):
             add_layer(
                 self.disco_layers,
                 setup["n_disco_units"],
@@ -1299,6 +1301,7 @@ class DiscoModel(tf.keras.Model):
         mbb = tf.cast(y[1], dtype=tf.float32)
 
         class_weight = tf.cast(y[2], dtype=tf.float32)
+        adv_weight = tf.cast(y[3], dtype=tf.float32)
         # disco_weight only on background events
         disco_weight = tf.cast(y[0][:, 0] == 0, dtype=tf.float32)
 
@@ -1314,7 +1317,7 @@ class DiscoModel(tf.keras.Model):
             disco_loss = (
                 self.lambda_disco
                 * disco_weight
-                * self.disco_loss(mbb, y_pred_class[:, 0], class_weight, 2)
+                * self.disco_loss(mbb, y_pred_class[:, 0], adv_weight, 2)
             )
 
             class_loss = tf.reduce_mean(class_loss_vec * class_weight)
@@ -1398,28 +1401,26 @@ def train_dnn(
     setup,
     training_file,
     weight_file,
-    config_dict,
     test_training_file,
     test_weight_file,
-    test_config_dict,
     output_folder,
     hme_friend_file=None,
     test_hme_friend_file=None,
 ):
-    batch_size = config_dict["meta_data"]["batch_dict"]["batch_size"]
-    test_batch_size = test_config_dict["meta_data"]["batch_dict"]["batch_size"]
+    batch_size = setup["batch_size"]
+    test_batch_size = setup["batch_size"]
 
     output_dnn_name = output_folder
 
     dw = DataWrapper()
     dw.AddInputFeatures(setup["features"])
-    if setup["listfeatures"] != None:
-        for list_feature in setup["listfeatures"]:
+    if setup.get("listfeatures") != None:
+        for list_feature in setup.get("listfeatures"):
             dw.AddInputFeaturesList(*list_feature)
-    if setup["highlevelfeatures"] != None:
-        dw.AddHighLevelFeatures(setup["highlevelfeatures"])
-    if setup["hmefeatures"] != None:
-        dw.AddHMEFeatures(setup["hmefeatures"])
+    if setup.get("highlevelfeatures") != None:
+        dw.AddHighLevelFeatures(setup.get("highlevelfeatures"))
+    if setup.get("hmefeatures") != None:
+        dw.AddHMEFeatures(setup.get("hmefeatures"))
 
     dw.UseParametric(setup["UseParametric"])
     dw.SetParamList(setup["parametric_list"])
@@ -1443,7 +1444,7 @@ def train_dnn(
         hme_friend_file=hme_friend_file,
     )
     dw.ReadWeightFile(weight_file, entry_start=entry_start, entry_stop=entry_stop)
-    print(config_dict)
+    # print(config_dict)
     # dw.DefineTrainTestSet(batch_size, 0.0)
 
     test_dw.ReadFile(
@@ -1502,7 +1503,12 @@ def train_dnn(
         train_tf_dataset = tf.data.Dataset.from_tensor_slices(
             (
                 dw.features,
-                (tf.one_hot(dw.class_target, nClasses), dw.mbb, dw.class_weight),
+                (
+                    tf.one_hot(dw.class_target, nClasses),
+                    dw.mbb,
+                    dw.class_weight,
+                    dw.adv_weight,
+                ),
             )
         ).batch(batch_size, drop_remainder=True)
         train_tf_dataset = train_tf_dataset.shuffle(
@@ -1516,6 +1522,7 @@ def train_dnn(
                     tf.one_hot(test_dw.class_target, nClasses),
                     test_dw.mbb,
                     test_dw.class_weight,
+                    test_dw.adv_weight,
                 ),
             )
         ).batch(test_batch_size, drop_remainder=True)
@@ -1687,7 +1694,7 @@ def train_dnn(
     onnx_model, _ = tf2onnx.convert.from_keras(model, input_signature, opset=13)
     onnx.save(onnx_model, f"{output_dnn_name}.onnx")
 
-    modelname_parity = [output_dnn_name, config_dict["meta_data"]["iterate_cut"]]
+    modelname_parity = [output_dnn_name, setup.get("iterate_cut", None)]
     features_config = {
         "features": dw.feature_names,
         "listfeatures": dw.listfeature_names,
@@ -1717,6 +1724,8 @@ def validate_dnn(
     model_config,
     hme_friend_file=None,
 ):
+    import ROOT
+
     print(f"Model load {model_name}")
     sess = ort.InferenceSession(model_name)
 
@@ -2537,13 +2546,13 @@ def train_step2(
 
     dw = DataWrapper()
     dw.AddInputFeatures(setup["features"])
-    if setup["listfeatures"] != None:
-        for list_feature in setup["listfeatures"]:
+    if setup.get("listfeatures") != None:
+        for list_feature in setup.get("listfeatures"):
             dw.AddInputFeaturesList(*list_feature)
-    if setup["highlevelfeatures"] != None:
-        dw.AddHighLevelFeatures(setup["highlevelfeatures"])
-    if setup["hmefeatures"] != None:
-        dw.AddHMEFeatures(setup["hmefeatures"])
+    if setup.get("highlevelfeatures") != None:
+        dw.AddHighLevelFeatures(setup.get("highlevelfeatures"))
+    if setup.get("hmefeatures") != None:
+        dw.AddHMEFeatures(setup.get("hmefeatures"))
 
     dw.UseParametric(setup["UseParametric"])
     dw.SetParamList(setup["parametric_list"])

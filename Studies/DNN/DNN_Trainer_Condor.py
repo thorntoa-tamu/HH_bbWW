@@ -1,5 +1,5 @@
 import argparse
-import Studies.DNN.DNN_Class_HistTuples as DNNClass
+import Studies.DNN.DNN_Class as DNNClass
 import threading
 import yaml
 from FLAF.RunKit.kinit import cond as kInit_cond, update_kinit_thread
@@ -41,6 +41,8 @@ if __name__ == "__main__":
             args.test_training_file,
             args.test_weight_file,
             args.output_folder,
+            hme_friend_file=setup.get("hme_friend_file"),
+            test_hme_friend_file=setup.get("test_hme_friend_file"),
         )
 
     finally:

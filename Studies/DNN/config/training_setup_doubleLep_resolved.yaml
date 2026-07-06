@@ -1,5 +1,6 @@
 UseParametric: true
 nClasses: 2
+disco_lambda_factor: 10
 activation: tanh
 batch_size: 10000
 dropout: 0.2
@@ -31,7 +32,7 @@ features:
   - MT2_ll
   - MT2_bb
   - MT2_blbl
-  - MT2_blbl2
+  # - MT2_blbl2  # does not exist in current dataset yet, add back when available
   # - MT_log
   # - MT2_ll_log
   # - MT2_bb_log
@@ -40,34 +41,35 @@ features:
   - ll_mass
   # - ll_mass_log
   - CosTheta_bb
-  - bjet1_pt
+  # bjet1/bjet2/other_jet1/other_jet2 do not exist in current dataset (uses centralJet arrays); add back when available
+  # - bjet1_pt
   # - bjet1_pt_log
-  - bjet1_phi
-  - bjet1_eta
-  - bjet1_mass
+  # - bjet1_phi
+  # - bjet1_eta
+  # - bjet1_mass
   # - bjet1_mass_log
-  - bjet1_btagPNetB
-  - bjet2_pt
+  # - bjet1_btagPNetB
+  # - bjet2_pt
   # - bjet2_pt_log
-  - bjet2_phi
-  - bjet2_eta
-  - bjet2_mass
+  # - bjet2_phi
+  # - bjet2_eta
+  # - bjet2_mass
   # - bjet2_mass_log
-  - bjet2_btagPNetB
-  - other_jet1_pt
+  # - bjet2_btagPNetB
+  # - other_jet1_pt
   # - other_jet1_pt_log
-  - other_jet1_phi
-  - other_jet1_eta
-  - other_jet1_mass
+  # - other_jet1_phi
+  # - other_jet1_eta
+  # - other_jet1_mass
   # - other_jet1_mass_log
-  - other_jet1_btagPNetB
-  - other_jet2_pt
+  # - other_jet1_btagPNetB
+  # - other_jet2_pt
   # - other_jet2_pt_log
-  - other_jet2_phi
-  - other_jet2_eta
-  - other_jet2_mass
+  # - other_jet2_phi
+  # - other_jet2_eta
+  # - other_jet2_mass
   # - other_jet2_mass_log
-  - other_jet2_btagPNetB
+  # - other_jet2_btagPNetB
 
   # - DoubleLep_DeepHME_mass
   # - DoubleLep_DeepHME_mass_log
@@ -84,6 +86,11 @@ loss_scale: 0.2
 n_layers: 5
 n_units: 512
 n_units_reduction_ratio: 1.0
+# DiscoModel (DNN_Class.py) builds its hidden layers only from the n_disco_*
+# keys; without them the model degenerates to a linear softmax
+n_disco_layers: 5
+n_disco_units: 512
+disco_activation: tanh
 n_epochs: 100
 patience: 100
 parametric_list:

@@ -2,24 +2,36 @@ import os
 import yaml
 import awkward as ak
 
+_script_dir = os.path.dirname(os.path.abspath(__file__))
+
 resolved = 1
 if resolved:
     # Resolved
-    template = "config/training_setup_doubleLep_resolved.yaml"
-    output_folder = "CondorConfigs_26Apr/DoubleLepton_Resolved_v3"
+    template = os.path.join(
+        _script_dir, "config/training_setup_doubleLep_resolved.yaml"
+    )
+    output_folder = os.path.join(
+        _script_dir, "CondorConfigs/DoubleLepton_IndependentMasses_v1"
+    )
 
-    input_file_template = "/eos/user/d/daebi/HH_bbWW/DNNDatasets/ResolvedDataset_Apr25/Dataset/nParity{j}_Merged.root"
+    # input_file_template = "/eos/user/d/daebi/HH_bbWW/DNNDatasets/ResolvedDataset_Apr25/Dataset/nParity{j}_Merged.root"
     # input_file_template = "/eos/user/d/daebi/HH_bbWW/DNNDatasets/ResolvedDataset_Apr16/Dataset/nParity{j}_Merged.root"
+    input_file_template = (
+        "/eos/user/t/thorntoa/DoubleLepton_v5/Dataset_Run3_2022/batchfile{j}.root"
+    )
 
     mass_specific = True
     mass_list = [300, 400, 500, 550, 600, 650, 700, 800, 900, 1000]
-    weight_file_template = "/eos/user/d/daebi/HH_bbWW/DNNDatasets/ResolvedDataset_Apr25/Dataset/nParity{j}_Merged_weight_m{m}.root"
+    # weight_file_template = "/eos/user/d/daebi/HH_bbWW/DNNDatasets/ResolvedDataset_Apr25/Dataset/nParity{j}_Merged_weight_m{m}.root"
     # weight_file_template = "/eos/user/d/daebi/HH_bbWW/DNNDatasets/ResolvedDataset_Apr16/Dataset/nParity{j}_Merged_weight_m{m}.root"
+    weight_file_template = (
+        "/eos/user/t/thorntoa/DoubleLepton_v5/Dataset_Run3_2022/weightfile{j}.root"
+    )
 
     training_name = "DNN_DoubleLepton_Resolved_Training{i}_par{j}_m{m}"
     var_parse_dict = {
         "learning_rate": [0.0005],
-        "n_epochs": [100],
+        "n_epochs": [5],
         "dropout": [0.2],
         # 'parametric_list': [ [ 600 ] ],
         "parametric_list": [[-1]],
@@ -31,16 +43,17 @@ if resolved:
         "loss_scale": [1.0],
         "UseParametric": [False],
         "use_batch_norm": [True],
-        "nClasses": [4],
+        "nClasses": [2],
         "patience": [50],
         "lr_patience": [3],
         "lr_decay": [0.8],
+        "disco_lambda_factor": [10],
     }
 
 else:
     # Boosted
-    template = "config/training_setup_doubleLep_boosted.yaml"
-    output_folder = "CondorConfigs_23Apr/DoubleLepton_Boosted_v3"
+    template = os.path.join(_script_dir, "config/training_setup_doubleLep_boosted.yaml")
+    output_folder = os.path.join(_script_dir, "CondorConfigs/DoubleLepton_Boosted_v1")
 
     # input_file_template = "/eos/user/d/daebi/HH_bbWW/DNNDatasets/BoostedDataset_Apr23/Dataset/nParity{j}_Merged.root"
     input_file_template = "/eos/user/d/daebi/HH_bbWW/DNNDatasets/BoostedDataset_Apr16_v4/Dataset/nParity{j}_Merged.root"
@@ -101,6 +114,9 @@ for i, varset in enumerate(var_combinations):
 
     for m in mass_list:
 
+        mass_folder = os.path.join(output_folder, f"m{m}")
+        os.makedirs(mass_folder, exist_ok=True)
+
         config = default_config.copy()
         for name, var in zip(var_names, varset.tolist()):
             if name == "parametric_list" and var == [-1]:
@@ -121,6 +137,6 @@ for i, varset in enumerate(var_combinations):
             config["training_name"] = training_name.format(i=i, j=j, m=m)
 
             outFileName = f"{training_name.format(i = i, j = j, m = m)}.yaml"
-            outFilePath = os.path.join(output_folder, outFileName)
+            outFilePath = os.path.join(mass_folder, outFileName)
             with open(outFilePath, "w") as f:
                 yaml.dump(config, f)
