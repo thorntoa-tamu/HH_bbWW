@@ -1,0 +1,426 @@
+DY:
+  name: "DY"
+  color: "kAzure+7"
+  sub_processes:
+    - DY_M_10to50
+    - DYto2L_InclusivePlusBinned
+
+DYto2L_InclusivePlusBinned:
+  processors: *DY_processors
+  datasets:
+    - DYto2E_M_50_amcatnloFXFX
+    - DYto2E_M_50_0J_amcatnloFXFX
+    - DYto2E_M_50_1J_amcatnloFXFX
+    - DYto2E_M_50_2J_amcatnloFXFX
+    - DYto2Mu_M_50_amcatnloFXFX
+    - DYto2Mu_M_50_0J_amcatnloFXFX
+    - DYto2Mu_M_50_1J_amcatnloFXFX
+    - DYto2Mu_M_50_2J_amcatnloFXFX
+    - DYto2Tau_M_50_amcatnloFXFX
+    - DYto2Tau_M_50_0J_amcatnloFXFX
+    - DYto2Tau_M_50_1J_amcatnloFXFX
+    - DYto2Tau_M_50_2J_amcatnloFXFX
+
+DY_M_10to50:
+  name: "DY M10to50"
+  color: "kAzure+10"
+  datasets:
+    - DYto2E_M_10to50_amcatnloFXFX
+    - DYto2Mu_M_10to50_amcatnloFXFX
+    - DYto2Tau_M_10to50_amcatnloFXFX
+
+DYto2E_M_50:
+  processors: *DY_processors
+  datasets: [ ]
+
+DYto2Mu_M_50:
+  processors: *DY_processors
+  datasets: [ ]
+
+DYto2Tau_M_50:
+  processors: *DY_processors
+  datasets: [ ]
+
+DY_LO:
+  datasets:
+    - DYto2E_MLL_10to50_madgraphMLM
+    - DYto2Mu_MLL_10to50_madgraphMLM
+    - DYto2Tau_MLL_10to50_madgraphMLM
+
+TT:
+  name: "t#bar{t}"
+  color: "kGreen-3"
+  datasets:
+    - TTto2L2Nu
+    - TTtoLNu2Q
+    - TTto4Q
+
+ST:
+  name: "ST"
+  color: "kPink+1"
+  datasets:
+    - TbarBtoLminusNuB_s_channel_4FS
+    - TBbartoLplusNuBbar_s_channel_4FS
+    - TbarBQtoLNu_t_channel_4FS
+    - TbarBQto2Q_t_channel_4FS
+    - TBbarQtoLNu_t_channel_4FS
+    - TBbarQto2Q_t_channel_4FS
+    - TbarWplusto2L2Nu
+    - TbarWplusto4Q
+    - TbarWplustoLNu2Q
+    - TWminusto2L2Nu
+    - TWminusto4Q
+    - TWminustoLNu2Q
+
+DY_LowMass:
+  name: "DY M10to50"
+  color: "kAzure+10"
+  datasets:
+    - DYto2E_M_10to50_amcatnloFXFX
+    - DYto2Mu_M_10to50_amcatnloFXFX
+    - DYto2Tau_M_10to50_amcatnloFXFX
+
+DY_HighMass:
+  name: "DY M50"
+  color: "kAzure+7"
+  datasets:
+    - DYto2E_M_50_0J_amcatnloFXFX
+    - DYto2E_M_50_1J_amcatnloFXFX
+    - DYto2E_M_50_2J_amcatnloFXFX
+    - DYto2Mu_M_50_0J_amcatnloFXFX
+    - DYto2Mu_M_50_1J_amcatnloFXFX
+    - DYto2Mu_M_50_2J_amcatnloFXFX
+    - DYto2Tau_M_50_0J_amcatnloFXFX
+    - DYto2Tau_M_50_1J_amcatnloFXFX
+    - DYto2Tau_M_50_2J_amcatnloFXFX
+
+W:
+  name: "W"
+  color: "kGreen"
+  processors: *W_processors_allFlavors
+  datasets:
+    - WtoLNu_PTLNu_40to100_1J_amcatnloFXFX
+    - WtoLNu_PTLNu_40to100_2J_amcatnloFXFX
+    - WtoLNu_PTLNu_100to200_1J_amcatnloFXFX
+    - WtoLNu_PTLNu_100to200_2J_amcatnloFXFX
+    - WtoLNu_PTLNu_200to400_1J_amcatnloFXFX
+    - WtoLNu_PTLNu_200to400_2J_amcatnloFXFX
+    - WtoLNu_PTLNu_400to600_1J_amcatnloFXFX
+    - WtoLNu_PTLNu_400to600_2J_amcatnloFXFX
+    - WtoLNu_PTLNu_600_1J_amcatnloFXFX
+    - WtoLNu_PTLNu_600_2J_amcatnloFXFX
+    # - WtoENu_amcatnloFXFX
+    # - WtoMuNu_amcatnloFXFX
+    # - WtoTauNu_amcatnloFXFX
+
+VV_inclusive:
+  name: "VV"
+  color: "kViolet+1"
+  datasets:
+    - WW
+    - WZ
+    - ZZ
+
+VV:
+  name: "VV"
+  color: "kViolet+1"
+  datasets:
+    - WWto2L2Nu_powheg
+    - WWto4Q_powheg
+    - WWtoLNu2Q_powheg
+    - WZto3LNu_powheg
+    - WZto2L2Q_powheg
+    - WZtoLNu2Q_powheg
+    - ZZto2L2Nu_powheg
+    - ZZto2L2Q_powheg
+    - ZZto2Nu2Q_powheg
+    - ZZto4L_powheg
+
+SingleHiggs:
+  name: "Single Higgs"
+  color: "kRed"
+  datasets:
+    - GluGluHto2Tau_UncorrelatedDecay_UnFiltered
+    - GluGluHto2B_M125
+    - GluGluHto2Wto2L2Nu_M125
+    - VBFHto2Tau_UncorrelatedDecay_UnFiltered
+    - VBFHto2B_M125
+    - ggZH_Hto2B_Zto2L
+    - ggZH_Hto2B_Zto2Q
+    - WminusH_Hto2B_WtoLNu
+    - WminusH_Hto2B_Wto2Q
+    - WminusHto2Tau_UncorrelatedDecay_UnFiltered
+    - WplusH_Hto2B_WtoLNu
+    - WplusH_Hto2B_Wto2Q
+    - WplusHto2Tau_UncorrelatedDecay_UnFiltered
+    - TTHtoNon2B_M125
+    - TTHto2B_M125
+
+XtoHHto2B2W_DoubleLepton:
+  name: "XtoHHto2B2W_DoubleLepton"
+  color: "kBlack"
+  is_meta_process: true
+  meta_setup:
+    dataset_name_pattern: XtoYHto2B2Wto2B2L2Nu_MX_(\d+)_MY_125
+    parameters: [ MASS ]
+    process_name: XtoHHto2B2W_2L_${MASS}
+    name_pattern: Xto2B2W 2L ${MASS} GeV (x50)
+    to_plot:
+      - [ '300' ]
+      - [ '600' ]
+      - [ '1000' ]
+    plot_color: [ "kBlack", "kBlue", "kRed" ]
+    channels: [ "eE", "eMu", "muMu" ]
+  datasets: [ ]
+
+XtoHHto2B2W_SingleLepton:
+  name: "XtoHHto2B2W_SingleLepton"
+  color: "kBlack"
+  is_meta_process: true
+  meta_setup:
+    dataset_name_pattern: XtoYHto2B2Wto2B2Q1L1Nu_MX_(\d+)_MY_125
+    parameters: [ MASS ]
+    process_name: XtoHHto2B2W_1L_${MASS}
+    name_pattern: Xto2B2W 1L ${MASS} GeV (x50)
+    to_plot:
+      - [ '300' ]
+      - [ '600' ]
+      - [ '1000' ]
+    plot_color: [ "kBlack", "kBlue", "kRed" ]
+    channels: [ "e", "mu" ]
+  datasets: [ ]
+
+XtoHHto2Tau2B:
+  name: "XtoHHto2Tau2B"
+  color: "kBlack"
+  is_meta_process: true
+  meta_setup:
+    dataset_name_pattern: XtoYHto2Tau2B_MX_(\d+)_MY_125
+    parameters: [ MASS ]
+    process_name: XtoHHto2Tau2B_${MASS}
+    name_pattern: Xto2Tau2B ${MASS} GeV (x50)
+    to_plot:
+      - [ '300' ]
+      - [ '600' ]
+      - [ '1000' ]
+    plot_color: [ "kMagenta", "kCyan", "kGreen" ]
+    channels: [ "e", "mu", "eE", "eMu", "muMu" ]
+  datasets: [ ]
+
+GluGlutoHHto2B2V:
+  name: "GluGlutoHHto2B2V"
+  color: "kBlack"
+  is_meta_process: true
+  meta_setup:
+    dataset_name_pattern: ^GluGlutoHHto2B2V_kl_([a-zA-Z0-9\-\.]+)_kt_([a-zA-Z0-9\-\.]+)_c2_([a-zA-Z0-9\-\.]+)$
+    parameters: [ kl, kt, c2 ]
+    process_name: GluGlutoHHto2B2V_${kl}_${kt}_${c2}
+    name_pattern: GluGlutoHHto2B2V kl ${kl} kt ${kt} c2 ${c2}
+    to_plot:
+      - [ '1p00', '1p00', '0p00' ]
+    plot_color: [ "kBlack" ]
+  datasets:
+    - GluGlutoHHto2B2V_kl_0p00_kt_1p00_c2_0p00
+    - GluGlutoHHto2B2V_kl_1p00_kt_1p00_c2_0p00
+    - GluGlutoHHto2B2V_kl_2p45_kt_1p00_c2_0p00
+    - GluGlutoHHto2B2V_kl_5p00_kt_1p00_c2_0p00
+
+GluGlutoHHto2B2Vto2L2Nu:
+  name: "GluGlutoHHto2B2Vto2L2Nu"
+  color: "kBlack"
+  is_meta_process: true
+  meta_setup:
+    dataset_name_pattern: ^GluGlutoHHto2B2Vto2L2Nu_kl_([a-zA-Z0-9\-\.]+)_kt_([a-zA-Z0-9\-\.]+)_c2_([a-zA-Z0-9\-\.]+)$
+    parameters: [ kl, kt, c2 ]
+    process_name: GluGlutoHHto2B2Vto2L2Nu_${kl}_${kt}_${c2}
+    name_pattern: GluGlutoHHto2B2Vto2L2Nu kl ${kl} kt ${kt} c2 ${c2}
+    to_plot:
+      - [ '1p00', '1p00', '0p00' ]
+    plot_color: [ "kRed" ]
+    channels: [ "eE", "eMu", "muMu" ]
+  datasets:
+    - GluGlutoHHto2B2Vto2L2Nu_kl_0p00_kt_1p00_c2_0p00
+    - GluGlutoHHto2B2Vto2L2Nu_kl_1p00_kt_1p00_c2_0p00
+    - GluGlutoHHto2B2Vto2L2Nu_kl_2p45_kt_1p00_c2_0p00
+    - GluGlutoHHto2B2Vto2L2Nu_kl_5p00_kt_1p00_c2_0p00
+
+GluGlutoHHto2B2WtoLNu2Q:
+  name: "GluGlutoHHto2B2WtoLNu2Q"
+  color: "kBlack"
+  is_meta_process: true
+  meta_setup:
+    dataset_name_pattern: ^GluGlutoHHto2B2WtoLNu2Q_kl_([a-zA-Z0-9\-\.]+)_kt_([a-zA-Z0-9\-\.]+)_c2_([a-zA-Z0-9\-\.]+)$
+    parameters: [ kl, kt, c2 ]
+    process_name: GluGlutoHHto2B2WtoLNu2Q_${kl}_${kt}_${c2}
+    name_pattern: GluGlutoHHto2B2WtoLNu2Q kl ${kl} kt ${kt} c2 ${c2}
+    to_plot:
+      - [ '1p00', '1p00', '0p00' ]
+    plot_color: [ "kBlue" ]
+    channels: [ "e", "mu" ]
+  datasets:
+    - GluGlutoHHto2B2WtoLNu2Q_kl_0p00_kt_1p00_c2_0p00
+    - GluGlutoHHto2B2WtoLNu2Q_kl_1p00_kt_1p00_c2_0p00
+    - GluGlutoHHto2B2WtoLNu2Q_kl_2p45_kt_1p00_c2_0p00
+    - GluGlutoHHto2B2WtoLNu2Q_kl_5p00_kt_1p00_c2_0p00
+
+VBFHHto2B2V:
+  name: "VBFHHto2B2V"
+  color: "kBlack"
+  is_meta_process: true
+  meta_setup:
+    dataset_name_pattern: ^VBFHHto2B2V_CV_([a-zA-Z0-9\-\.]+)_C2V_([a-zA-Z0-9\-\.]+)_C3_([a-zA-Z0-9\-\.]+)$
+    parameters: [ CV, C2V, C3 ]
+    process_name: VBFHHto2B2V_${CV}_${C2V}_${C3}
+    name_pattern: VBFHHto2B2V CV ${CV} C2V ${C2V} C3 ${C3}
+    to_plot:
+      - [ '1', '1', '1' ]
+    plot_color: [ "kBlack" ]
+  datasets:
+    - VBFHHto2B2V_CV_1_C2V_0_C3_1
+    - VBFHHto2B2V_CV_1_C2V_1_C3_1
+    - VBFHHto2B2V_CV_1p74_C2V_1p37_C3_14p4
+    - VBFHHto2B2V_CV_2p12_C2V_3p87_C3_m5p96
+    - VBFHHto2B2V_CV_m0p012_C2V_0p030_C3_10p2
+    - VBFHHto2B2V_CV_m0p758_C2V_1p44_C3_m19p3
+    - VBFHHto2B2V_CV_m0p962_C2V_0p959_C3_m1p43
+    - VBFHHto2B2V_CV_m1p21_C2V_1p94_C3_m0p94
+    - VBFHHto2B2V_CV_m1p60_C2V_2p72_C3_m1p36
+    - VBFHHto2B2V_CV_m1p83_C2V_3p57_C3_m3p39
+
+VBFHHto2B2Vto2L2Nu:
+  name: "VBFHHto2B2Vto2L2Nu"
+  color: "kBlack"
+  is_meta_process: true
+  meta_setup:
+    dataset_name_pattern: ^VBFHHto2B2Vto2L2Nu_CV_([a-zA-Z0-9\-\.]+)_C2V_([a-zA-Z0-9\-\.]+)_C3_([a-zA-Z0-9\-\.]+)$
+    parameters: [ CV, C2V, C3 ]
+    process_name: VBFHHto2B2Vto2L2Nu_${CV}_${C2V}_${C3}
+    name_pattern: VBFHHto2B2Vto2L2Nu CV ${CV} C2V ${C2V} C3 ${C3}
+    to_plot:
+      - [ '1', '1', '1' ]
+    plot_color: [ "kRed" ]
+    channels: [ "eE", "eMu", "muMu" ]
+  datasets:
+    - VBFHHto2B2Vto2L2Nu_CV_1_C2V_0_C3_1
+    - VBFHHto2B2Vto2L2Nu_CV_1_C2V_1_C3_1
+    - VBFHHto2B2Vto2L2Nu_CV_1p74_C2V_1p37_C3_14p4
+    - VBFHHto2B2Vto2L2Nu_CV_2p12_C2V_3p87_C3_m5p96
+    - VBFHHto2B2Vto2L2Nu_CV_m0p012_C2V_0p030_C3_10p2
+    - VBFHHto2B2Vto2L2Nu_CV_m0p758_C2V_1p44_C3_m19p3
+    - VBFHHto2B2Vto2L2Nu_CV_m0p962_C2V_0p959_C3_m1p43
+    - VBFHHto2B2Vto2L2Nu_CV_m1p21_C2V_1p94_C3_m0p94
+    - VBFHHto2B2Vto2L2Nu_CV_m1p60_C2V_2p72_C3_m1p36
+    - VBFHHto2B2Vto2L2Nu_CV_m1p83_C2V_3p57_C3_m3p39
+
+VBFHHto2B2WtoLNu2Q:
+  name: "VBFHHto2B2WtoLNu2Q"
+  color: "kBlack"
+  is_meta_process: true
+  meta_setup:
+    dataset_name_pattern: ^VBFHHto2B2WtoLNu2Q_CV_([a-zA-Z0-9\-\.]+)_C2V_([a-zA-Z0-9\-\.]+)_C3_([a-zA-Z0-9\-\.]+)$
+    parameters: [ CV, C2V, C3 ]
+    process_name: VBFHHto2B2WtoLNu2Q_${CV}_${C2V}_${C3}
+    name_pattern: VBFHHto2B2WtoLNu2Q CV ${CV} C2V ${C2V} C3 ${C3}
+    to_plot:
+      - [ '1', '1', '1' ]
+    plot_color: [ "kBlue" ]
+    channels: [ "e", "mu" ]
+  datasets:
+    - VBFHHto2B2WtoLNu2Q_CV_1_C2V_0_C3_1
+    - VBFHHto2B2WtoLNu2Q_CV_1_C2V_1_C3_1
+    - VBFHHto2B2WtoLNu2Q_CV_1p74_C2V_1p37_C3_14p4
+    - VBFHHto2B2WtoLNu2Q_CV_2p12_C2V_3p87_C3_m5p96
+    - VBFHHto2B2WtoLNu2Q_CV_m0p012_C2V_0p030_C3_10p2
+    - VBFHHto2B2WtoLNu2Q_CV_m0p758_C2V_1p44_C3_m19p3
+    - VBFHHto2B2WtoLNu2Q_CV_m0p962_C2V_0p959_C3_m1p43
+    - VBFHHto2B2WtoLNu2Q_CV_m1p21_C2V_1p94_C3_m0p94
+    - VBFHHto2B2WtoLNu2Q_CV_m1p60_C2V_2p72_C3_m1p36
+    - VBFHHto2B2WtoLNu2Q_CV_m1p83_C2V_3p57_C3_m3p39
+
+Data_Full:
+  name: "Data"
+  datasets:
+    - EGamma0_Run2026A_v1
+    - EGamma0_Run2026B_v1
+    - EGamma0_Run2026C_v1
+    - EGamma0_Run2026D_v1
+    - EGamma1_Run2026A_v1
+    - EGamma1_Run2026B_v1
+    - EGamma1_Run2026C_v1
+    - EGamma1_Run2026D_v1
+    - EGamma2_Run2026A_v1
+    - EGamma2_Run2026B_v1
+    - EGamma2_Run2026C_v1
+    - EGamma2_Run2026D_v1
+    - EGamma3_Run2026A_v1
+    - EGamma3_Run2026B_v1
+    - EGamma3_Run2026C_v1
+    - EGamma3_Run2026D_v1
+    - EGamma4_Run2026A_v1
+    - EGamma4_Run2026B_v1
+    - EGamma4_Run2026C_v1
+    - EGamma4_Run2026D_v1
+    - EGamma5_Run2026A_v1
+    - EGamma5_Run2026B_v1
+    - EGamma5_Run2026C_v1
+    - EGamma5_Run2026D_v1
+    - Muon0_Run2026A_v1
+    - Muon0_Run2026B_v1
+    - Muon0_Run2026C_v1
+    - Muon0_Run2026D_v1
+    - Muon1_Run2026A_v1
+    - Muon1_Run2026B_v1
+    - Muon1_Run2026C_v1
+    - Muon1_Run2026D_v1
+    - Muon2_Run2026A_v1
+    - Muon2_Run2026B_v1
+    - Muon2_Run2026C_v1
+    - Muon2_Run2026D_v1
+    - Muon3_Run2026A_v1
+    - Muon3_Run2026B_v1
+    - Muon3_Run2026C_v1
+    - Muon3_Run2026D_v1
+
+custom_CI:
+  name: "custom for CI and test purposes"
+  color: "kAzure+10"
+  datasets:
+    - custom_CI
+
+# The integration test runs one t#bar{t} and one DY dataset, each carrying the processors the
+# analysis really uses for that process in this era. That is what exercises a stitcher over the
+# whole anaTuple -> merge chain, where a gen-level input the anaTuple does not keep would
+# otherwise only surface in production. One dataset per process is enough: each stitching bin's
+# denominator is summed over the very events that later read it back, so a bin no event falls
+# into is never divided by.
+custom_CI_Background_TT:
+  name: "CI -- Background t#bar{t}"
+  color: "kGreen-3"
+  datasets:
+    - TTto2L2Nu
+
+custom_CI_Background_DY:
+  name: "CI -- Background DY"
+  color: "kAzure+7"
+  processors: *DY_processors
+  datasets:
+    - DYto2E_M_50_amcatnloFXFX
+
+custom_CI_Background_W:
+  name: "CI -- Background W"
+  color: "kAzure+7"
+  processors: *W_processors_allFlavors
+  datasets:
+    - WtoLNu_PTLNu_40to100_1J_amcatnloFXFX
+
+custom_CI_Signal:
+  name: "CI -- Signal"
+  color: "kBlack"
+  datasets:
+    - GluGlutoHHto2B2Vto2L2Nu_kl_1p00_kt_1p00_c2_0p00
+
+custom_CI_Data:
+  name: "CI -- Data"
+  color: "kAzure+10"
+  datasets:
+    - Muon0_Run2026A_v1

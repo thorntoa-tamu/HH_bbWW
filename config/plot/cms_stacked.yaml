@@ -112,6 +112,15 @@ bkg_unc_hist:
   legend_title: "Bkg. uncertainty"
   legend_style: f
   draw_opt: e2
+  # Used only when the plot is made with --compute_unc_histograms, i.e. when the full
+  # (stat + syst) uncertainty is available and two nested bands are drawn: the outer
+  # (total) band switches to the sparser diagonal hatch and the inner, stat-only band
+  # takes the denser cross-hatch, which keeps the narrower band readable.
+  legend_title_full: "Bkg. unc. (stat + syst)"
+  fill_style_full: 3004
+  stat_fill_style: 3013
+  stat_fill_color: kGray+2
+  stat_legend_title: "Bkg. stat. unc."
 
 sgn_hist:
   fill_style: 1001

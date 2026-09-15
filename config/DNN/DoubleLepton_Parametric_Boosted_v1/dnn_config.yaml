@@ -1,0 +1,147 @@
+# ==============================================================================
+# Parametric DNN Model, Training & Evaluation Configuration
+# ==============================================================================
+
+# General Path Settings
+# input_folder: "../BDT/inputs_looseBTag_Radion"
+input_folder: "../Datasets/July24"
+output_folder: "looseBTag_multiclass_Radion_pDNN_v6"
+tree_name: "AppliedTree"
+dedicated_mass: null  # Set to an integer (e.g., 500) if evaluating a single mass point
+
+# Cross-Validation Parity Setup
+#
+# Fold `f` (0 <= f < nParity) owns the events satisfying
+#     (event_number + f + offset) % nParity == 0
+# for the offset of the split in question. The offsets below must be distinct
+# and cover 0..nParity-1, so that the folds of any single split partition the
+# events exactly once each; DNN_Application.py verifies this at runtime.
+#
+# `offset` is a plain integer and is read as data. Do not put Python
+# expressions here -- they are no longer evaluated.
+nParity: 4
+model_name: pdnn_model_{regime}_nparity{fold}.onnx
+train_parity:
+  offset: 0
+test_parity:
+  offset: 1
+val_parity:
+  offset: 2
+app_parity:
+  offset: 3
+
+# Class Output Mapping
+class_names: [ "Signal", "TT", "Other" ]
+
+# Hypothesis Mass Points for Parametric Inference & Training
+signal_mass_points: [ 300, 400, 500, 550, 600, 650, 700, 800, 900, 1000, 1200, 1400, 1600, 1800, 2000 ]
+
+# Execution Regimes / Topologies
+regimes: [ "boosted", "resolved" ]
+
+# Training Hyperparameters
+training:
+  epochs: 150
+  batch_size: 8192 # 4096
+  eval_batch_size: 16384
+  learning_rate: 0.002
+  weight_decay: 0.01
+  dropout_rate: 0.35
+  hidden_dims: [ 512, 256, 128, 64 ]
+  num_classes: 3
+
+  # Scheduler & Early Stopping
+  early_stopping_patience: 10
+  lr_scheduler:
+    patience: 6
+    factor: 0.5
+
+  # Feature Scan Settings
+  perm_subsample_fraction: 0.20  # Subsample fraction for feature importance scans
+
+# Base Common Kinematic Features
+common_features:
+  - "X_mass"
+  - "MT"
+  - "ll_mass"
+  - "ll_pt"
+  - "lep1_pt"
+  - "lep2_pt"
+  - "ll_dR_scaled"
+  - "min_lb_dR"
+  - "lb_centrality"
+  - "MET_over_sqrt_HT"
+  - "HT_total"
+  - "PuppiMET_pt"
+  - "ll_dphi"
+  - "met_ll_dphi"
+  - "min_lmet_mt"
+  - "min_lmet_dphi"
+  - "ll_met_MT_WithMass"
+  - "bbllmet_mass"
+  - "ll_bb_dR"
+  - "MT2_blbl1"
+  - "MT2_blbl2"
+
+# Regime-Specific Feature Overrides
+regime_features:
+  resolved:
+    - "bb_pt"
+    - "bb_mass"
+    - "ll_bb_pt_ratio"
+    - "bb_dR_scaled"
+    - "bjet1_pt"
+    - "bjet2_pt"
+    - "bjet1_btagPNetB"
+    - "bjet2_btagPNetB"
+    - "bb_btag_product"
+  boosted:
+    - "fatbjet_pt"
+    - "fatbjet_mass_PNetCorr"
+    - "fatbjet_tau1"
+    - "fatbjet_tau2"
+    - "fatbjet_tau3"
+    - "fatbjet_tau4"
+    - "fatbjet_msoftdrop"
+
+# Auxiliary Branches Required for Output Tree Assembly
+extra_variables:
+  - "channelId"
+  - "class_value"
+  - "DeepHME_mass"
+  - "recovery"
+  - "boosted"
+  - "res2b"
+  # Base unscaled variables required for dynamic mass scaling
+  - "bb_dR"
+  - "ll_dR"
+
+features:
+  - "X_mass"
+  - "MT"
+  - "ll_mass"
+  - "ll_pt"
+  - "lep1_pt"
+  - "lep2_pt"
+  - "ll_dR_scaled"
+  - "min_lb_dR"
+  - "lb_centrality"
+  - "MET_over_sqrt_HT"
+  - "HT_total"
+  - "PuppiMET_pt"
+  - "ll_dphi"
+  - "met_ll_dphi"
+  - "min_lmet_mt"
+  - "min_lmet_dphi"
+  - "ll_met_MT_WithMass"
+  - "bbllmet_mass"
+  - "ll_bb_dR"
+  - "MT2_blbl1"
+  - "MT2_blbl2"
+  - "fatbjet_pt"
+  - "fatbjet_mass_PNetCorr"
+  - "fatbjet_tau1"
+  - "fatbjet_tau2"
+  - "fatbjet_tau3"
+  - "fatbjet_tau4"
+  - "fatbjet_msoftdrop"

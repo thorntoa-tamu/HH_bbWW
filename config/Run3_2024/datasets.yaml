@@ -5380,6 +5380,262 @@ XtoYHto2Tau2B_MX_4000_MY_125:
 # Finished X->YH->ttbb samples #
 
 
+# Non-resonant ggF (2024 DAS naming: Par-c2-kl-kt)
+GluGlutoHHto2B2V_kl_0p00_kt_1p00_c2_0p00:
+  sampleType: HHnonRes
+  generator: powheg
+  crossSection: 1pb
+  nanoAOD:
+    v15: /GluGlutoHHto2B2V_Par-c2-0p00-kl-0p00-kt-1p00_TuneCP5_13p6TeV_powheg-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM
+GluGlutoHHto2B2V_kl_1p00_kt_1p00_c2_0p00:
+  sampleType: HHnonRes
+  generator: powheg
+  crossSection: 1pb
+  nanoAOD:
+    v15: /GluGlutoHHto2B2V_Par-c2-0p00-kl-1p00-kt-1p00_TuneCP5_13p6TeV_powheg-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM
+GluGlutoHHto2B2V_kl_2p45_kt_1p00_c2_0p00:
+  sampleType: HHnonRes
+  generator: powheg
+  crossSection: 1pb
+  nanoAOD:
+    v15: /GluGlutoHHto2B2V_Par-c2-0p00-kl-2p45-kt-1p00_TuneCP5_13p6TeV_powheg-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM
+GluGlutoHHto2B2V_kl_5p00_kt_1p00_c2_0p00:
+  sampleType: HHnonRes
+  generator: powheg
+  crossSection: 1pb
+  nanoAOD:
+    v15: /GluGlutoHHto2B2V_Par-c2-0p00-kl-5p00-kt-1p00_TuneCP5_13p6TeV_powheg-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM
+GluGlutoHHto2B2Vto2L2Nu_kl_0p00_kt_1p00_c2_0p00:
+  sampleType: HHnonRes
+  generator: powheg
+  crossSection: 1pb
+  nanoAOD:
+    v15: /GluGlutoHHto2B2Vto2L2Nu_Par-c2-0p00-kl-0p00-kt-1p00_TuneCP5_13p6TeV_powheg-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM
+GluGlutoHHto2B2Vto2L2Nu_kl_1p00_kt_1p00_c2_0p00:
+  sampleType: HHnonRes
+  generator: powheg
+  crossSection: 1pb
+  nanoAOD:
+    v15: /GluGlutoHHto2B2Vto2L2Nu_Par-c2-0p00-kl-1p00-kt-1p00_TuneCP5_13p6TeV_powheg-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM
+GluGlutoHHto2B2Vto2L2Nu_kl_2p45_kt_1p00_c2_0p00:
+  sampleType: HHnonRes
+  generator: powheg
+  crossSection: 1pb
+  nanoAOD:
+    v15: /GluGlutoHHto2B2Vto2L2Nu_Par-c2-0p00-kl-2p45-kt-1p00_TuneCP5_13p6TeV_powheg-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM
+GluGlutoHHto2B2Vto2L2Nu_kl_5p00_kt_1p00_c2_0p00:
+  sampleType: HHnonRes
+  generator: powheg
+  crossSection: 1pb
+  nanoAOD:
+    v15: /GluGlutoHHto2B2Vto2L2Nu_Par-c2-0p00-kl-5p00-kt-1p00_TuneCP5_13p6TeV_powheg-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM
+GluGlutoHHto2B2WtoLNu2Q_kl_0p00_kt_1p00_c2_0p00:
+  sampleType: HHnonRes
+  generator: powheg
+  crossSection: 1pb
+  nanoAOD:
+    v15: /GluGlutoHHto2B2WtoLNu2Q_Par-c2-0p00-kl-0p00-kt-1p00_TuneCP5_13p6TeV_powheg-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM
+GluGlutoHHto2B2WtoLNu2Q_kl_1p00_kt_1p00_c2_0p00:
+  sampleType: HHnonRes
+  generator: powheg
+  crossSection: 1pb
+  nanoAOD:
+    v15: /GluGlutoHHto2B2WtoLNu2Q_Par-c2-0p00-kl-1p00-kt-1p00_TuneCP5_13p6TeV_powheg-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM
+GluGlutoHHto2B2WtoLNu2Q_kl_2p45_kt_1p00_c2_0p00:
+  sampleType: HHnonRes
+  generator: powheg
+  crossSection: 1pb
+  nanoAOD:
+    v15: /GluGlutoHHto2B2WtoLNu2Q_Par-c2-0p00-kl-2p45-kt-1p00_TuneCP5_13p6TeV_powheg-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM
+GluGlutoHHto2B2WtoLNu2Q_kl_5p00_kt_1p00_c2_0p00:
+  sampleType: HHnonRes
+  generator: powheg
+  crossSection: 1pb
+  nanoAOD:
+    v15: /GluGlutoHHto2B2WtoLNu2Q_Par-c2-0p00-kl-5p00-kt-1p00_TuneCP5_13p6TeV_powheg-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM
+
+# VBF HH (2024 DAS naming: Par-CV-C2V-C3)
+VBFHHto2B2V_CV_1_C2V_0_C3_1:
+  sampleType: HHnonRes
+  generator: madgraph
+  crossSection: 1pb
+  nanoAOD:
+    v15: /VBFHHto2B2V_Par-CV-1-C2V-0-C3-1_TuneCP5_13p6TeV_madgraph-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM
+VBFHHto2B2V_CV_1_C2V_1_C3_1:
+  sampleType: HHnonRes
+  generator: madgraph
+  crossSection: 1pb
+  nanoAOD:
+    v15: /VBFHHto2B2V_Par-CV-1-C2V-1-C3-1_TuneCP5_13p6TeV_madgraph-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM
+VBFHHto2B2V_CV_1p74_C2V_1p37_C3_14p4:
+  sampleType: HHnonRes
+  generator: madgraph
+  crossSection: 1pb
+  nanoAOD:
+    v15: /VBFHHto2B2V_Par-CV-1p74-C2V-1p37-C3-14p4_TuneCP5_13p6TeV_madgraph-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM
+VBFHHto2B2V_CV_2p12_C2V_3p87_C3_m5p96:
+  sampleType: HHnonRes
+  generator: madgraph
+  crossSection: 1pb
+  nanoAOD:
+    v15: /VBFHHto2B2V_Par-CV-2p12-C2V-3p87-C3-m5p96_TuneCP5_13p6TeV_madgraph-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM
+VBFHHto2B2V_CV_m0p012_C2V_0p030_C3_10p2:
+  sampleType: HHnonRes
+  generator: madgraph
+  crossSection: 1pb
+  nanoAOD:
+    v15: /VBFHHto2B2V_Par-CV-m0p012-C2V-0p030-C3-10p2_TuneCP5_13p6TeV_madgraph-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM
+VBFHHto2B2V_CV_m0p758_C2V_1p44_C3_m19p3:
+  sampleType: HHnonRes
+  generator: madgraph
+  crossSection: 1pb
+  nanoAOD:
+    v15: /VBFHHto2B2V_Par-CV-m0p758-C2V-1p44-C3-m19p3_TuneCP5_13p6TeV_madgraph-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM
+VBFHHto2B2V_CV_m0p962_C2V_0p959_C3_m1p43:
+  sampleType: HHnonRes
+  generator: madgraph
+  crossSection: 1pb
+  nanoAOD:
+    v15: /VBFHHto2B2V_Par-CV-m0p962-C2V-0p959-C3-m1p43_TuneCP5_13p6TeV_madgraph-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM
+VBFHHto2B2V_CV_m1p21_C2V_1p94_C3_m0p94:
+  sampleType: HHnonRes
+  generator: madgraph
+  crossSection: 1pb
+  nanoAOD:
+    v15: /VBFHHto2B2V_Par-CV-m1p21-C2V-1p94-C3-m0p94_TuneCP5_13p6TeV_madgraph-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM
+VBFHHto2B2V_CV_m1p60_C2V_2p72_C3_m1p36:
+  sampleType: HHnonRes
+  generator: madgraph
+  crossSection: 1pb
+  nanoAOD:
+    v15: /VBFHHto2B2V_Par-CV-m1p60-C2V-2p72-C3-m1p36_TuneCP5_13p6TeV_madgraph-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM
+VBFHHto2B2V_CV_m1p83_C2V_3p57_C3_m3p39:
+  sampleType: HHnonRes
+  generator: madgraph
+  crossSection: 1pb
+  nanoAOD:
+    v15: /VBFHHto2B2V_Par-CV-m1p83-C2V-3p57-C3-m3p39_TuneCP5_13p6TeV_madgraph-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM
+VBFHHto2B2Vto2L2Nu_CV_1_C2V_0_C3_1:
+  sampleType: HHnonRes
+  generator: madgraph
+  crossSection: 1pb
+  nanoAOD:
+    v15: /VBFHHto2B2Vto2L2Nu_Par-CV-1-C2V-0-C3-1_TuneCP5_13p6TeV_madgraph-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM
+VBFHHto2B2Vto2L2Nu_CV_1_C2V_1_C3_1:
+  sampleType: HHnonRes
+  generator: madgraph
+  crossSection: 1pb
+  nanoAOD:
+    v15: /VBFHHto2B2Vto2L2Nu_Par-CV-1-C2V-1-C3-1_TuneCP5_13p6TeV_madgraph-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM
+VBFHHto2B2Vto2L2Nu_CV_1p74_C2V_1p37_C3_14p4:
+  sampleType: HHnonRes
+  generator: madgraph
+  crossSection: 1pb
+  nanoAOD:
+    v15: /VBFHHto2B2Vto2L2Nu_Par-CV-1p74-C2V-1p37-C3-14p4_TuneCP5_13p6TeV_madgraph-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM
+VBFHHto2B2Vto2L2Nu_CV_2p12_C2V_3p87_C3_m5p96:
+  sampleType: HHnonRes
+  generator: madgraph
+  crossSection: 1pb
+  nanoAOD:
+    v15: /VBFHHto2B2Vto2L2Nu_Par-CV-2p12-C2V-3p87-C3-m5p96_TuneCP5_13p6TeV_madgraph-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM
+VBFHHto2B2Vto2L2Nu_CV_m0p012_C2V_0p030_C3_10p2:
+  sampleType: HHnonRes
+  generator: madgraph
+  crossSection: 1pb
+  nanoAOD:
+    v15: /VBFHHto2B2Vto2L2Nu_Par-CV-m0p012-C2V-0p030-C3-10p2_TuneCP5_13p6TeV_madgraph-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM
+VBFHHto2B2Vto2L2Nu_CV_m0p758_C2V_1p44_C3_m19p3:
+  sampleType: HHnonRes
+  generator: madgraph
+  crossSection: 1pb
+  nanoAOD:
+    v15: /VBFHHto2B2Vto2L2Nu_Par-CV-m0p758-C2V-1p44-C3-m19p3_TuneCP5_13p6TeV_madgraph-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM
+VBFHHto2B2Vto2L2Nu_CV_m0p962_C2V_0p959_C3_m1p43:
+  sampleType: HHnonRes
+  generator: madgraph
+  crossSection: 1pb
+  nanoAOD:
+    v15: /VBFHHto2B2Vto2L2Nu_Par-CV-m0p962-C2V-0p959-C3-m1p43_TuneCP5_13p6TeV_madgraph-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM
+VBFHHto2B2Vto2L2Nu_CV_m1p21_C2V_1p94_C3_m0p94:
+  sampleType: HHnonRes
+  generator: madgraph
+  crossSection: 1pb
+  nanoAOD:
+    v15: /VBFHHto2B2Vto2L2Nu_Par-CV-m1p21-C2V-1p94-C3-m0p94_TuneCP5_13p6TeV_madgraph-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM
+VBFHHto2B2Vto2L2Nu_CV_m1p60_C2V_2p72_C3_m1p36:
+  sampleType: HHnonRes
+  generator: madgraph
+  crossSection: 1pb
+  nanoAOD:
+    v15: /VBFHHto2B2Vto2L2Nu_Par-CV-m1p60-C2V-2p72-C3-m1p36_TuneCP5_13p6TeV_madgraph-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM
+VBFHHto2B2Vto2L2Nu_CV_m1p83_C2V_3p57_C3_m3p39:
+  sampleType: HHnonRes
+  generator: madgraph
+  crossSection: 1pb
+  nanoAOD:
+    v15: /VBFHHto2B2Vto2L2Nu_Par-CV-m1p83-C2V-3p57-C3-m3p39_TuneCP5_13p6TeV_madgraph-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM
+VBFHHto2B2WtoLNu2Q_CV_1_C2V_0_C3_1:
+  sampleType: HHnonRes
+  generator: madgraph
+  crossSection: 1pb
+  nanoAOD:
+    v15: /VBFHHto2B2WtoLNu2Q_Par-CV-1-C2V-0-C3-1_TuneCP5_13p6TeV_madgraph-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM
+VBFHHto2B2WtoLNu2Q_CV_1_C2V_1_C3_1:
+  sampleType: HHnonRes
+  generator: madgraph
+  crossSection: 1pb
+  nanoAOD:
+    v15: /VBFHHto2B2WtoLNu2Q_Par-CV-1-C2V-1-C3-1_TuneCP5_13p6TeV_madgraph-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM
+VBFHHto2B2WtoLNu2Q_CV_1p74_C2V_1p37_C3_14p4:
+  sampleType: HHnonRes
+  generator: madgraph
+  crossSection: 1pb
+  nanoAOD:
+    v15: /VBFHHto2B2WtoLNu2Q_Par-CV-1p74-C2V-1p37-C3-14p4_TuneCP5_13p6TeV_madgraph-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM
+VBFHHto2B2WtoLNu2Q_CV_2p12_C2V_3p87_C3_m5p96:
+  sampleType: HHnonRes
+  generator: madgraph
+  crossSection: 1pb
+  nanoAOD:
+    v15: /VBFHHto2B2WtoLNu2Q_Par-CV-2p12-C2V-3p87-C3-m5p96_TuneCP5_13p6TeV_madgraph-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM
+VBFHHto2B2WtoLNu2Q_CV_m0p012_C2V_0p030_C3_10p2:
+  sampleType: HHnonRes
+  generator: madgraph
+  crossSection: 1pb
+  nanoAOD:
+    v15: /VBFHHto2B2WtoLNu2Q_Par-CV-m0p012-C2V-0p030-C3-10p2_TuneCP5_13p6TeV_madgraph-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM
+VBFHHto2B2WtoLNu2Q_CV_m0p758_C2V_1p44_C3_m19p3:
+  sampleType: HHnonRes
+  generator: madgraph
+  crossSection: 1pb
+  nanoAOD:
+    v15: /VBFHHto2B2WtoLNu2Q_Par-CV-m0p758-C2V-1p44-C3-m19p3_TuneCP5_13p6TeV_madgraph-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM
+VBFHHto2B2WtoLNu2Q_CV_m0p962_C2V_0p959_C3_m1p43:
+  sampleType: HHnonRes
+  generator: madgraph
+  crossSection: 1pb
+  nanoAOD:
+    v15: /VBFHHto2B2WtoLNu2Q_Par-CV-m0p962-C2V-0p959-C3-m1p43_TuneCP5_13p6TeV_madgraph-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM
+VBFHHto2B2WtoLNu2Q_CV_m1p21_C2V_1p94_C3_m0p94:
+  sampleType: HHnonRes
+  generator: madgraph
+  crossSection: 1pb
+  nanoAOD:
+    v15: /VBFHHto2B2WtoLNu2Q_Par-CV-m1p21-C2V-1p94-C3-m0p94_TuneCP5_13p6TeV_madgraph-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM
+VBFHHto2B2WtoLNu2Q_CV_m1p60_C2V_2p72_C3_m1p36:
+  sampleType: HHnonRes
+  generator: madgraph
+  crossSection: 1pb
+  nanoAOD:
+    v15: /VBFHHto2B2WtoLNu2Q_Par-CV-m1p60-C2V-2p72-C3-m1p36_TuneCP5_13p6TeV_madgraph-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM
+VBFHHto2B2WtoLNu2Q_CV_m1p83_C2V_3p57_C3_m3p39:
+  sampleType: HHnonRes
+  generator: madgraph
+  crossSection: 1pb
+  nanoAOD:
+    v15: /VBFHHto2B2WtoLNu2Q_Par-CV-m1p83-C2V-3p57-C3-m3p39_TuneCP5_13p6TeV_madgraph-pythia8/RunIII2024Summer24NanoAODv15-150X_mcRun3_2024_realistic_v2-v2/NANOAODSIM
+
 custom_CI:
   sampleType: HH
   crossSection: 1pb

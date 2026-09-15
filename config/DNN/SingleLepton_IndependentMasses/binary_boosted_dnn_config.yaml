@@ -1,0 +1,37 @@
+features:
+  - HT
+  - bb_CosTheta # was CosTheta_bb
+  - Hbb_lepWfromH_dR
+  - Lep1Jet1Jet2_mass
+  - PuppiMET_pt
+  - WW_pt
+  - WW_ptToE
+  - bjet1_btagPNetB
+  - bjet1_eta
+  - bjet1_mass
+  - bjet1_phi
+  - bjet1_pt
+  - bjet2_btagPNetB
+  - bjet2_eta
+  - bjet2_mass
+  - bjet2_phi
+  - bjet2_pt
+  - lep1_bjets_minDr # bjet_lep_minDr
+  - bb_deta
+  - bb_dphi
+  - bb_mass
+  - bb_pt
+  - bb_ptToE
+  - met_bb_dphi # dPhi_MET_dibjet
+  - bb_dR # dR_dibjet
+  - hadT_constituentPtFrac
+  - hadT_hadW_dR
+  - hadT_mass
+  - hadT_pt
+  - hadW_mass
+  - lep1_eta
+  - lep1_pt
+  - lepT_constituentPtFrac
+  - lepT_mass
+  - lepT_mT
+  - lepT_pt

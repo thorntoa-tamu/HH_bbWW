@@ -3,3 +3,4 @@
 /.law
 /config/user_custom.yaml
 __pycache__
+/site

@@ -36,6 +36,12 @@ These build automatically as part of `source env.sh`; you do not set them up by 
 The production [physics model](https://cms-flaf.github.io/FLAF/configuration/processes-and-models/)
 for HH→bb̄WW is `Run3_Model` (set in `config/global.yaml`). For fast local tests, use `TestModel`
 in your [`user_custom.yaml`](https://cms-flaf.github.io/FLAF/configuration/user-custom/) instead.
+It holds two backgrounds — `custom_CI_Background_TT`, one t̄t dataset, and
+`custom_CI_Background_DY`, one DY dataset carrying the same DY stitcher the era configures —
+plus one signal and one data process. Each CI background mirrors the `processors:` of the real
+process it stands for, so the [stitching](https://cms-flaf.github.io/FLAF/concepts/stitching/)
+is exercised over the whole anaTuple → merge chain; keep them in step when you change the real
+ones.
 
 ## Next
 
@@ -43,3 +49,5 @@ in your [`user_custom.yaml`](https://cms-flaf.github.io/FLAF/configuration/user-
   categories).
 - [FLAF → Full workflow](https://cms-flaf.github.io/FLAF/workflow/walkthrough/) — the common
   pipeline, stage by stage.
+- [FLAF → HTCondor](https://cms-flaf.github.io/FLAF/workflow/htcondor/) /
+  [CRAB](https://cms-flaf.github.io/FLAF/workflow/crab/) — CERN batch and full WLCG submission.

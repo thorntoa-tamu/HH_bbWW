@@ -1,0 +1,38 @@
+# Style overrides for the Run3_Early meta-era (Run3_2022 + Run3_2022EE + Run3_2023
+# + Run3_2023BPix). Lumi is the sum of the four sub-era values in this directory:
+# 7.9804 + 26.6717 + 18.063 + 9.693 = 62.4081 fb^-1.
+lumi_text:
+  text: "62.4081 fb^{-1} (13.6 TeV)"
+  pos_ref: inner_right_top
+  pos: [ 0, -0.03 ]
+  text_size: 0.035
+  font: 42
+  align: right_bottom
+
+# Blank so the CMS label reads just "CMS Simulation" -- with the 4-era lumi string
+# on the same line there is no room for the default "Private work" scope as well.
+scope_text:
+  text: ""
+  pos_ref: cms_text
+  pos: [ 0.05, -0.08 ]
+  text_size: 0.04
+
+channel_text:
+  'e': 'e'
+  'mu': '#mu'
+  'eE': 'ee'
+  'eMu': 'e #mu'
+  'muMu': '#mu #mu'
+
+customregion_text:
+  'OS_Iso': 'OS, Isolated'
+  'SS_Iso': 'SS, Isolated'
+  'OS_AntiIso': 'OS, Non-Isolated'
+  'SS_AntiIso': 'SS, Non-Isolated'
+  'ZVeto_OS_Iso': 'Z Veto, OS, Isolated'
+  'ZPeak_OS_Iso': 'Z Peak, OS, Isolated'
+  'SR': 'Signal Region'
+  'SR_mbb': 'Signal Region + m_bb Cut'
+  'TT_CR': 'TT Control Region'
+  'DY_CR': 'DY Control Region'
+  'W_CR': 'W Control Region'

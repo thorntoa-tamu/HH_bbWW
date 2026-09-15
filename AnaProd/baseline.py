@@ -29,7 +29,14 @@ def selectHWW(df, selected_channels):
     df = df.Define(
         "Electron_sel",
         """
-        v_ops::pt(Electron_p4) > 10 && abs(v_ops::eta(Electron_p4)) < 2.5 && abs(Electron_dz) < 0.1 && abs(Electron_dxy) < 0.05 && Electron_sip3d <= 8 && Electron_mvaIso >= -0.9""",
+        (v_ops::pt(Electron_p4) > 10) &&
+        ( (Electron_superclusterEta < 1.4442) || (Electron_superclusterEta > 1.5560) ) &&
+        (
+            ( (Electron_superclusterEta <= 1.479) && (abs(Electron_dxy) < 0.05) && (abs(Electron_dz) < 0.1) ) ||
+            ( (Electron_superclusterEta > 1.479) && (abs(Electron_dxy) < 0.1) && (abs(Electron_dz) < 0.2) )
+        ) &&
+        (Electron_sip3d <= 8) && (Electron_mvaIso >= -0.9)
+        """,
     )
     # Lower the muon pt threshold to 5 to check for potential improvement, done while adding low pt tight ID SF
     # Raise back to pt 10 to make simple for now
@@ -106,7 +113,7 @@ def selectExtraLeptons(df):
     return df
 
 
-def selectJets(df, *, min_n_effective_jets_SL, min_n_effective_jets_DL):
+def selectJets(df, *, min_n_effective_jets_SL, min_n_effective_jets_DL, era=None):
     df = df.Define(
         "Jet_Incl",
         "v_ops::pt(Jet_p4) > 20 && abs(v_ops::eta(Jet_p4)) < 2.5 && Jet_passJetIdTight",
@@ -115,9 +122,14 @@ def selectJets(df, *, min_n_effective_jets_SL, min_n_effective_jets_DL):
         "ForwardJet_sel",
         "v_ops::pt(Jet_p4) > 20 && abs(v_ops::eta(Jet_p4)) > 2.5 && Jet_passJetIdTight",
     )
+    fatjet_id = (
+        ""
+        if era in ("Run3_2024", "Run3_2025", "Run3_2026")
+        else " && ( FatJet_jetId & 2 )"
+    )
     df = df.Define(
         "FatJet_Incl",
-        "v_ops::pt(FatJet_p4) > 200 && abs(v_ops::eta(FatJet_p4)) < 2.5 && ( FatJet_jetId & 2 ) ",
+        f"v_ops::pt(FatJet_p4) > 200 && abs(v_ops::eta(FatJet_p4)) < 2.5{fatjet_id}",
     )
     df = df.Define(
         "Jet_sel",

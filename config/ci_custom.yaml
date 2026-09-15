@@ -12,7 +12,9 @@ QCDRegions:
 
 StatInference:
   config: config/Datacards/CI_card.yaml
-  hist_bins: config/Datacards/CI_binning.json
+  # hist_bins is unset, as in global.yaml: CI_card.yaml declares a `preprocess:` step,
+  # so the shapes reaching the datacard maker are already at their final binning -- one
+  # bin per channel and category, per CI_binning_2d.yaml.
   param_values: [ 300 ]
 
 # Do not remove DNN variables, they are needed for the datacard creation.

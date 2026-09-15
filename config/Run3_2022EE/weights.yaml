@@ -1,38 +1,105 @@
 norm:
   PileUp_Lumi_MC:
     expression: weight_base_pu{scale}_rel  * final_weight
-    name: CMS_pileup_{}
+    name: CMS_pileup_2022EE_{}
+
   MuonID_SF_Iso_ID:
     expression: weight_lep1_MuonID_SF_TightPFIso_TightID{scale}_rel * weight_lep2_MuonID_SF_TightPFIso_TightID{scale}_rel * final_weight
-    name: CMS_eff_m_id_iso_{}
+    name: CMS_eff_m_id_iso_2022EE_{}
   MuonID_SF_ID:
     expression: weight_lep1_MuonID_SF_TightID_Trk{scale}_rel * weight_lep2_MuonID_SF_TightID_Trk{scale}_rel * final_weight
-    name: CMS_eff_m_id_{}
-  # MuonID_TightID:
-  #   expression: weight_lep1_MuonID_SF_TightID_Trk{scale}_rel * weight_lep2_MuonID_SF_TightID_Trk{scale}_rel * final_weight
-  #   name: MuonID_TightID_{}
-  # MuonID_TightIDIso:
-  #   expression: weight_lep1_MuonID_SF_LoosePFIso{scale}_rel * weight_lep2_MuonID_SF_LoosePFIso{scale}_rel * final_weight
-  #   name: MuonID_TightIDIso_{}
+    name: CMS_eff_m_id_2022EE_{}
+
   EleID_TightIDIso:
     expression: weight_lep1_EleSF_wp80iso_EleID{scale}_rel * weight_lep2_EleSF_wp80iso_EleID{scale}_rel * final_weight
-    name: EleID_TightIDIso_{}
-  EleID_TightIDNoIso:
-    expression: weight_lep1_EleSF_wp80noiso_EleID{scale}_rel * weight_lep2_EleSF_wp80noiso_EleID{scale}_rel * final_weight
-    name: EleID_TightIDNoIso_{}
+    name: EleID_TightIDIso_2022EE_{}
 
   SingleEleTrg:
     expression: weight_lep1_TrgSF_singleEleWpTight_singleEle{scale}_rel * weight_lep2_TrgSF_singleEleWpTight_singleEle{scale}_rel * final_weight
-    name: SingleEleTrg_{}
+    name: SingleEleTrg_2022EE_{}
   SingleMuonTrg:
     expression: weight_lep1_TrgSF_singleIsoMu_IsoMu24{scale}_rel * weight_lep2_TrgSF_singleIsoMu_IsoMu24{scale}_rel * final_weight
-    name: SingleMuonTrg_{}
+    name: SingleMuonTrg_2022EE_{}
 
+  bTagShape_lf:
+    expression: "(boosted ? 1.0f : weight_bTagShape_lf{scale}_rel) * final_weight"
+    name: CMS_btag_LF_{}
+  bTagShape_hf:
+    expression: "(boosted ? 1.0f : weight_bTagShape_hf{scale}_rel) * final_weight"
+    name: CMS_btag_HF_{}
+  bTagShape_lfstats1:
+    expression: "(boosted ? 1.0f : weight_bTagShape_lfstats1{scale}_rel) * final_weight"
+    name: CMS_btag_lfstats1_2022EE_{}
+  bTagShape_lfstats2:
+    expression: "(boosted ? 1.0f : weight_bTagShape_lfstats2{scale}_rel) * final_weight"
+    name: CMS_btag_lfstats2_2022EE_{}
+  bTagShape_hfstats1:
+    expression: "(boosted ? 1.0f : weight_bTagShape_hfstats1{scale}_rel) * final_weight"
+    name: CMS_btag_hfstats1_2022EE_{}
+  bTagShape_hfstats2:
+    expression: "(boosted ? 1.0f : weight_bTagShape_hfstats2{scale}_rel) * final_weight"
+    name: CMS_btag_hfstats2_2022EE_{}
+  bTagShape_cferr1:
+    expression: "(boosted ? 1.0f : weight_bTagShape_cferr1{scale}_rel) * final_weight"
+    name: CMS_btag_cferr1_{}
+  bTagShape_cferr2:
+    expression: "(boosted ? 1.0f : weight_bTagShape_cferr2{scale}_rel) * final_weight"
+    name: CMS_btag_cferr2_{}
+
+  # DY reweighting derived in the hh2bbtautau phase space
+  # (Corrections/data/DY_corr_hbt/hbt_corrections_v2.json.gz). `requires` keeps the
+  # entry a no-op on processes the correction is not applied to -- it is configured
+  # with a `processes:` list in global.yaml, so its branches exist for DY only.
+  # The three stat sources are the statistical uncertainty of this era's own fit, so
+  # they carry the era; the two syst sources are fit-model variations and are
+  # correlated across eras.
+  DYw_stat_btag0:
+    requires: dy_hhbbtautau
+    expression: weight_dy_stat_btag0_{scale}_rel * final_weight
+    name: CMS_bbww_dy_stat_btag0_2022EE_{}
+  DYw_stat_btag1:
+    requires: dy_hhbbtautau
+    expression: weight_dy_stat_btag1_{scale}_rel * final_weight
+    name: CMS_bbww_dy_stat_btag1_2022EE_{}
+  DYw_stat_btag2:
+    requires: dy_hhbbtautau
+    expression: weight_dy_stat_btag2_{scale}_rel * final_weight
+    name: CMS_bbww_dy_stat_btag2_2022EE_{}
+  DYw_syst_gauss:
+    requires: dy_hhbbtautau
+    expression: weight_dy_syst_gauss_{scale}_rel * final_weight
+    name: CMS_bbww_dy_syst_gauss_{}
+  DYw_syst_linear:
+    requires: dy_hhbbtautau
+    expression: weight_dy_syst_linear_{scale}_rel * final_weight
+    name: CMS_bbww_dy_syst_linear_{}
+  fatJetSF_Hbb:
+    expression: "(boosted ? weight_FatJetSF_Hbb{scale}_rel : 1.0f) * final_weight"
+    name: CMS_bbww_ak8_Hbb_2022EE_{}
+  fatJetSF_Hcc:
+    expression: "(boosted ? weight_FatJetSF_Hcc{scale}_rel : 1.0f) * final_weight"
+    name: CMS_bbww_ak8_Hcc_2022EE_{}
+  fatJetSF_tau21:
+    expression: "(boosted ? weight_FatJetSF_tau21{scale}_rel : 1.0f) * final_weight"
+    name: CMS_bbww_ak8_tau21_2022EE_{}
+
+  # Parton shower ISR/FSR, shape-only: weight_base_isr{scale}_rel is already normalised
+  # by its own inclusive sum of weights, so only the acceptance difference survives.
+  # No era token -- one correlated ps_isr and ps_fsr for every era and every process.
+  # No `requires:` either: weights entries do not support that key here, and
+  # parton_shower lives at AnaTuple/AnaTupleMerge, so it is never in to_apply at
+  # HistTuple and could not match even if the key were honoured.
+  PS_ISR:
+    expression: weight_base_isr{scale}_rel * final_weight
+    name: ps_isr_{}
+  PS_FSR:
+    expression: weight_base_fsr{scale}_rel * final_weight
+    name: ps_fsr_{}
 
 shape:
   JER:
-    name: CMS_scale_j_{}
+    name: CMS_res_j_2022EE_{}
   JES_Total:
-    name: CMS_res_j_{}
+    name: CMS_scale_j_2022EE_{}
   EleES:
-    name: CMS_scale_e_{}
+    name: CMS_scale_e_2022EE_{}

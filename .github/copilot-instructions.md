@@ -1,92 +1,105 @@
-# HH_bbWW Repository - Copilot Instructions
+# HH_bbWW — instructions for Copilot code review
 
-## Overview
+The HH→bb̄WW analysis, built on [FLAF](https://github.com/cms-flaf/FLAF). It differs from the other
+analyses in using DeepHME for mass reconstruction and in running the statistical inference chain
+(datacards and limits) as part of its integration test.
 
-HH→bbWW physics analysis for CMS Run 3 data. Part of cms-flaf/FLAF ecosystem. **Size**: ~71MB. **Language**: Python 3.12+ with ROOT (PyROOT). **Framework**: Law/Luigi + CMSSW environment. **No build system, no unit tests** - interpreted Python with JIT-compiled C++.
+**Read `FLAF/.github/copilot-instructions.md` first.** It carries the framework invariants — law
+task semantics, bundles, remote-storage caching, processor stages, concurrency — and the rules on
+what a useful comment looks like and what not to flag. The rule that documentation ships in the same PR applies here too, and is restated below with the pages that matter for this repository. Everything there applies here. This file
+adds only what is specific to this analysis.
 
-**Key Dependencies**: ROOT, Law/Luigi, TensorFlow, ONNX Runtime, Awkward/Uproot, NumPy/pandas/PyYAML, 6 git submodules (FLAF, Corrections, DeepHME, StatInference, SyncTool, inference).
+## Analysis-specific invariants
 
-**CRITICAL**: Submodules require SSH access to GitHub/GitLab CERN. Without keys, initialization fails (expected). Code in main repo can still be edited.
+### Stitching processors
 
-## Structure
+- The shared anchors in `config/processes.yaml` (`.DY_processors`,
+  `.DY_processors_allFlavors`, …) differ **only** in the stitching config file they point at.
+  Every one of them must declare `stages: [ AnaTuple, AnaTupleMerge ]`. A stitcher present at
+  `AnaTuple` alone writes an anaCache denominator that nothing can combine, and every merge of
+  every process using that anchor dies with
+  `combineAnaCaches: processor Stitcher not provided for combining anaCaches`. This shipped
+  undetected in the 2024–2026 configs because no CI process ran DY.
+- Which anchor an era's DY process uses is deliberate — `allFlavors` for 2022–2023BPix, the
+  single-flavour one for 2024 onwards. Do not propose harmonising them.
 
-**Main Directories** (33 .py files, 36 .yaml in config):
-- **`AnaProd/`** (2 .py): Input definitions (`anaTupleDef.py`), baseline selections (`baseline.py`)
-- **`Analysis/`** (9 .py): Core logic - `hh_bbww.py` (main, 600+ lines), `histTupleDef.py`, `tasks.py` (Law tasks), DNN/HME producers
-- **`Studies/`** (22 .py): Research code - `DNN/` (training), `HME/` (mass estimator), `Purity/`, `SignalEfficiency/`
-- **`config/`** (36 .yaml): `global.yaml` (main, 400+ lines), `ci_custom.yaml`, `law.cfg`, `background_samples.yaml`, era-specific (Run3_2022/2022EE/2023/2023BPix), `DNN/` (.onnx via Git LFS), `DeepHME/`, `Datacards/`
-- **Submodules** (empty until init): FLAF, Corrections, DeepHME, StatInference, SyncTool, inference
+### The CI datacard
 
-**Root Files**: `env.sh` (setup), `.gitignore` (ignores /soft, /data, /.law, __pycache__), `.gitattributes` (Git LFS for .onnx/.keras), `.gitmodules`
+`config/Datacards/CI_card.yaml` drives the `test_multi_era` job. Two things about it:
 
-## Environment & Execution
+- It declares `eras: Run3_2022 … Run3_2023BPix` only. A datacard task run for a later era fails on
+  a missing signal histogram; that is the card's scope, not a bug.
+- **The DY background is deliberately not in it.** The bbWW DY samples are amc@NLO, so they carry
+  negative event weights, and under `--test 1000` too few events remain for those to cancel: the
+  histogram comes out negative but statistically compatible with zero. `resolveNegativeBins`
+  returns as soon as the integral is negative, so including it would need
+  `allow_negative_integral: true` — disabling a real safety check — and would be flaky either
+  way. Do not suggest adding it back, and treat any new `allow_negative_*` flag as needing an
+  explicit justification.
 
-**Setup**: `source env.sh` (sets ANALYSIS_PATH, HH_INFERENCE_PATH, sources FLAF/env.sh). **Requires FLAF submodule** - fails without it (expected). Scripts use `sys.path.append(os.environ["ANALYSIS_PATH"])` for imports like `import Analysis.hh_bbww`, `from FLAF.Common.HistHelper import *`.
+### Integration test
 
-**No build system** (no Make/CMake/setup.py/pip). Python interpreted, C++ JIT-compiled via `ROOT.gInterpreter.Declare()`. **No unit tests** - validation via CI integration tests, physics checks, SyncTool.
+`TestModel` runs `custom_CI_Background_TT` and `custom_CI_Background_DY` plus one signal and one
+data process, and each CI background must carry the same `processors:` as the real `TT` / DY
+process **of that era** — that is what exercises the stitching end to end. A diff that changes a
+real process's processors and leaves the CI counterpart behind silently removes the coverage.
 
-## CI/CD Workflows (3 GitHub Actions)
+The process names are also listed in `cms-flaf/FLAF_ci`, a **different repository**; renaming or
+adding one here needs that updated in step.
 
-**All workflows delegate to FLAF repository workflows:**
+### Cost
 
-1. **formatting-check.yaml**: PR trigger, enforces Python formatting (rules in FLAF)
-2. **repo-sanity-checks.yaml**: PR trigger, validates structure/YAML syntax/imports
-3. **trigger-flaf-integration.yaml**: Comment trigger (`@cms-flaf-bot test`), runs full integration on GitLab CERN (task: HistPlotTask, dataset: XtoYHto2B2Wto2B2L2Nu_MX_300_MY_125, output: /builds/cms-flaf/flaf_integration/output/HH_bbWW). Authorized users in `.github/integration_cfg.yaml`: kandrosov, aebid, ahmad3213, abolshov, valeriadamante.
+`AnalysisCacheTask` (BtagShape) runs before `HistTupleProducerTask` even for simple variables and
+dominates the runtime. A change that adds work to the per-branch path there is expensive; say so.
 
-**CI Config**: `.github/integration_cfg.yaml` (authorized users, version pins), `config/ci_custom.yaml` (CI output path, test variables)
+## Documentation must ship with the change
 
-## Running Tasks
+A PR must update the documentation **in the same PR** whenever it changes anything a user of the
+framework can observe. Treat this as a review item of the same weight as correctness — docs
+drifting from the code is the failure that motivated the current documentation, and a PR that
+lands without them is not complete.
 
-**Law framework** (workflow management). Tasks in `Analysis/tasks.py`, `Studies/DNN/tasks.py`, inherited from `FLAF/AnaProd/tasks.py`. Config: `config/law.cfg` (modules, job dir: $ANALYSIS_PATH/data/jobs, local scheduler). Commands: `law index` (list tasks), `law run TaskName --param value --workers N`. Exact commands in FLAF docs/task definitions.
+Ask, for every diff: does it add, rename or remove any of these?
 
-## Code Conventions
+- a task or DAG node, or the arguments/parameters of one;
+- a command, a CLI flag, or the meaning of an existing one;
+- a configuration key — `global.yaml`, `user_custom.yaml`, `processes.yaml`, `phys_models.yaml`,
+  cross-sections, `fs_*` storage keys, bundle flavours, processor entries;
+- a dataset, era, process or physics-model name;
+- the environment, installation or setup steps;
+- storage locations, output paths or log locations;
+- a CI workflow, or how the integration test is triggered or configured;
+- any behaviour a user relies on, including a default that changes.
 
-**Python**: No formatter config (.flake8/.pylintrc/pyproject.toml) - enforced by FLAF CI. Import order: stdlib, third-party (numpy/ROOT/awkward), FLAF, Analysis. Heavy PyROOT + `ROOT.gInterpreter.Declare()` for C++. Expects ANALYSIS_PATH env var.
+If the answer is yes and the diff touches **no** documentation file, say so and name the page that
+should have changed. If the author states the change is internal-only, that is a legitimate
+answer — a pure refactor or bugfix with no user-visible effect is exempt — but it should be
+stated in the PR, not left implicit.
 
-**YAML Config**: `global.yaml` (main params, payload producers, corrections), era-specific (Run3_2022/2022EE/2023/2023BPix), `background_samples.yaml` (sampleType field), `phys_models.yaml`.
+Also flag the inverse: documentation edited to describe behaviour the diff does not implement, and
+new pages added without being wired into `mkdocs.yml`'s `nav` (the build fails on that, but the
+review should catch it first).
 
-**Physics Terms**: Channels (SL/DL=Single/Double Lepton), Categories (boosted/resolved), Triggers (HLT), B-tagging (ParticleNet: Loose/Medium/Tight WPs per era), HME (Heavy Mass Estimator), DNN (signal/background discrimination).
+Where it goes:
 
-## Making Changes
+- `docs/` in this repository for analysis-specific material (`analysis.md`, `setup.md`, `stat_inference.md`).
+- **`FLAF/docs/` for anything framework-wide.** If the change alters shared behaviour, the
+  documentation belongs there, in a companion PR to `cms-flaf/FLAF` — flag that it is missing
+  rather than accepting an analysis-local description of a framework change.
+- New pages must be added to `nav:` in `mkdocs.yml`; verified with `mkdocs build --strict`.
 
-**Code**: Analysis logic → `Analysis/`, input selections → `AnaProd/anaTupleDef.py`/`baseline.py`, config → `config/*.yaml`, studies → `Studies/`.
+## Repository facts
 
-**Dependencies**: No requirements.txt/setup.py - managed in CMSSW/FLAF. Adding packages requires FLAF maintainer coordination.
+Verified 2026-08-27; re-check before relying on any of it.
 
-**Git LFS**: Models (.onnx/.keras) in `config/DNN/vX/`. Ensure `.gitattributes` coverage, use `git lfs track` for new types.
-
-**Formatting**: Follow existing style (4-space indent, imports organized, lines <120 chars). CI enforces via FLAF workflows.
-
-## Common Issues
-
-**Submodule access fails (SSH)**: Expected without keys. Can edit code but cannot run `env.sh`/tasks (need FLAF imports).
-
-**ImportError/ANALYSIS_PATH missing**: Run `source env.sh` first (requires FLAF submodule).
-
-**ROOT import fails**: Requires CMSSW environment or configured ROOT with Python bindings.
-
-**Missing .onnx files**: Install Git LFS (`git lfs install`), pull models (`git lfs pull`).
-
-## Key Config (`config/global.yaml`)
-
-`anaTupleDef`: AnaProd/anaTupleDef.py, `histTupleDef`: Analysis/histTupleDef.py, `analysis_import`: Analysis.hh_bbww, `phys_model`: Run3_Model, `treeName`: "Events", `tagger_name`: "particleNet", `nEventsPerFile`: 100_000, `corrections`: [mu, trgSF, ele, JEC, JER, btagShape, ...], `payload_producers`: HME/DNN producers with resources.
-
-**Physics**: HH→bbWW (di-Higgs) search in Run 3 data (2022/2022EE/2023/2023BPix), SL/DL channels, ParticleNet b-tagging, DeepHME mass estimation, DNN signal extraction, histograms for StatInference.
-
-## For Coding Agents
-
-**Trust these validated instructions.** Search only if: info incomplete, errors contradict this, need FLAF internals.
-
-**Checklist**:
-- Physics analysis repo, not traditional software (no build/tests)
-- Interpreted Python + JIT C++, validation via physics checks
-- Check config changes, maintain import structure/style
-- Preserve YAML structure, don't modify submodules
-- CI test via `@cms-flaf-bot test` if needed
-- Code execution requires CMSSW (likely unavailable)
-
-**Validation** (CMSSW unavailable):
-1. Syntax: `python -m py_compile file.py`
-2. YAML: `python -c "import yaml; yaml.safe_load(open('file.yaml'))"`
-3. Check imports match patterns, config consistency
-4. Let CI workflows validate formatting/structure
+| | |
+|---|---|
+| Layout | `AnaProd/` (`anaTupleDef.py`, `baseline.py`), `Analysis/` (`hh_bbww.py`, `histTupleDef.py`, `hh_bbWW_AnaCacheProducer.py`, DeepHME/DNN producers), `Studies/`, `config/`, `include/`, `docs/` |
+| Submodules | `FLAF`, `Corrections`, `StatInference`, `inference`, `DeepHME`, `SyncTool` |
+| Eras | Run 3: 2022, 2022EE, 2023, 2023BPix, 2024, 2025, 2026 |
+| Configs | `config/global.yaml`, `config/processes.yaml` (processor anchors), `config/phys_models.yaml`, `config/<era>/{datasets,processes}.yaml`, `config/Datacards/CI_card.yaml` |
+| Large files | DNN `.onnx` payloads are tracked with Git LFS; never commit a binary directly |
+| Tests | No unit tests in this repo; validation is the integration test and physics checks. The framework's suites live in `FLAF/test/` |
+| Workflows | `formatting-check`, `repo-sanity-checks`, `test-setup-loading`, `deploy-docs`, `trigger-flaf-integration`. Formatting and era loading are checked automatically — do not comment on them |
+| Integration test | Triggered by `@cms-flaf-bot please test`; its configuration lives in `cms-flaf/FLAF_ci`, **not** in this repo. There is no `.github/integration_cfg.yaml` here |
+| Docs | `docs/`, plus the shared framework docs in `FLAF/docs/` |

@@ -1,9 +1,70 @@
-triggerFile: config/Run3_2023BPix/triggers.yaml
+triggerFile: config/Run3_2024/triggers.yaml
+nano_version: v15
+met_type: PuppiMET
+nanoAODVersions:
+  data: v15
+  mc: v15
 corrections:
+  mu:
+    stages: [ HistTuple, AnalysisCache ]
+    columns:
+      pfRelIso04_all: Muon_pfRelIso04_all
+      tightId: Muon_tightId
+      tkRelIso: Muon_tkRelIso
+      highPtId: Muon_highPtId
+      mediumId: Muon_mediumId
+      looseId: Muon_looseId
+  trigger:
+    stages: [ HistTuple, AnalysisCache ]
+    mode: SF
+  ele: { stages: [ HistTuple, AnalysisCache ] }
+  fatjet:
+    stages: [ HistTuple, AnalysisCache ]
+    ana: bbWW
+    tagger: particleNetWithMass_HbbvsQCD
+    fatJetName: fatbjet
+  muScaRe: {
+    stage: AnaTuple,
+    mu_pt_for_ScaReApplication: "nano",
+    selection: "Muon_looseId",
+  }
+  eleES: { stages: [ AnaTuple, AnalysisCache ] }
+  lumi: { stage: AnaTuple }
+  xs: { stage: AnaTuple }
+  gen: { stage: AnaTuple }
+  pu:
+    stages: [ AnaTuple, AnaTupleMerge ]
+    enabled:
+      AnaTuple: true
+      AnaTupleMerge: false
+  # Parton-shower ISR/FSR -- keep in sync with config/global.yaml. This era declares its
+  # own complete `corrections:` block, and config is concatenated text parsed once, so a
+  # duplicate key replaces the top-level block wholesale instead of merging into it.
+  # Without this copy, weight_base_isr*_rel is never defined and PS_ISR/PS_FSR in this
+  # era's weights.yaml reference a column that does not exist.
+  parton_shower:
+    stages: [ AnaTuple, AnaTupleMerge ]
+    branch: PSWeight
+    enabled:
+      AnaTuple: true
+      AnaTupleMerge: false
+  base: { stage: AnaTupleMerge }
+  JEC: { stage: AnaTuple }
+  JER:
+    stage: AnaTuple
+    apply_jet_horns_fix: true
   btag:
-    stages: [ AnaTuple, HistTuple ]
+    stages: [ AnaTuple, HistTuple, AnalysisCache ]
     modes:
-      AnaTuple: none # just load to define WP ID branches
+      AnaTuple: none
+      AnalysisCache: none
       HistTuple: none
     tagger: UParTAK4
     jetCollection: centralJet
+    wantShape: false
+  dy_hhbbtautau:
+    stages: [ AnalysisCache, HistTuple ]
+    processes: [ DY_M_10to50, DYto2L_InclusivePlusBinned ]
+    njets_branch: Njets
+    ntags_branch: nBTaggedJets
+    pt_ll_gen: ll_pt_gen

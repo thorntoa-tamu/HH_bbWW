@@ -32,27 +32,12 @@ def analysis_setup(setup):
     analysis = importlib.import_module(f"{analysis_import}")
 
 
-def GetDfw(df, setup, dataset_name):
+def GetDfw(df, setup, dataset_name, stage=None):
     global_params = setup.global_params
     isData = dataset_name == "data"
     period = global_params["era"]
     dfw = analysis.DataFrameBuilderForHistograms(df, global_params, period)
-    new_dfw = analysis.PrepareDfForHistograms(dfw, isData)
-
-    full_res_vars = []
-    flavor = global_params.get("histTuple_flavor", "default")
-    if flavor == "default":
-        full_res_vars = global_params.get("histTuple_fullResolution_variables", [])
-    else:
-        flavor_entry = global_params["histTuple_flavors"][flavor]
-        full_res_vars = flavor_entry.get("fullResolution_variables", [])
-        variables = flavor_entry.get("variables", [])
-        global_params["variables"] = variables
-        global_params["histTuple_fullResolution_variables"] = full_res_vars
-
-    for var in full_res_vars:
-        new_dfw.colToSave.append(var)
-
+    new_dfw = analysis.PrepareDfForHistograms(dfw, isData, stage)
     return new_dfw
 
 
@@ -106,19 +91,37 @@ def DefineWeightForHistograms(
     boosted_categories = global_params.get("boosted_categories", [])
     process_group = global_params["process_group"]
     weights_this_process = set(corrections.to_apply.keys())
+    # Mode "none" still loads btag (WP-id branches) but does not create SF
+    # columns. GetWeight must not multiply by weight_bTagShape_Central then.
+    btag_mode = (
+        corrections.to_apply.get("btag", {}).get("modes", {}).get("HistTuple", "none")
+    )
+    if btag_mode not in ("shape", "shape_and_norm", "wp"):
+        weights_this_process.discard("btag")
 
     total_weight_expression = (
-        analysis.GetWeight(weights_this_process) if process_group != "data" else "1"
+        analysis.GetWeight(
+            weights_this_process,
+            weight_base_name=global_params.get("weight_base_branch", "weight_base"),
+        )
+        if process_group != "data"
+        else "1"
     )  # are we sure?
     weight_name = "final_weight"
     if weight_name not in dfw.df.GetColumnNames():
         dfw.df = dfw.df.Define(weight_name, total_weight_expression)
     if not is_central:
-        if (
-            uncName in unc_cfg_dict["norm"].keys()
-            and "expression" in unc_cfg_dict["norm"][uncName].keys()
+        norm_cfg = unc_cfg_dict["norm"].get(uncName, {})
+        # An entry may name the correction its expression is built from.
+        # HistTupleProducer asks for every norm uncertainty on every sample, but a
+        # correction carrying a `processes:` list -- dy_hhbbtautau is the only one --
+        # defines its branches for those processes alone, so the expression fails to
+        # compile everywhere else ("use of undeclared identifier"). Where the correction
+        # does not apply, the variation is the central weight: a nuisance with no effect
+        # on that process, rather than an error.
+        requires = norm_cfg.get("requires")
+        if "expression" in norm_cfg and (
+            requires is None or requires in weights_this_process
         ):
-            weight_name = unc_cfg_dict["norm"][uncName]["expression"].format(
-                scale=uncScale
-            )
+            weight_name = norm_cfg["expression"].format(scale=uncScale)
     dfw.df = dfw.df.Define(final_weight_name, weight_name)

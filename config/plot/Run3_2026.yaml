@@ -1,0 +1,27 @@
+lumi_text:
+  text: "25.8 fb^{-1} (13.6 TeV)"
+  pos_ref: inner_right_top
+  pos: [ 0, -0.03 ]
+  text_size: 0.035
+  font: 42
+  align: right_bottom
+
+channel_text:
+  'e': 'e'
+  'mu': '#mu'
+  'eE': 'ee'
+  'eMu': 'e #mu'
+  'muMu': '#mu #mu'
+
+customregion_text:
+  'OS_Iso': 'OS, Isolated'
+  'SS_Iso': 'SS, Isolated'
+  'OS_AntiIso': 'OS, Non-Isolated'
+  'SS_AntiIso': 'SS, Non-Isolated'
+  'ZVeto_OS_Iso': 'Z Veto, OS, Isolated'
+  'ZPeak_OS_Iso': 'Z Peak, OS, Isolated'
+  'SR': 'Signal Region'
+  'SR_mbb': 'Signal Region + m_bb Cut'
+  'TT_CR': 'TT Control Region'
+  'DY_CR': 'DY Control Region'
+  'W_CR': 'W Control Region'

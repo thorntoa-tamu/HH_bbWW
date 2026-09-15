@@ -26,7 +26,9 @@ OnlyData:
 TestModel:
   name: "Test model for CI"
   backgrounds:
-    - custom_CI_Background
+    - custom_CI_Background_TT
+    - custom_CI_Background_DY
+    - custom_CI_Background_W
   signals: # WARNING: for 2024 no signal sample available, using a file from bbtt signals..
     - custom_CI_Signal
   data:
@@ -52,5 +54,33 @@ Production_Model:
     - GluGluToBulkGraviton_SingleLepton
     # - XtoHHto2B2Tau # 2023 is missing some 2B2Tau masses
     - XtoHHto2Tau2B
+  data:
+    - Data_Full
+
+DNNTest_Model:
+  name: "Model two stage dnn test"
+  backgrounds: [ ]
+  signals:
+    - XtoHHto2B2W_SingleLepton_DNN
+  data: [ ]
+
+DNNTraining_Model:
+  name: "Base model for Run 3"
+  backgrounds:
+    - TT
+    - DY
+    - ST
+    - VV
+    - W
+    - SingleHiggs
+    # - QCD_PT
+  signals:
+    - XtoHHto2B2W_SingleLepton
+    - XtoHHto2B2W_DoubleLepton
+    # - XtoHHto2B2Tau # 2023 is missing some 2B2Tau masses
+    - XtoHHto2Tau2B
+    # Include Radion for DNN Training
+    - GluGluToRadion_DoubleLepton
+    - GluGluToRadion_SingleLepton
   data:
     - Data_Full

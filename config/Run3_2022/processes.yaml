@@ -87,7 +87,10 @@ DY_LO:
 TT:
   name: "t#bar{t}"
   color: "kGreen-3"  # eliminates need for plot.yaml
+  processors: *TT_processors
   datasets:
+    - TT
+    - TT_ext1
     - TTto2L2Nu
     - TTtoLNu2Q
     - TTto4Q
@@ -134,10 +137,22 @@ DY_HighMass:
 W:
   name: "W"
   color: "kGreen"  # eliminates need for plot.yaml
+  processors: *W_processors_allFlavors
   datasets:
     - WtoLNu_0J_amcatnloFXFX
     - WtoLNu_1J_amcatnloFXFX
     - WtoLNu_2J_amcatnloFXFX
+    - WtoLNu_amcatnloFXFX
+    - WtoLNu_PTLNu_40to100_1J_amcatnloFXFX
+    - WtoLNu_PTLNu_40to100_2J_amcatnloFXFX
+    - WtoLNu_PTLNu_100to200_1J_amcatnloFXFX
+    - WtoLNu_PTLNu_100to200_2J_amcatnloFXFX
+    - WtoLNu_PTLNu_200to400_1J_amcatnloFXFX
+    - WtoLNu_PTLNu_200to400_2J_amcatnloFXFX
+    - WtoLNu_PTLNu_400to600_1J_amcatnloFXFX
+    - WtoLNu_PTLNu_400to600_2J_amcatnloFXFX
+    - WtoLNu_PTLNu_600_1J_amcatnloFXFX
+    - WtoLNu_PTLNu_600_2J_amcatnloFXFX
 
 VV_inclusive:
   name: "VV"
@@ -410,6 +425,24 @@ XtoHHto2B2W_SingleLepton:
     - XtoYHto2B2Wto2B2Q1L1Nu_MX_3500_MY_125
     - XtoYHto2B2Wto2B2Q1L1Nu_MX_4000_MY_125
 
+XtoHHto2B2W_SingleLepton_DNN:
+  name: "XtoHHto2B2W_SingleLepton"
+  color: "kBlack"
+  is_meta_process: true
+  meta_setup:
+    dataset_name_pattern: XtoYHto2B2Wto2B2Q1L1Nu_MX_(\d+)_MY_125
+    parameters: [ MASS ]
+    process_name: XtoHHto2B2W_1L_${MASS}
+    name_pattern: Xto2B2W 1L ${MASS} GeV (x100)
+    to_plot:
+      - [ '300' ]
+      - [ '600' ]
+      - [ '1000' ]
+    plot_color: [ "kBlack", "kBlue", "kRed" ]
+    channels: [ "e", "mu" ]
+  datasets:
+    - XtoYHto2B2Wto2B2Q1L1Nu_MX_600_MY_125
+
 XtoHHto2B2Tau:
   name: "XtoHHto2B2Tau"
   color: "kBlack"
@@ -602,11 +635,31 @@ QCD_PT:
 #       file: QCD_ABCD.py
 #   supress_negative_bins: true
 
-custom_CI_Background:
-  name: "CI -- Background"
+# The integration test runs one t#bar{t} and one DY dataset, each carrying the processors the
+# analysis really uses for that process in this era. That is what exercises a stitcher over the
+# whole anaTuple -> merge chain, where a gen-level input the anaTuple does not keep would
+# otherwise only surface in production. One dataset per process is enough: each stitching bin's
+# denominator is summed over the very events that later read it back, so a bin no event falls
+# into is never divided by.
+custom_CI_Background_TT:
+  name: "CI -- Background t#bar{t}"
   color: "kGreen-3"
   datasets:
     - TTto2L2Nu
+
+custom_CI_Background_DY:
+  name: "CI -- Background DY"
+  color: "kAzure+7"
+  processors: *DY_processors_allFlavors
+  datasets:
+    - DYto2L_M_50_amcatnloFXFX
+
+custom_CI_Background_W:
+  name: "CI -- Background W"
+  color: "kAzure+7"
+  processors: *W_processors_allFlavors
+  datasets:
+    - WtoLNu_amcatnloFXFX
 
 custom_CI_Signal:
   name: "CI -- Signal"

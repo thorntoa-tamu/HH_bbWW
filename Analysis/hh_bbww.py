@@ -11,6 +11,15 @@ WorkingPointsParticleNet = {
     "Run3_2022EE": {"Loose": 0.0499, "Medium": 0.2605, "Tight": 0.6915},
     "Run3_2023": {"Loose": 0.0358, "Medium": 0.1917, "Tight": 0.6172},
     "Run3_2023BPix": {"Loose": 0.0359, "Medium": 0.1919, "Tight": 0.6133},
+    "Run3_2024": {"Loose": 0.0359, "Medium": 0.1919, "Tight": 0.6133},
+    "Run3_2025": {"Loose": 0.0359, "Medium": 0.1919, "Tight": 0.6133},
+    "Run3_2026": {"Loose": 0.0359, "Medium": 0.1919, "Tight": 0.6133},
+}
+WorkingPointsUParTAK4 = {
+    # BTV Summer24 NanoAODv15 (L/M/T).
+    "Run3_2024": {"Loose": 0.0246, "Medium": 0.1272, "Tight": 0.4648},
+    "Run3_2025": {"Loose": 0.0246, "Medium": 0.1272, "Tight": 0.4648},
+    "Run3_2026": {"Loose": 0.0246, "Medium": 0.1272, "Tight": 0.4648},
 }
 
 
@@ -78,12 +87,14 @@ def GetBTagWeight(global_cfg_dict, cat, applyBtag=False):
     return f"{btag_weight}*{btagshape_weight}"
 
 
-def GetWeight(weights_this_process):  # do you need all these args?
+def GetWeight(
+    weights_this_process, weight_base_name="weight_base"
+):  # do you need all these args?
     # weights_this_process is a set of corrections from global.yaml
     # e.g. {'lumi', 'dy_hhbbww', 'trigger', 'base', 'btag', 'dy_hhbbtautau', 'JER', 'pu', 'JEC', 'ele', 'gen', 'muScaRe', 'mu', 'eleES', 'fatjet', 'xs'}
 
     # weights_to_apply = ["weight_base", "ExtraDYWeight"]
-    weights_to_apply = ["weight_base"]
+    weights_to_apply = [weight_base_name]
     weights_to_apply_resolved = []
     weights_to_apply_boosted = []
 
@@ -138,7 +149,7 @@ def GetEleWeight(lep_index):
 
 def GetMuWeight(lep_index):
     # Medium pT Muon SF
-    weight_Mu = f"(lep{lep_index}_legType == static_cast<int>(Leg::mu) ? weight_lep{lep_index}_MuonID_SF_TightID_TrkCentral * weight_lep{lep_index}_MuonID_SF_LoosePFIso_TightIDCentral : 1.0)"
+    weight_Mu = f"(lep{lep_index}_legType == static_cast<int>(Leg::mu) ? weight_lep{lep_index}_MuonID_SF_TightID_TrkCentral * weight_lep{lep_index}_MuonID_SF_TightPFIso_TightIDCentral : 1.0)"
 
     # High pT Muon SF
     # weight_Mu = f"(lep{lep_index}_legType == static_cast<int>(Leg::mu) ? weight_lep{lep_index}_HighPt_MuonID_SF_HighPtIDCentral * weight_lep{lep_index}_HighPt_MuonID_SF_RecoCentral * weight_lep{lep_index}_HighPt_MuonID_SF_TightIDCentral : 1.0)"
@@ -181,6 +192,8 @@ class DataFrameBuilderForHistograms(DataFrameBuilderBase):
 
     def defineCategories(self):
         self.DefineAndAppend("baseline", f"return true;")
+        self.DefineAndAppend("baseline_resolved", f"(SelectedFatJet_pt.size() == 0)")
+        self.DefineAndAppend("baseline_boosted", f"(SelectedFatJet_pt.size() >= 1)")
 
         # Test boosted -> res2b -> recovery
         self.DefineAndAppend(
@@ -268,12 +281,66 @@ class DataFrameBuilderForHistograms(DataFrameBuilderBase):
             "Single_lep_trg && " "!tightlep && " "!mbb_SR",
         )
 
-    def defineControlRegions(self):
+    def defineControlRegions(self, stage):
         self.DefineAndAppend("SR", f"ll_mass < 70 && OS_Iso")
         self.DefineAndAppend("SR_mbb", f"ll_mass < 70 && OS_Iso && mbb_SR")
         self.DefineAndAppend("TT_CR", f"ll_mass > 110 && OS_Iso")
         self.DefineAndAppend("DY_CR", f"(abs(ll_mass - 91.1876) < 10) && OS_Iso")
         self.DefineAndAppend("W_CR", f"lep1_MT > 50 && Iso")
+
+        SL_CR_active = False
+        for QCDReg in self.config["QCDRegions"]:
+            if QCDReg.startswith("SL_SR") or QCDReg.startswith("SL_CR"):
+                SL_CR_active = True
+        if stage == "HistTuple" and SL_CR_active:
+            # Individual mass signal regions
+            masspoints = self.config["masspoints"]
+            for mp in masspoints:
+                self.df = self.df.Define(
+                    f"predicted_class_M{mp}",
+                    f"""std::vector<double> scores = {{
+                            TwoStageDNN_M{mp}_Signal,
+                            TwoStageDNN_M{mp}_TT,
+                            TwoStageDNN_M{mp}_ST,
+                            TwoStageDNN_M{mp}_WJets,
+                            TwoStageDNN_M{mp}_DY,
+                            TwoStageDNN_M{mp}_H,
+                            TwoStageDNN_M{mp}_VV
+                        }};
+                        auto it = std::max_element(scores.begin(), scores.end());
+                        size_t cls = it - scores.begin();
+                        return cls;
+                    """,
+                )
+
+                self.DefineAndAppend(
+                    f"SR_SL_M{mp}",
+                    f"return predicted_class_M{mp} == 0 && Iso && event_selection;",
+                )
+                self.DefineAndAppend(
+                    f"CR_SL_TT_M{mp}",
+                    f"return predicted_class_M{mp} == 1 && Iso && event_selection;",
+                )
+                self.DefineAndAppend(
+                    f"CR_SL_ST_M{mp}",
+                    f"return predicted_class_M{mp} == 2 && Iso && event_selection;",
+                )
+                self.DefineAndAppend(
+                    f"CR_SL_WJets_M{mp}",
+                    f"return predicted_class_M{mp} == 3 && Iso && event_selection;",
+                )
+                self.DefineAndAppend(
+                    f"CR_SL_DY_M{mp}",
+                    f"return predicted_class_M{mp} == 4 && Iso && event_selection;",
+                )
+                self.DefineAndAppend(
+                    f"CR_SL_H_M{mp}",
+                    f"return predicted_class_M{mp} == 5 && Iso && event_selection;",
+                )
+                self.DefineAndAppend(
+                    f"CR_SL_VV_M{mp}",
+                    f"return predicted_class_M{mp} == 6 && Iso && event_selection;",
+                )
 
     def calculateMT(self):
         self.df = self.df.Define(
@@ -504,10 +571,51 @@ def AddDNNVariablesDL(df, isData=False):
 
     df = df.Define("nExtraLeps", "nExtraMuon + nExtraElectron")
 
+    df = df.Define(
+        "min_lb_dR",
+        f"min("
+        f"min(ROOT::Math::VectorUtil::DeltaR(lep1_p4, bjet1_p4), ROOT::Math::VectorUtil::DeltaR(lep1_p4, bjet2_p4)),"
+        f"min(ROOT::Math::VectorUtil::DeltaR(lep2_p4, bjet1_p4), ROOT::Math::VectorUtil::DeltaR(lep2_p4, bjet2_p4))"
+        ")",
+    )
+
+    df = df.Define(
+        "lb_centrality",
+        "(bjet1_pt + bjet2_pt + PuppiMET_pt) > 0.0 ? "
+        "(lep1_pt + lep2_pt) / (bjet1_pt + bjet2_pt + PuppiMET_pt) : 0.0",
+    )
+
+    df = df.Define("HT_total", "HT + PuppiMET_pt + lep1_pt + lep2_pt")
+
+    df = df.Define("ll_bb_pt_ratio", "bb_pt > 0.0 ? ll_pt / bb_pt : 0.0")
+
+    df = df.Define(
+        "min_lmet_mt",
+        f"min("
+        "pow(2 * lep1_pt * PuppiMET_pt * (1 - cos(lep1_phi - PuppiMET_phi)), 0.5),"
+        "pow(2 * lep2_pt * PuppiMET_pt * (1 - cos(lep2_phi - PuppiMET_phi)), 0.5)"
+        ")",
+    )
+
+    df = df.Define("ll_cos_theta_star", "tanh((lep1_eta - lep2_eta) / 2.0)")
+
+    df = df.Define(
+        "min_lmet_dphi",
+        f"min("
+        "abs(ROOT::Math::VectorUtil::DeltaPhi(lep1_p4, PuppiMET_p4)),"
+        "abs(ROOT::Math::VectorUtil::DeltaPhi(lep2_p4, PuppiMET_p4))"
+        ")",
+    )
+
+    df = df.Define(
+        "ll_met_MT_WithMass",
+        "static_cast<float>(Calculate_MT_WithMass(lep1_p4 + lep2_p4, PuppiMET_p4))",
+    )
+
     return df
 
 
-def defineJetSelections(df, isData):
+def defineJetSelections(df, isData, period="Run3_2023BPix"):
     # Define vars to save
     jet_vars = [
         "p4",
@@ -517,6 +625,8 @@ def defineJetSelections(df, isData):
         "mass",
         "btagPNetB",
         "idbtagPNetB",
+        "btagUParTAK4B",
+        "idbtagUParTAK4B",
         "rawFactor",
         "PNetRegPtRawCorr",
         "PNetRegPtRawCorrNeutrino",
@@ -543,10 +653,37 @@ def defineJetSelections(df, isData):
     if not isData:
         fatjet_vars = fatjet_vars + fatjet_mc_vars
         jet_vars = jet_vars + jet_mc_vars
+    existing_cols = {str(c) for c in df.GetColumnNames()}
+    jet_vars = [v for v in jet_vars if v == "p4" or f"centralJet_{v}" in existing_cols]
+    fatjet_vars = [
+        v for v in fatjet_vars if v == "p4" or f"SelectedFatJet_{v}" in existing_cols
+    ]
 
     # First step is to decide Hbb boosted
     # Take FatJets, mask by BTag and msoftdrop, sort by BTag Score
     # If one exists, category is Hbb_Boosted
+
+    df = df.Define(
+        "LeadFatJet_Sel",
+        "SelectedFatJet_pt > 0",
+    )
+    df = df.Define("LeadFatJet_idx", "CreateIndexes(Sum(LeadFatJet_Sel))")
+    df = df.Define(
+        "LeadFatJet_idxSorted",
+        "Take(ReorderObjects(SelectedFatJet_pt[LeadFatJet_Sel], LeadFatJet_idx), min((int)LeadFatJet_idx.size(), 1))",
+    )
+    for var in fatjet_vars:
+        df = df.Define(
+            f"LeadFatJet_{var}",
+            f"Take(SelectedFatJet_{var}[LeadFatJet_Sel], LeadFatJet_idxSorted)",
+        )
+    df = df.Define("Nleadfatjets", "LeadFatJet_pt.size()")
+    df = df.Define("leadfatjet_isValid", "(Nleadfatjets > 0)")
+    for var in fatjet_vars:
+        df = df.Define(
+            f"leadfatjet_{var}",
+            f"leadfatjet_isValid ? LeadFatJet_{var}[0] : std::decay_t<decltype(LeadFatJet_{var})>::value_type()",
+        )
 
     df = df.Define(
         "FatBJet_Sel",
@@ -565,11 +702,24 @@ def defineJetSelections(df, isData):
 
     # Do not need a selection, we should just take the top 2 score Jets whether they pass the cut
     # df = df.Define("BJet_Sel", "centralJet_idbtagPNetB >= 1")
-    df = df.Define("BJet_Sel", "centralJet_idbtagPNetB >= -1")
+    if (
+        "centralJet_idbtagPNetB" in existing_cols
+        or "centralJet_idbtagUParTAK4B" in existing_cols
+    ):
+        id_sel = (
+            "centralJet_idbtagUParTAK4B"
+            if "centralJet_idbtagUParTAK4B" in existing_cols
+            else "centralJet_idbtagPNetB"
+        )
+        df = df.Define("BJet_Sel", f"{id_sel} >= -1")
+    else:
+        df = df.Define("BJet_Sel", "centralJet_pt >= 0.f")
+    use_upart = "centralJet_btagUParTAK4B" in existing_cols
+    sort_score = "centralJet_btagUParTAK4B" if use_upart else "centralJet_btagPNetB"
     df = df.Define("BJet_idx", "CreateIndexes(Sum(BJet_Sel))")
     df = df.Define(
         "BJet_idxSorted",
-        "Take(ReorderObjects(centralJet_btagPNetB[BJet_Sel], BJet_idx), min((int)BJet_idx.size(), 2))",
+        f"Take(ReorderObjects({sort_score}[BJet_Sel], BJet_idx), min((int)BJet_idx.size(), 2))",
     )
     for var in jet_vars:
         df = df.Define(
@@ -580,8 +730,40 @@ def defineJetSelections(df, isData):
     df = df.Define("bjet1_isValid", "(Nbjets > 0)")
     df = df.Define("bjet2_isValid", "(Nbjets > 1)")
 
-    df = df.Define("bjet1_isBTagged", "bjet1_isValid ? BJet_idbtagPNetB[0] >= 1 : 0")
-    df = df.Define("bjet2_isBTagged", "bjet2_isValid ? BJet_idbtagPNetB[1] >= 1 : 0")
+    if "idbtagUParTAK4B" in jet_vars:
+        id_branch = "idbtagUParTAK4B"
+        score_branch = None
+        bTagWP = None
+    elif "idbtagPNetB" in jet_vars:
+        id_branch = "idbtagPNetB"
+        score_branch = None
+        bTagWP = None
+    elif use_upart:
+        id_branch = None
+        score_branch = "btagUParTAK4B"
+        bTagWP = WorkingPointsUParTAK4.get(period, WorkingPointsParticleNet[period])[
+            "Medium"
+        ]
+    else:
+        id_branch = None
+        score_branch = "btagPNetB"
+        bTagWP = WorkingPointsParticleNet[period]["Medium"]
+    if id_branch is not None:
+        df = df.Define(
+            "bjet1_isBTagged", f"bjet1_isValid ? BJet_{id_branch}[0] >= 1 : 0"
+        )
+        df = df.Define(
+            "bjet2_isBTagged", f"bjet2_isValid ? BJet_{id_branch}[1] >= 1 : 0"
+        )
+    else:
+        df = df.Define(
+            "bjet1_isBTagged",
+            f"bjet1_isValid ? BJet_{score_branch}[0] >= {bTagWP}f : 0",
+        )
+        df = df.Define(
+            "bjet2_isBTagged",
+            f"bjet2_isValid ? BJet_{score_branch}[1] >= {bTagWP}f : 0",
+        )
     df = df.Define(
         f"nBTaggedJets", "int(bjet1_isBTagged) + int(bjet2_isBTagged)"
     )  # Used in bbtautau DY reweight, name configured in global.yaml
@@ -1456,20 +1638,6 @@ def AddDNNVariablesSL(df, isData=False):
     )
     df = df.Define("hadW_mass", "return hadW_p4.M();")
     df = df.Define(
-        "bb_dphi", "return ROOT::Math::VectorUtil::DeltaPhi(bjet1_p4, bjet2_p4);"
-    )
-    df = df.Define("bb_deta", "return bjet1_p4.Eta() - bjet2_p4.Eta();")
-    df = df.Define(
-        "bb_pt",
-        """
-            if (fatbjet_isValid)
-                return static_cast<float>(fatbjet_p4.Pt());
-            else if (bjet1_isValid && bjet2_isValid)
-                return static_cast<float>((bjet1_p4 + bjet2_p4).Pt());
-            return 0.0f;
-        """,
-    )
-    df = df.Define(
         "hadW_lep_dphi", "return ROOT::Math::VectorUtil::DeltaPhi(hadW_p4, lep1_p4);"
     )
     df = df.Define(
@@ -1612,6 +1780,29 @@ def AddDNNVariablesCommon(df, isData=False):
             return -1.0f;
         """,
     )
+
+    df = df.Define(
+        "bb_dphi", "return ROOT::Math::VectorUtil::DeltaPhi(bjet1_p4, bjet2_p4);"
+    )
+    df = df.Define("bb_deta", "return bjet1_p4.Eta() - bjet2_p4.Eta();")
+    df = df.Define(
+        "bb_pt",
+        """
+            if (fatbjet_isValid)
+                return static_cast<float>(fatbjet_p4.Pt());
+            else if (bjet1_isValid && bjet2_isValid)
+                return static_cast<float>((bjet1_p4 + bjet2_p4).Pt());
+            return 0.0f;
+        """,
+    )
+
+    df = df.Define(
+        "MET_over_sqrt_HT",
+        "HT > 0.0 ? PuppiMET_pt / sqrt(HT) : 0.0",
+    )
+
+    df = df.Define("bb_btag_product", "bjet1_btagPNetB * bjet2_btagPNetB")
+
     return df
 
 
@@ -1626,17 +1817,21 @@ def addDeepHMERelErr(df):
     return df
 
 
-def PrepareDfForHistograms(dfForHistograms, isData):
+def PrepareDfForHistograms(dfForHistograms, isData, stage):
     dfForHistograms.defineLeptonChannel()
     dfForHistograms.df = defineAllP4(dfForHistograms.df)
     dfForHistograms.calculateMT()
-    dfForHistograms.df = defineJetSelections(dfForHistograms.df, isData)
+    dfForHistograms.df = defineJetSelections(
+        dfForHistograms.df,
+        isData,
+        getattr(dfForHistograms, "period", "Run3_2023BPix"),
+    )
     dfForHistograms.df = AddDNNVariablesCommon(dfForHistograms.df, isData)
     dfForHistograms.df = AddDNNVariablesDL(dfForHistograms.df, isData)
     dfForHistograms.defineTriggers()
     dfForHistograms.defineLeptonPreselection()
     dfForHistograms.defineQCDRegions()
-    dfForHistograms.defineControlRegions()
+    dfForHistograms.defineControlRegions(stage)
     dfForHistograms.defineCategories()
     dfForHistograms.df = defineTopCandP4(dfForHistograms.df)
     dfForHistograms.df = defineLepWCandP4(dfForHistograms.df)

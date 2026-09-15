@@ -53,6 +53,7 @@ JetObservables = [
     "PNetRegPtRawRes",
     "rawFactor",
     "btagPNetB",
+    "btagUParTAK4B",
     "btagPNetCvB",
     "btagPNetCvL",
     # "btagPNetCvNotB",
@@ -79,6 +80,7 @@ JetObservables = [
     # "neMultiplicity",
     "ptRes",
     "idbtagPNetB",
+    "idbtagUParTAK4B",
     "area",
 ]  # 2024
 
@@ -379,8 +381,12 @@ def defineExtraLeptonVariables(dfw):
 def defineCentralJetVariables(dfw, isData):
     # save all selected reco jets
     dfw.Define("centralJet_idx", "CreateIndexes(Sum(Jet_sel))")
+    existing_cols = {str(c) for c in dfw.df.GetColumnNames()}
+    sort_score = (
+        "Jet_btagUParTAK4B" if "Jet_btagUParTAK4B" in existing_cols else "Jet_btagPNetB"
+    )
     dfw.Define(
-        "centralJet_idxSorted", "ReorderObjects(Jet_btagPNetB[Jet_sel], centralJet_idx)"
+        "centralJet_idxSorted", f"ReorderObjects({sort_score}[Jet_sel], centralJet_idx)"
     )
     for var in PtEtaPhiM:
         name = f"centralJet_{var}"
@@ -414,6 +420,8 @@ def defineCentralJetVariables(dfw, isData):
     reco_jet_obs = list(JetObservables)
     if not isData:
         reco_jet_obs.extend(JetObservablesMC)
+    existing_cols = {str(c) for c in dfw.df.GetColumnNames()}
+    reco_jet_obs = [v for v in reco_jet_obs if f"Jet_{v}" in existing_cols]
     for jet_obs in reco_jet_obs:
         dfw.DefineAndAppend(
             f"centralJet_{jet_obs}",
@@ -434,6 +442,8 @@ def defineFatJetVariables(dfw, isData):
     fatjet_obs = list(FatJetObservables)
     if not isData:
         fatjet_obs.extend(FatJetObservablesMC)
+    existing_cols = {str(c) for c in dfw.df.GetColumnNames()}
+    fatjet_obs = [v for v in fatjet_obs if f"FatJet_{v}" in existing_cols]
 
     for var in PtEtaPhiM:
         dfw.DefineAndAppend(
@@ -448,6 +458,8 @@ def defineFatJetVariables(dfw, isData):
     subjet_obs = list(SubJetObservables)
     if not isData:
         subjet_obs.extend(SubJetObservablesMC)
+    existing_cols = {str(c) for c in dfw.df.GetColumnNames()}
+    subjet_obs = [v for v in subjet_obs if f"SubJet_{v}" in existing_cols]
     for subJetIdx in [1, 2]:
         dfw.Define(
             f"SelectedFatJet_subJetIdx{subJetIdx}",
@@ -606,6 +618,7 @@ def addAllVariables(
         min_n_effective_jets_DL=global_params["anaTupleSelection"][
             "min_n_effective_jets_DL"
         ],
+        era=global_params["era"],
     )
 
     defineCentralJetVariables(dfw, isData)
