@@ -2,6 +2,7 @@ import tensorflow as tf
 import numpy as np
 import uproot
 import os
+import shutil
 import yaml
 import tf2onnx
 import onnx
@@ -11,6 +12,8 @@ import matplotlib.pyplot as plt
 import onnxruntime as ort
 import ROOT
 import sklearn.metrics
+
+from Studies.DNN.DNN_Class import distance_corr
 
 
 class DataWrapper:
@@ -159,14 +162,18 @@ class DataWrapper:
         hme_mass = None
         with uproot.open(file_name) as file:
             tree = file["Events"]
+            # Branch was renamed from DoubleLep_DeepHME_mass to DeepHME_mass in v2605a
+            hme_name = (
+                "DeepHME_mass"
+                if "DeepHME_mass" in tree.keys()
+                else "DoubleLep_DeepHME_mass"
+            )
             branches = tree.arrays(
-                ["DoubleLep_DeepHME_mass"],
+                [hme_name],
                 entry_start=entry_start,
                 entry_stop=entry_stop,
             )
-            hme_mass = np.array(
-                getattr(branches, "DoubleLep_DeepHME_mass"), dtype="float32"
-            )
+            hme_mass = np.array(getattr(branches, hme_name), dtype="float32")
         return hme_mass
 
     def GetFatJetBTag(self, file_name, entry_start=None, entry_stop=None):
@@ -585,6 +592,23 @@ class Model(tf.keras.Model):
             if n != 0
         ]
 
+        # Input standardization: (x - mean) / std for the physics features, using
+        # training-set stats (setup["feature_mean"/"feature_std"], set in train_dnn).
+        # Without this the first tanh saturates on raw detector-scale inputs and the
+        # classifier never learns. Done with plain tensor constants rather than a
+        # keras Normalization layer (which mis-builds inside a subclassed model's
+        # call()); these become Sub/Div constant nodes in the exported ONNX.
+        if "feature_mean" in setup and "feature_std" in setup:
+            self.feature_mean = tf.constant(
+                np.array(setup["feature_mean"], dtype=np.float32)
+            )
+            self.feature_std = tf.constant(
+                np.array(setup["feature_std"], dtype=np.float32)
+            )
+        else:
+            self.feature_mean = None
+            self.feature_std = None
+
         self.blocks = []
 
         n_units = setup["n_units"]
@@ -597,8 +621,8 @@ class Model(tf.keras.Model):
                 n_units,
                 activation=activation,
                 name=name,
-                kernel_initializer="random_normal",
-                bias_initializer="random_normal",
+                kernel_initializer="glorot_uniform",
+                bias_initializer="zeros",
                 kernel_regularizer=tf.keras.regularizers.l2(setup["l2_rate"]),
             )
 
@@ -621,7 +645,16 @@ class Model(tf.keras.Model):
         self.output_names = ["class_output"]
 
     def call(self, x):
-        h = x
+        if self.feature_mean is not None:
+            if self.setup["UseParametric"]:
+                # Last column is the appended parametric mass; leave it untouched
+                # (feature_mean/std were computed on the non-mass features only).
+                feats = (x[:, :-1] - self.feature_mean) / self.feature_std
+                h = tf.concat([feats, x[:, -1:]], axis=1)
+            else:
+                h = (x - self.feature_mean) / self.feature_std
+        else:
+            h = x
         for i, block in enumerate(self.blocks):
             h = block["dense"](h)
 
@@ -772,6 +805,137 @@ class Model(tf.keras.Model):
         return metric_list
 
 
+class DiscoModel(Model):
+    """Binary sigmoid classifier with single DisCo (arXiv:2007.14400).
+    Loss = BCE(1 = signal, 0 = background) + lambda * dCorr(score, HME),
+    with the distance correlation computed on background events only."""
+
+    def __init__(self, setup, max_events, *args, **kwargs):
+        super().__init__(setup, max_events, *args, **kwargs)
+
+        self.lambda_disco = setup["disco_lambda_factor"]
+
+        # Replace the softmax head with a single sigmoid node (score = P(signal))
+        self.class_output = tf.keras.layers.Dense(
+            1, activation="sigmoid", name="class_output"
+        )
+
+        self.disco_loss_tracker = tf.keras.metrics.Mean(name="disco_loss")
+        self.combined_loss_tracker = tf.keras.metrics.Mean(name="combined_loss")
+
+    def _step(self, data, training):
+        x, y = data
+
+        y_class = tf.reshape(tf.cast(y[0], dtype=tf.float32), [-1])
+        class_weight = tf.reshape(tf.cast(y[1], dtype=tf.float32), [-1])
+        physics_weight = tf.cast(y[2], dtype=tf.float32)
+        hme = tf.reshape(tf.cast(y[3], dtype=tf.float32), [-1])
+
+        def compute_losses():
+            y_pred_class = self(x, training=training)
+            score = y_pred_class[:, 0]
+
+            class_loss_vec = binary_entropy(y_class, score)
+            class_loss = tf.reduce_mean(class_loss_vec * class_weight)
+            # Weighted mean (normalize by sum of weights) instead of reduce_mean over
+            # the batch
+            # class_loss = tf.reduce_sum(class_loss_vec * class_weight) / (
+            #     tf.reduce_sum(class_weight) + 1e-12
+            # )
+
+            # DisCo only on background events with a valid HME
+            disco_mask = tf.logical_and(
+                tf.equal(y_class, 0.0),
+                tf.logical_and(hme > 0.0, tf.math.is_finite(hme)),
+            )
+            score_bkg = tf.boolean_mask(score, disco_mask)
+            hme_bkg = tf.boolean_mask(hme, disco_mask)
+            weight_bkg = tf.boolean_mask(class_weight, disco_mask)
+
+            n_bkg = tf.cast(tf.size(score_bkg), tf.float32)
+
+            def calc_disco():
+                # distance_corr needs weights that sum to the number of entries
+                weight_norm = weight_bkg * n_bkg / (tf.reduce_sum(weight_bkg) + 1e-12)
+                return distance_corr(hme_bkg, score_bkg, weight_norm)
+
+            disco_loss = tf.cond(
+                n_bkg > 1.0, calc_disco, lambda: tf.constant(0.0, dtype=tf.float32)
+            )
+
+            l2_loss = tf.add_n(self.losses)
+
+            combined_loss = class_loss + self.lambda_disco * disco_loss + l2_loss
+
+            return (
+                y_pred_class,
+                class_loss_vec,
+                class_loss,
+                disco_loss,
+                l2_loss,
+                combined_loss,
+            )
+
+        if training:
+            with tf.GradientTape() as class_tape:
+                (
+                    y_pred_class,
+                    class_loss_vec,
+                    class_loss,
+                    disco_loss,
+                    l2_loss,
+                    combined_loss,
+                ) = compute_losses()
+        else:
+            (
+                y_pred_class,
+                class_loss_vec,
+                class_loss,
+                disco_loss,
+                l2_loss,
+                combined_loss,
+            ) = compute_losses()
+
+        score = y_pred_class[:, 0]
+
+        self.class_min_tracker.update_state(tf.reduce_min(score))
+        self.class_max_tracker.update_state(tf.reduce_max(score))
+
+        class_accuracy_vec = tf.cast(
+            tf.equal(y_class, tf.cast(score > 0.5, tf.float32)), tf.float32
+        )
+
+        self.class_loss_tracker.update_state(class_loss_vec, sample_weight=class_weight)
+        self.class_accuracy_tracker.update_state(
+            class_accuracy_vec, sample_weight=class_weight
+        )
+
+        self.disco_loss_tracker.update_state(disco_loss)
+        self.combined_loss_tracker.update_state(combined_loss)
+        self.l2_loss_tracker.update_state(l2_loss)
+
+        self.lr_tracker.update_state(self.optimizer.learning_rate)
+
+        if training:
+            grad = class_tape.gradient(combined_loss, self.trainable_variables)
+            self.optimizer.apply_gradients(zip(grad, self.trainable_variables))
+
+        return {m.name: m.result() for m in self.metrics}
+
+    @property
+    def metrics(self):
+        return [
+            self.class_loss_tracker,
+            self.class_accuracy_tracker,
+            self.disco_loss_tracker,
+            self.combined_loss_tracker,
+            self.l2_loss_tracker,
+            self.class_min_tracker,
+            self.class_max_tracker,
+            self.lr_tracker,
+        ]
+
+
 def train_dnn(
     setup,
     training_file,
@@ -796,7 +960,7 @@ def train_dnn(
     # entry_stop = batch_size * 500 # Only load 500 batches for debuging now
 
     # Do you want to make a larger batch? May increase speed
-    entry_stop = None
+    entry_stop = setup.get("entry_stop", None)
 
     dw.ReadFile(
         training_file,
@@ -814,6 +978,16 @@ def train_dnn(
         test_weight_file, entry_start=entry_start, entry_stop=entry_stop
     )
 
+    use_disco = "disco_lambda_factor" in setup
+
+    if use_disco:
+        dw.hme = dw.GetHME(
+            training_file, entry_start=entry_start, entry_stop=entry_stop
+        )
+        test_dw.hme = test_dw.GetHME(
+            test_training_file, entry_start=entry_start, entry_stop=entry_stop
+        )
+
     dw.physics_weight = np.where(
         (dw.class_target == 0) & (dw.X_mass != 600), 0.0, dw.physics_weight
     )
@@ -829,17 +1003,32 @@ def train_dnn(
 
     nClasses = setup["nClasses"]
     batch_size = setup["batch_size"]
-    train_tf_dataset = tf.data.Dataset.from_tensor_slices(
-        (
-            dw.features,
+    if use_disco:
+        # Binary labels: 1 = signal, 0 = background
+        # class_weight balances total signal vs total background 50/50
+        train_tf_dataset = tf.data.Dataset.from_tensor_slices(
             (
-                tf.one_hot(dw.class_target, nClasses),
-                # dw.class_weight,
-                dw.multiclass_weight,
-                dw.physics_weight,
-            ),
+                dw.features,
+                (
+                    (dw.class_target == 0).astype("float32"),
+                    dw.class_weight,
+                    dw.physics_weight,
+                    dw.hme,
+                ),
+            )
         )
-    )
+    else:
+        train_tf_dataset = tf.data.Dataset.from_tensor_slices(
+            (
+                dw.features,
+                (
+                    tf.one_hot(dw.class_target, nClasses),
+                    # dw.class_weight,
+                    dw.multiclass_weight,
+                    dw.physics_weight,
+                ),
+            )
+        )
     train_tf_dataset = train_tf_dataset.shuffle(
         len(train_tf_dataset), reshuffle_each_iteration=True
     )
@@ -848,19 +1037,33 @@ def train_dnn(
     # )
     batch_size_train = min(batch_size, train_tf_dataset.cardinality().numpy())
     train_tf_dataset = train_tf_dataset.batch(batch_size_train, drop_remainder=True)
-    train_tf_dataset = train_tf_dataset.cache("train_cache.tfdata")
+    train_cache_name = "train_cache_disco.tfdata" if use_disco else "train_cache.tfdata"
+    train_tf_dataset = train_tf_dataset.cache(train_cache_name)
 
-    test_tf_dataset = tf.data.Dataset.from_tensor_slices(
-        (
-            test_dw.features,
+    if use_disco:
+        test_tf_dataset = tf.data.Dataset.from_tensor_slices(
             (
-                tf.one_hot(test_dw.class_target, nClasses),
-                # test_dw.class_weight,
-                test_dw.multiclass_weight,
-                test_dw.physics_weight,
-            ),
+                test_dw.features,
+                (
+                    (test_dw.class_target == 0).astype("float32"),
+                    test_dw.class_weight,
+                    test_dw.physics_weight,
+                    test_dw.hme,
+                ),
+            )
         )
-    )
+    else:
+        test_tf_dataset = tf.data.Dataset.from_tensor_slices(
+            (
+                test_dw.features,
+                (
+                    tf.one_hot(test_dw.class_target, nClasses),
+                    # test_dw.class_weight,
+                    test_dw.multiclass_weight,
+                    test_dw.physics_weight,
+                ),
+            )
+        )
     test_tf_dataset = test_tf_dataset.shuffle(
         len(test_tf_dataset), reshuffle_each_iteration=True
     )
@@ -869,7 +1072,8 @@ def train_dnn(
     # )
     batch_size_test = min(batch_size, test_tf_dataset.cardinality().numpy())
     test_tf_dataset = test_tf_dataset.batch(batch_size_test, drop_remainder=True)
-    test_tf_dataset = test_tf_dataset.cache("test_cache.tfdata")
+    test_cache_name = "test_cache_disco.tfdata" if use_disco else "test_cache.tfdata"
+    test_tf_dataset = test_tf_dataset.cache(test_cache_name)
 
     parametric_mass_probability = np.ones(len(dw.param_list)) * 1.0 / len(dw.param_list)
     log_probs = tf.math.log([parametric_mass_probability])
@@ -908,10 +1112,38 @@ def train_dnn(
         new_dataset = (features, dataset[1])
         return new_dataset
 
+    def new_param_map_binary(*x):
+        dataset = x
+        features = dataset[0]
+
+        # Need to randomize the features parametric mass
+
+        random_param_mass = tf.random.categorical(
+            log_probs,
+            tf.shape(features)[0],
+            dtype=tf.int64,
+        )
+
+        actual_new_mass = table.lookup(random_param_mass)
+        actual_new_mass = tf.cast(actual_new_mass, tf.float32)
+
+        # Signal (label 1) keeps its true mass, background gets a random one
+        labels = dataset[1][0]
+        old_mass_mask = tf.cast(labels == 1, tf.float32)
+        new_mass_mask = tf.cast(labels == 0, tf.float32)
+
+        actual_mass = old_mass_mask * features[:, -1] + new_mass_mask * actual_new_mass
+        actual_mass = tf.transpose(actual_mass)
+
+        features = tf.concat([features[:, :-1], actual_mass], axis=-1)
+        new_dataset = (features, dataset[1])
+        return new_dataset
+
     if setup["UseParametric"]:
-        train_tf_dataset = train_tf_dataset.map(new_param_map)
+        param_map = new_param_map_binary if use_disco else new_param_map
+        train_tf_dataset = train_tf_dataset.map(param_map)
         train_tf_dataset = train_tf_dataset.prefetch(tf.data.AUTOTUNE)
-        test_tf_dataset = test_tf_dataset.map(new_param_map)
+        test_tf_dataset = test_tf_dataset.map(param_map)
         test_tf_dataset = test_tf_dataset.prefetch(tf.data.AUTOTUNE)
 
     input_shape = [None, dw.features.shape[1]]
@@ -926,11 +1158,15 @@ def train_dnn(
         features_no_mass = dw.features[:, :-1]
     else:
         features_no_mass = dw.features
-    # mean = np.mean(features_no_mass, axis=0)
-    # std = np.std(features_no_mass, axis=0) + 1e-6
-    # setup["feature_mean"] = mean.tolist()
-    # setup["feature_std"] = std.tolist()
-    model = Model(setup, max_events)
+    #The following was commented out, I uncommented it
+    mean = np.mean(features_no_mass, axis=0)
+    std = np.std(features_no_mass, axis=0) + 1e-6
+    setup["feature_mean"] = mean.tolist()
+    setup["feature_std"] = std.tolist()
+    if use_disco:
+        model = DiscoModel(setup, max_events)
+    else:
+        model = Model(setup, max_events)
     model.compile(
         loss=None,
         optimizer=tf.keras.optimizers.AdamW(
@@ -942,8 +1178,10 @@ def train_dnn(
     model(dw.features)
     model.summary()
 
+    monitor_name = "val_combined_loss" if use_disco else "val_class_loss"
+
     reduce_lr = tf.keras.callbacks.ReduceLROnPlateau(
-        monitor="val_class_loss",
+        monitor=monitor_name,
         factor=setup["lr_decay"],
         patience=setup["lr_patience"],
         min_lr=0.0000000001,
@@ -953,7 +1191,7 @@ def train_dnn(
         ModelCheckpoint(
             output_folder,
             verbose=1,
-            monitor="val_class_loss",
+            monitor=monitor_name,
             mode="min",
             min_rel_delta=1e-3,
             patience=setup["patience"],
@@ -1012,6 +1250,10 @@ def train_dnn(
     PlotMetric(history, "class_min", output_folder)
     PlotMetric(history, "class_max", output_folder)
 
+    if use_disco:
+        PlotMetric(history, "disco_loss", output_folder)
+        PlotMetric(history, "combined_loss", output_folder)
+
     for i in range(1, nClasses):
         PlotMetric(history, f"other_class_min{i}", output_folder)
         PlotMetric(history, f"other_class_max{i}", output_folder)
@@ -1037,6 +1279,9 @@ def train_dnn(
         "nClasses": setup["nClasses"],
         "nParity": 4,
     }
+
+    if use_disco:
+        features_config["disco_lambda_factor"] = setup["disco_lambda_factor"]
 
     with open(os.path.join(output_folder, "dnn_config.yaml"), "w") as file:
         yaml.dump(features_config, file)

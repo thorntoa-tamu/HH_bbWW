@@ -401,13 +401,18 @@ def categorical_accuracy(target, output):
 
 
 @tf.function
-def distance_corr(var_1, var_2, normedweight, power=1):
-    """var_1: First variable to decorrelate (eg mass)
+def distance_corr(var_1, var_2, normedweight):
+    """Weighted squared distance correlation, dCorr^2 (arXiv:2007.14400).
+
+    var_1: First variable to decorrelate (eg mass)
     var_2: Second variable to decorrelate (eg classifier output)
     normedweight: Per-example weight. Sum of weights should add up to N (where N is the number of examples)
-    power: Exponent used in calculating the distance correlation
 
     va1_1, var_2 and normedweight should all be 1D tf tensors with the same number of entries
+
+    Returns dCov^2 / sqrt(dVar^2(var_1) * dVar^2(var_2)), which is zero iff the two
+    variables are independent. dCorr^2 is how the DisCo penalty is defined, so there
+    is deliberately no exponent argument to tune.
 
     Usage: Add to your loss function. total_loss = BCE_loss + lambda * distance_corr
     """
@@ -453,7 +458,11 @@ def distance_corr(var_1, var_2, normedweight, power=1):
     minuend_2 = tf.transpose(minuend_1)
     Bmat = bmat - minuend_1 - minuend_2 + tf.reduce_mean(bmatavg * normedweight)
 
-    ABavg = tf.abs(tf.reduce_mean(Amat * Bmat * normedweight, axis=1))
+    # No per-row abs here. dCov^2 = sum_ij w_i w_j A_ij B_ij, so the row sums have
+    # to be allowed to cancel. Taking abs row by row sums magnitudes instead, which
+    # leaves a positive floor made of statistical noise under independence - a floor
+    # no amount of lambda can push through.
+    ABavg = tf.reduce_mean(Amat * Bmat * normedweight, axis=1)
     AAavg = tf.reduce_mean(Amat * Amat * normedweight, axis=1)
     BBavg = tf.reduce_mean(Bmat * Bmat * normedweight, axis=1)
 
@@ -485,31 +494,11 @@ def distance_corr(var_1, var_2, normedweight, power=1):
     #     tf.print(tf.reduce_mean(BBavg*normedweight))
     #     tf.print(var_2)
 
-    if power == 1:
-        dCorr = tf.reduce_mean(ABavg * normedweight) / tf.math.sqrt(
-            tf.abs(
-                tf.reduce_mean(AAavg * normedweight)
-                * tf.reduce_mean(BBavg * normedweight)
-            )
-            + 1e-12
-        )
-    elif power == 2:
-        dCorr = (tf.reduce_mean(ABavg * normedweight)) ** 2 / (
-            tf.abs(
-                tf.reduce_mean(AAavg * normedweight)
-                * tf.reduce_mean(BBavg * normedweight)
-            )
-            + 1e-12
-        )
-    else:
-        dCorr = (
-            tf.reduce_mean(ABavg * normedweight)
-            / tf.math.sqrt(
-                tf.reduce_mean(AAavg * normedweight)
-                * tf.reduce_mean(BBavg * normedweight)
-            )
-            + 1e-12
-        ) ** power
+    dCov2 = tf.reduce_mean(ABavg * normedweight)
+    dVar2_1 = tf.reduce_mean(AAavg * normedweight)
+    dVar2_2 = tf.reduce_mean(BBavg * normedweight)
+
+    dCorr = dCov2 / tf.math.sqrt(tf.abs(dVar2_1 * dVar2_2) + 1e-12)
 
     if tf.math.is_nan(dCorr):
         tf.print("WARNING: dCorr is NaN! Setting to 0")
@@ -533,15 +522,11 @@ def distance_corr(var_1, var_2, normedweight, power=1):
             0.0, dtype=tf.float32
         )  # Can't use tf.where, maybe because it is only a single constant? or some reason
 
-    if dCorr < 0:
-        tf.print("WARNING: dCorr is negative! Setting to 0")
-        tf.print("How did we get here?")
-        tf.print(var_1)
-        tf.print(var_2)
-        tf.print(Amat)
-        tf.print(Bmat)
-        tf.print(dCorr)
-        dCorr = tf.constant(0.0, dtype=tf.float32)
+    # dCov^2 is non-negative in exact arithmetic, but near independence (the regime
+    # we are training towards) float32 cancellation in the double-centred sum can
+    # leave it slightly below zero. Clamp silently rather than warn - it fires every
+    # batch once the decorrelation actually works.
+    dCorr = tf.maximum(dCorr, 0.0)
 
     return dCorr
 
@@ -1314,7 +1299,7 @@ class DiscoModel(tf.keras.Model):
             disco_loss = (
                 self.lambda_disco
                 * disco_weight
-                * self.disco_loss(mbb, y_pred_class[:, 0], class_weight, 2)
+                * self.disco_loss(mbb, y_pred_class[:, 0], class_weight)
             )
 
             class_loss = tf.reduce_mean(class_loss_vec * class_weight)

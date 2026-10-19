@@ -1,0 +1,101 @@
+UseParametric: true
+nClasses: 1
+activation: tanh
+batch_size: 10000
+disco_lambda_factor: 10
+dropout: 0.2
+features:
+  - lep1_pt
+  # - lep1_pt_log
+  - lep1_phi
+  - lep1_eta
+  - lep1_legType
+  - lep2_pt
+  # - lep2_pt_log
+  - lep2_phi
+  - lep2_eta
+  - lep2_legType
+  - PuppiMET_pt
+  # - PuppiMET_pt_log
+  - PuppiMET_phi
+  - HT
+  # - HT_log
+  # v2605a branch names: ll_dR was dR_dilep, bb_dR was dR_dibjet,
+  # ll_bb_dR was dR_dilep_dibjet, ll_dphi was dPhi_lep1_lep2,
+  # met_ll_dphi was dPhi_MET_dilep, met_bb_dphi was dPhi_MET_dibjet,
+  # bb_CosTheta was CosTheta_bb
+  - ll_dR
+  - bb_dR
+  - ll_bb_dR
+  # dR_dilep_dijet / dPhi_jet1_jet2 dropped: the jet pair in v2605a is the
+  # hadronic-W candidate (wjet1/2), which is only filled for SL events
+  - ll_dphi
+  - met_ll_dphi
+  - met_bb_dphi
+  - MT
+  - MT2_ll
+  - MT2_bb
+  - MT2_blbl
+  - MT2_blbl2
+  # - MT_log
+  # - MT2_ll_log
+  # - MT2_bb_log
+  # - MT2_blbl_log
+  # - MT2_blbl2_log
+  - ll_mass
+  # - ll_mass_log
+  - bb_CosTheta
+  - bjet1_pt
+  # - bjet1_pt_log
+  - bjet1_phi
+  - bjet1_eta
+  - bjet1_mass
+  # - bjet1_mass_log
+  - bjet1_btagPNetB
+  - bjet2_pt
+  # - bjet2_pt_log
+  - bjet2_phi
+  - bjet2_eta
+  - bjet2_mass
+  # - bjet2_mass_log
+  - bjet2_btagPNetB
+  # other_jet1/2_* dropped: not in v2605a, and wjet1/2_* are unfilled for DL
+
+  # - DeepHME_mass  # never an input - it is the DisCo decorrelation variable
+
+  # - channelId
+gamma1: 2
+gamma2: 0.5
+learning_rate: 0.0005
+lr_decay: 0.1
+lr_patience: 20
+l2_rate: 0.001
+loss_scale: 0.2
+n_layers: 5
+n_units: 512
+n_units_reduction_ratio: 1.0
+n_epochs: 100
+patience: 100
+parametric_list:
+  - 300
+  - 400
+  - 500
+  - 550
+  - 600
+  - 650
+  - 700
+  - 800
+  - 900
+  - 1000
+  - 1200
+  - 1400
+  - 1600
+  - 1800
+  - 2000
+  - 2500
+  - 3000
+  - 3500
+  - 4000
+use_batch_norm: true
+use_film: false
+weight_decay: 0.004

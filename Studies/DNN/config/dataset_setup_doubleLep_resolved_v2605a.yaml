@@ -1,0 +1,82 @@
+storage_folder: /eos/user/d/daebi/HH_bbWW/v2605a_DNNTraining_MoreVars/HistTuples/*/ # Include all eras with *
+
+nParity: 4
+
+
+iterate_cut: (
+  (SR == 1) &&
+  ( (res2b == 1) || (recovery == 1) ) &&
+  ( (channelId == 11) || (channelId == 12) || (channelId == 22) )
+  )
+parity_cut: (
+  (event%{nParity} == {parity_scan})
+  )
+
+signal:
+  XtoYHto2B2W:
+    class_value: 0
+    spin: 0
+    mass_points: [ 300, 400, 500, 550, 600, 650, 700, 800, 900, 1000, 1200, 1400, 1600, 1800, 2000, 2500, 3000, 3500, 4000 ]
+    dataset_name_format:
+      XtoYHto2B2Wto2B2L2Nu_MX_{}_MY_125
+    combined_name:
+      XtoYHto2B2Wto2B2L2Nu_Combined
+    use_combined:
+      True
+
+background:
+  TT:
+    class_value: 1
+    background_datasets: # If there is an extension, just add more to the list
+      - TTto2L2Nu
+      - TTtoLNu2Q
+      - TTto4Q
+  DY:
+    class_value: 2
+    background_datasets:
+      # v2605a merges DYto2E/DYto2Mu/DYto2Tau into DYto2L samples
+      # inclusive DYto2L_M_50_amcatnloFXFX left out to avoid double counting the jet-binned samples
+      - DYto2L_M_10to50_amcatnloFXFX
+      - DYto2L_M_50_0J_amcatnloFXFX
+      - DYto2L_M_50_1J_amcatnloFXFX
+      - DYto2L_M_50_2J_amcatnloFXFX
+
+      - DYto2L_M_50_PTLL_40to100_1J_amcatnloFXFX
+      - DYto2L_M_50_PTLL_40to100_2J_amcatnloFXFX
+
+      - DYto2L_M_50_PTLL_100to200_1J_amcatnloFXFX
+      - DYto2L_M_50_PTLL_100to200_2J_amcatnloFXFX
+
+      - DYto2L_M_50_PTLL_200to400_1J_amcatnloFXFX
+      - DYto2L_M_50_PTLL_200to400_2J_amcatnloFXFX
+
+      - DYto2L_M_50_PTLL_400to600_1J_amcatnloFXFX
+      - DYto2L_M_50_PTLL_400to600_2J_amcatnloFXFX
+
+      - DYto2L_M_50_PTLL_600_1J_amcatnloFXFX
+      - DYto2L_M_50_PTLL_600_2J_amcatnloFXFX
+
+  Other:
+    class_value: 3
+    background_datasets:
+      - TbarWplusto2L2Nu
+      - TbarWplustoLNu2Q
+      - TbarWplusto4Q
+
+      - TWminusto2L2Nu
+      - TWminustoLNu2Q
+      - TWminusto4Q
+
+      # v2605a splits the dibosons into decay channels
+      - WWto2L2Nu_powheg
+      - WWtoLNu2Q_powheg
+      - WWto4Q_powheg
+
+      - WZto2L2Q_powheg
+      - WZto3LNu_powheg
+      - WZtoLNu2Q_powheg
+
+      - ZZto2L2Nu_powheg
+      - ZZto2L2Q_powheg
+      - ZZto2Nu2Q_powheg
+      - ZZto4L_powheg

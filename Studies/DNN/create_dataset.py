@@ -45,8 +45,8 @@ def add_extra_vars(rdf_tmp, class_value, X_mass):
     rdf_tmp = rdf_tmp.Define("lep1_legType", "int(channelId/10.0)")
     rdf_tmp = rdf_tmp.Define("lep2_legType", "int(channelId%10)")
     rdf_tmp = rdf_tmp.Define(
-        "DoubleLep_DeepHME_mass_error_rel",
-        "float(DoubleLep_DeepHME_mass_error)/float(DoubleLep_DeepHME_mass)",
+        "DeepHME_mass_error_rel",
+        "float(DeepHME_mass_error)/float(DeepHME_mass)",
     )
     rdf_tmp = rdf_tmp.Define(
         "b1_p4",
@@ -56,14 +56,8 @@ def add_extra_vars(rdf_tmp, class_value, X_mass):
         "b2_p4",
         f"ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<double>>(bjet2_pt, bjet2_eta, bjet2_phi, bjet2_mass)",
     )
-    rdf_tmp = rdf_tmp.Define(
-        "j1_p4",
-        f"ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<double>>(other_jet1_pt, other_jet1_eta, other_jet1_phi, other_jet1_mass)",
-    )
-    rdf_tmp = rdf_tmp.Define(
-        "j2_p4",
-        f"ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<double>>(other_jet2_pt, other_jet2_eta, other_jet2_phi, other_jet2_mass)",
-    )
+    # other_jet1/2 branches do not exist in v2605a (wjet1/2 replace them but are
+    # only filled for SL events), so no j1_p4/j2_p4 here
     rdf_tmp = rdf_tmp.Define(
         "fatjet_p4",
         f"ROOT::Math::LorentzVector<ROOT::Math::PtEtaPhiM4D<double>>(fatbjet_pt, fatbjet_eta, fatbjet_phi, fatbjet_mass)",
@@ -136,16 +130,6 @@ def add_extra_vars(rdf_tmp, class_value, X_mass):
     rdf_tmp = rdf_tmp.Define("bjet2_px", "(b2_p4).px()")
     rdf_tmp = rdf_tmp.Define("bjet2_py", "(b2_p4).py()")
     rdf_tmp = rdf_tmp.Define("bjet2_pz", "(b2_p4).pz()")
-
-    rdf_tmp = rdf_tmp.Define("jet3_E", "(j1_p4).E()")
-    rdf_tmp = rdf_tmp.Define("jet3_px", "(j1_p4).px()")
-    rdf_tmp = rdf_tmp.Define("jet3_py", "(j1_p4).py()")
-    rdf_tmp = rdf_tmp.Define("jet3_pz", "(j1_p4).pz()")
-
-    rdf_tmp = rdf_tmp.Define("jet4_E", "(j2_p4).E()")
-    rdf_tmp = rdf_tmp.Define("jet4_px", "(j2_p4).px()")
-    rdf_tmp = rdf_tmp.Define("jet4_py", "(j2_p4).py()")
-    rdf_tmp = rdf_tmp.Define("jet4_pz", "(j2_p4).pz()")
 
     rdf_tmp = rdf_tmp.Define("fatjet_E", "(fatjet_p4).E()")
     rdf_tmp = rdf_tmp.Define("fatjet_px", "(fatjet_p4).px()")
@@ -313,7 +297,11 @@ def hadd_files(config_dict, output_folder):
         os.system(f"hadd {hadd_out} {hadd_in}")
 
 
-def add_weight_file(output_folder, mass=None):
+def add_weight_file(output_folder, mass=None, keep_backgrounds=None, suffix=""):
+    # keep_backgrounds: optional list of background class_value ints to keep
+    # (e.g. [1] for TT-only, [2] for DY-only). Signal (class_value 0) is
+    # always kept. Any background class not in this list has its
+    # class_weight zeroed out, so it drops out of the training.
     inNames = [
         os.path.join(output_folder, x)
         for x in os.listdir(output_folder)
@@ -327,6 +315,8 @@ def add_weight_file(output_folder, mass=None):
         outName = f"{inName[:-5]}_weight.root"
         if mass != None:
             outName = f"{inName[:-5]}_weight_m{mass}.root"
+        if suffix:
+            outName = f"{outName[:-5]}{suffix}.root"
         out_file = uproot.recreate(outName)
 
         tree = in_file["Events"]
@@ -347,6 +337,14 @@ def add_weight_file(output_folder, mass=None):
         # Set any negative weight events to 0
         class_weight = np.where(class_weight <= 0, 0.0, class_weight)
         # jk
+
+        # Zero out any background class not in keep_backgrounds (signal,
+        # class_value 0, is never dropped here)
+        if keep_backgrounds is not None:
+            drop_mask = (class_targets != 0) & ~np.isin(
+                class_targets, keep_backgrounds
+            )
+            class_weight = np.where(drop_mask, 0.0, class_weight)
 
         # Clip weights to be within +- 3 std of mean
         mean_weight = np.mean(np.abs(class_weight))
@@ -394,6 +392,8 @@ def add_weight_file(output_folder, mass=None):
             this_total = np.sum(
                 np.where(class_targets == class_value, class_weight, 0.0)
             )
+            if this_total == 0:
+                continue  # Class fully dropped (e.g. via keep_backgrounds)
             rescale_factor = total_background / this_total
             multiclass_weight = np.where(
                 class_targets == class_value,
@@ -474,19 +474,26 @@ def input_feature_plots(output_folder):
             "bjet2_mass",
             # "m_b1l1", "m_b1l2", "m_b2l1", "m_b2l2",
             # "dR_b1l1", "dR_b1l2", "dR_b2l1", "dR_b2l2",
-            "other_jet1_pt",
-            "other_jet1_mass",
-            "other_jet2_pt",
-            "other_jet2_mass",
+            # other_jet1/2 do not exist in v2605a (wjet1/2 are SL-only)
+            # "other_jet1_pt",
+            # "other_jet1_mass",
+            # "other_jet2_pt",
+            # "other_jet2_mass",
             "fatbjet_pt",
             "fatbjet_mass_PNetCorr",
             "fatbjet_particleNetWithMass_HbbvsQCD",
-            "dR_dilep",
-            "dR_dibjet",
-            "dR_dilep_dibjet",
-            "dPhi_MET_dilep",
-            "dPhi_MET_dibjet",
-            "DoubleLep_DeepHME_mass",
+            # v2605a renames: old names left commented for reference
+            # "dR_dilep",
+            "ll_dR",
+            # "dR_dibjet",
+            "bb_dR",
+            # "dR_dilep_dibjet",
+            "ll_bb_dR",
+            # "dPhi_MET_dilep",
+            "met_ll_dphi",
+            # "dPhi_MET_dibjet",
+            "met_bb_dphi",
+            "DeepHME_mass",
             "dR_b1leps",
             "dR_b2leps",
             "m_b1leps",
@@ -507,14 +514,15 @@ def input_feature_plots(output_folder):
             "bjet2_px",
             "bjet2_py",
             "bjet2_pz",
-            "jet3_E",
-            "jet3_px",
-            "jet3_py",
-            "jet3_pz",
-            "jet4_E",
-            "jet4_px",
-            "jet4_py",
-            "jet4_pz",
+            # jet3/jet4 were built from other_jets, no longer in the dataset
+            # "jet3_E",
+            # "jet3_px",
+            # "jet3_py",
+            # "jet3_pz",
+            # "jet4_E",
+            # "jet4_px",
+            # "jet4_py",
+            # "jet4_pz",
             "fatjet_E",
             "fatjet_px",
             "fatjet_py",
@@ -529,11 +537,14 @@ def input_feature_plots(output_folder):
             "fatbjet_tau2",
             "fatbjet_tau3",
             "fatbjet_tau4",
-            "CosTheta_bb",
-            "dR_dilep_dijet",
+            # "CosTheta_bb",
+            "bb_CosTheta",
+            # dijet variables use the SL-only wjet pair in v2605a
+            # "dR_dilep_dijet",
+            # "dPhi_jet1_jet2",
             "fatbjet_msoftdrop",
-            "dPhi_jet1_jet2",
-            "dPhi_lep1_lep2",
+            # "dPhi_lep1_lep2",
+            "ll_dphi",
         ]
     )
     base_branches = set(["class_value", "X_mass", "weight_Central"])
@@ -626,7 +637,6 @@ if __name__ == "__main__":
         default="/eos/user/d/daebi/DNN_Training_Datasets",
         help="Output folder to store dataset",
     )
-
     args = parser.parse_args()
 
     config_file = args.config
