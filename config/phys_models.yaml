@@ -1,3 +1,12 @@
+# The signals are the X->HH samples, bbWW and bbtautau: central where DAS has the mass point,
+# privately produced (DSProd, models/X_HH/setups/Run3_XHHbbWW.yaml and Run3_XHHbbtautau.yaml)
+# otherwise. The central X->YH samples (XtoYHto*) are not selected. Run3_Model carries every
+# signal hypothesis: anaTuple and histogram production branch
+# per dataset, and the merged histogram is named by the expanded process
+# (GluGluToRadion_bbWW_2L_300, GluGluToBulkGraviton_bbWW_1L_1000, ...), so two hypotheses
+# are not added into one histogram. Which hypothesis a fit uses is the datacard's process list, not a second physics
+# model. No resonant sample is produced in Run3_2024 and later: the meta-processes are declared
+# there with an empty dataset list, so those eras keep loading.
 Run3_Model:
   name: "Base model for Run 3"
   backgrounds:
@@ -5,14 +14,18 @@ Run3_Model:
     - DY
     - ST
     - VV
+    - VVV
+    - ttV
     - W
-    - SingleHiggs
+    - H
     # - QCD_PT
   signals:
-    - XtoHHto2B2W_SingleLepton
-    - XtoHHto2B2W_DoubleLepton
-    # - XtoHHto2B2Tau # 2023 is missing some 2B2Tau masses
-    - XtoHHto2Tau2B
+    - GluGluToRadion_bbWW_1L
+    - GluGluToRadion_bbWW_2L
+    - GluGluToBulkGraviton_bbWW_1L
+    - GluGluToBulkGraviton_bbWW_2L
+    - GluGluToRadion_bbTauTau
+    - GluGluToBulkGraviton_bbTauTau
   data:
     - Data_Full
 
@@ -31,31 +44,9 @@ TestModel:
     - custom_CI_Background_W
   signals: # WARNING: for 2024 no signal sample available, using a file from bbtt signals..
     - custom_CI_Signal
+    - custom_CI_Signal_SL
   data:
     - custom_CI_Data
-
-Production_Model:
-  name: "Model for anatuple production"
-  backgrounds:
-    - TT
-    - DY
-    - ST
-    - VV
-    # - VV_inclusive
-    - W
-    - DY_LO
-    - SingleHiggs
-  signals:
-    - XtoHHto2B2W_SingleLepton
-    - XtoHHto2B2W_DoubleLepton
-    - GluGluToRadion_DoubleLepton
-    - GluGluToRadion_SingleLepton
-    - GluGluToBulkGraviton_DoubleLepton
-    - GluGluToBulkGraviton_SingleLepton
-    # - XtoHHto2B2Tau # 2023 is missing some 2B2Tau masses
-    - XtoHHto2Tau2B
-  data:
-    - Data_Full
 
 DNNTest_Model:
   name: "Model two stage dnn test"
@@ -72,15 +63,12 @@ DNNTraining_Model:
     - ST
     - VV
     - W
-    - SingleHiggs
+    - H
     # - QCD_PT
   signals:
-    - XtoHHto2B2W_SingleLepton
-    - XtoHHto2B2W_DoubleLepton
-    # - XtoHHto2B2Tau # 2023 is missing some 2B2Tau masses
-    - XtoHHto2Tau2B
-    # Include Radion for DNN Training
-    - GluGluToRadion_DoubleLepton
-    - GluGluToRadion_SingleLepton
+    # Radion X->HH only. The central X->YH processes (XtoHHto2B2W_*) are not selected.
+    - GluGluToRadion_bbWW_2L
+    - GluGluToRadion_bbWW_1L
+    - GluGluToRadion_bbTauTau
   data:
     - Data_Full

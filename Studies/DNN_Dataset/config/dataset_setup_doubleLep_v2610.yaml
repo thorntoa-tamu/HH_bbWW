@@ -1,0 +1,237 @@
+# HistTuples per era: a local path or an xrootd URL.
+# 2022/2022EE were produced on LPC, 2023/2023BPix by Artem in his CERN EOS area.
+storage_folders:
+  Run3_2022: root://cmseos.fnal.gov//store/user/lpcflaf/HH_bbWW/v2610_training/HistTuples/Run3_2022
+  Run3_2022EE: root://cmseos.fnal.gov//store/user/lpcflaf/HH_bbWW/v2610_training/HistTuples/Run3_2022EE
+  Run3_2023: /eos/user/a/abolshov/HH_bbWW/v2610_training/HistTuples/Run3_2023
+  Run3_2023BPix: /eos/user/a/abolshov/HH_bbWW/v2610_training/HistTuples/Run3_2023BPix
+
+nParity: 4
+
+# Training-file branches: all HistTuple columns, plus add_extra_vars (p4 components etc.) when true
+extra_vars: false
+
+# nParity{k}_Merged_weight.root (all_masses) and/or nParity{k}_Merged_weight_m{mass}.root per mass of per_mass_signal.
+# Not needed by the PyTorch training (it weights events from weight_Central itself, see
+# Studies/DNN_pytorch/model_configs/v2610_pDNN_v1.yaml); the first v2610 production wrote all_masses.
+weight_files:
+  all_masses: false
+  per_mass_signal: null
+
+# Cuts for RDF in creating the training file
+iterate_cut: (
+  (SR == 1) &&
+  ( (res2b == 1) || (recovery == 1) || (boosted == 1) ) &&
+  ( (channelId == 11) || (channelId == 12) || (channelId == 22) )
+  )
+parity_cut: (
+  (event%{nParity} == {parity_scan})
+  )
+
+signal:
+  # v2610 produces the X->HH signals only; the central X->YH samples are not selected
+  # (config/phys_models.yaml). Every mass 250-5000 exists for Radion and BulkGraviton in all 4 eras.
+  # All signals (class_value <= 0) get class_target 0 in the weight files.
+  GluGlutoRadion_2L:
+    class_value: 0
+    spin: 0
+    mass_points: [ 250, 260, 270, 280, 300, 320, 350, 360, 400, 450, 500, 550, 600, 650, 700, 750, 800, 850, 900, 1000, 1100, 1200, 1300, 1400, 1500, 1600, 1700, 1800, 1900, 2000 ]
+    dataset_name_format:
+      GluGlutoRadiontoHHto2B2Vto2B2L2Nu_M_{}
+    combined_name:
+      GluGlutoRadion_2L_Combined
+    use_combined:
+      True
+
+  GluGlutoRadion_1L:
+    class_value: -1
+    spin: 0
+    mass_points: [ 250, 260, 270, 280, 300, 320, 350, 360, 400, 450, 500, 550, 600, 650, 700, 750, 800, 850, 900, 1000, 1100, 1200, 1300, 1400, 1500, 1600, 1700, 1800, 1900, 2000 ]
+    dataset_name_format:
+      GluGlutoRadiontoHHto2B2Vto2B2JLNu_M_{}
+    combined_name:
+      GluGlutoRadion_1L_Combined
+    use_combined:
+      True
+
+  GluGlutoRadion_2Tau:
+    class_value: -2
+    spin: 0
+    mass_points: [ 250, 260, 270, 280, 300, 320, 350, 360, 400, 450, 500, 550, 600, 650, 700, 750, 800, 850, 900, 1000, 1100, 1200, 1300, 1400, 1500, 1600, 1700, 1800, 1900, 2000 ]
+    dataset_name_format:
+      GluGlutoRadiontoHHto2B2Tau_M_{}
+    combined_name:
+      GluGlutoRadion_2Tau_Combined
+    use_combined:
+      True
+
+  GluGlutoBulkGraviton_2L:
+    class_value: -3
+    spin: 2
+    mass_points: [ 250, 260, 270, 280, 300, 320, 350, 360, 400, 450, 500, 550, 600, 650, 700, 750, 800, 850, 900, 1000, 1100, 1200, 1300, 1400, 1500, 1600, 1700, 1800, 1900, 2000 ]
+    dataset_name_format:
+      GluGlutoBulkGravitontoHHto2B2Vto2B2L2Nu_M_{}
+    combined_name:
+      GluGlutoBulkGraviton_2L_Combined
+    use_combined:
+      True
+
+  GluGlutoBulkGraviton_1L:
+    class_value: -4
+    spin: 2
+    mass_points: [ 250, 260, 270, 280, 300, 320, 350, 360, 400, 450, 500, 550, 600, 650, 700, 750, 800, 850, 900, 1000, 1100, 1200, 1300, 1400, 1500, 1600, 1700, 1800, 1900, 2000 ]
+    dataset_name_format:
+      GluGlutoBulkGravitontoHHto2B2Vto2B2JLNu_M_{}
+    combined_name:
+      GluGlutoBulkGraviton_1L_Combined
+    use_combined:
+      True
+
+  GluGlutoBulkGraviton_2Tau:
+    class_value: -5
+    spin: 2
+    mass_points: [ 250, 260, 270, 280, 300, 320, 350, 360, 400, 450, 500, 550, 600, 650, 700, 750, 800, 850, 900, 1000, 1100, 1200, 1300, 1400, 1500, 1600, 1700, 1800, 1900, 2000 ]
+    dataset_name_format:
+      GluGlutoBulkGravitontoHHto2B2Tau_M_{}
+    combined_name:
+      GluGlutoBulkGraviton_2Tau_Combined
+    use_combined:
+      True
+
+# One class per analysis background process, so no information is merged here;
+# the trainings group classes themselves (the PyTorch pDNN trains signal / TT / rest).
+background:
+  TT:
+    class_value: 1
+    background_datasets: # If there is an extension, just add more to the list
+      - TTto2L2Nu
+      - TTtoLNu2Q
+      - TTto4Q
+  DY:
+    class_value: 2
+    background_datasets:
+      - DYto2L_M_10to50_amcatnloFXFX
+      - DYto2L_M_50_0J_amcatnloFXFX
+      - DYto2L_M_50_1J_amcatnloFXFX
+      - DYto2L_M_50_2J_amcatnloFXFX
+
+      - DYto2L_M_50_amcatnloFXFX
+
+      - DYto2L_M_50_PTLL_100_amcatnloFXFX
+      - DYto2L_M_50_PTLL_200_amcatnloFXFX
+      - DYto2L_M_50_PTLL_400_amcatnloFXFX
+      - DYto2L_M_50_PTLL_600_amcatnloFXFX
+
+  ST:
+    class_value: 3
+    background_datasets:
+      - TbarBQ_t_channel_4FS
+      - TbarBtoLminusNuB_s_channel_4FS
+
+      - TBbarQ_t_channel_4FS
+      - TBbartoLplusNuBbar_s_channel_4FS
+
+      - TbarWplusto2L2Nu
+      - TbarWplustoLNu2Q
+      - TbarWplusto4Q
+
+      - TWminusto2L2Nu
+      - TWminustoLNu2Q
+      - TWminusto4Q
+
+  SingleHiggs:
+    class_value: 4
+    background_datasets:
+      - GluGluHto2B_M125
+      - GluGluHto2Wto2L2Nu_M125
+      - GluGluHto2Tau_UncorrelatedDecay_UnFiltered
+
+      - VBFHto2B_M125
+      - VBFHto2Tau_UncorrelatedDecay_UnFiltered
+
+      - WminusH_Hto2B_Wto2Q
+      - WminusH_Hto2B_WtoLNu
+      - WminusHto2Tau_UncorrelatedDecay_UnFiltered
+      - WplusH_Hto2B_Wto2Q
+      - WplusH_Hto2B_WtoLNu
+      - WplusHto2Tau_UncorrelatedDecay_UnFiltered
+
+      - ggZH_Hto2B_Zto2L
+      - ggZH_Hto2B_Zto2Q
+
+      - TTHto2B_M125
+      - TTHtoNon2B_M125
+
+  VV:
+    class_value: 5
+    background_datasets:
+      - WWto2L2Nu_powheg
+      - WWtoLNu2Q_powheg
+      - WWto4Q_powheg
+
+      - WZto3LNu_powheg
+      - WZto2L2Q_powheg
+      - WZtoLNu2Q_powheg
+
+      - ZZto4L_powheg
+      - ZZto2L2Nu_powheg
+      - ZZto2L2Q_powheg
+      - ZZto2Nu2Q_powheg
+
+  W:
+    class_value: 6
+    background_datasets:
+      # The analysis W process stitches all 14 samples (inclusive + NJ + PTLNu x NJ)
+      - WtoLNu_amcatnloFXFX
+      - WtoLNu_0J_amcatnloFXFX
+      - WtoLNu_1J_amcatnloFXFX
+      - WtoLNu_2J_amcatnloFXFX
+
+      - WtoLNu_PTLNu_40to100_1J_amcatnloFXFX
+      - WtoLNu_PTLNu_40to100_2J_amcatnloFXFX
+      - WtoLNu_PTLNu_100to200_1J_amcatnloFXFX
+      - WtoLNu_PTLNu_100to200_2J_amcatnloFXFX
+      - WtoLNu_PTLNu_200to400_1J_amcatnloFXFX
+      - WtoLNu_PTLNu_200to400_2J_amcatnloFXFX
+      - WtoLNu_PTLNu_400to600_1J_amcatnloFXFX
+      - WtoLNu_PTLNu_400to600_2J_amcatnloFXFX
+      - WtoLNu_PTLNu_600_1J_amcatnloFXFX
+      - WtoLNu_PTLNu_600_2J_amcatnloFXFX
+
+  ttV:
+    class_value: 7
+    background_datasets:
+      - TTLNu_1Jets
+      - TTLL_MLL_50
+      - TTLL_MLL_4to50
+      - TTNuNu
+      - TTZ_Zto2Q
+
+  VVV:
+    class_value: 8
+    background_datasets:
+      - WWW_4F
+      - WWZ_4F
+      - WZZ
+      - ZZZ
+
+
+  # Other:
+  #   class_value: 5
+  #   background_datasets:
+  #     - WWto2L2Nu_powheg
+  #     - WWtoLNu2Q_powheg
+  #     - WWto4Q_powheg
+
+  #     - WZto3LNu_powheg
+  #     - WZto2L2Q_powheg
+  #     - WZtoLNu2Q_powheg
+
+  #     - ZZto4L_powheg
+  #     - ZZto2L2Nu_powheg
+  #     - ZZto2L2Q_powheg
+  #     - ZZto2Nu2Q_powheg
+
+  #     - WtoLNu_0J_amcatnloFXFX
+  #     - WtoLNu_1J_amcatnloFXFX
+  #     - WtoLNu_2J_amcatnloFXFX

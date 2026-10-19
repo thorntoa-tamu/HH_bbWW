@@ -1,7 +1,6 @@
 import importlib
 from FLAF.Common.Utilities import *
 from FLAF.Common.HistHelper import *
-from Corrections.Corrections import Corrections
 from Corrections.CorrectionsCore import getSystName, central
 from FLAF.Common.Setup import Setup
 
@@ -15,7 +14,6 @@ analysis = None
 def Initialize():
     global initialized
     if not initialized:
-        headers_dir = os.path.dirname(os.path.abspath(__file__))
         ROOT.gROOT.ProcessLine(f".include {os.environ['ANALYSIS_PATH']}")
         ROOT.gInterpreter.Declare(f'#include "FLAF/include/HistHelper.h"')
         ROOT.gInterpreter.Declare(f'#include "FLAF/include/Utilities.h"')
@@ -23,6 +21,13 @@ def Initialize():
         ROOT.gROOT.ProcessLine(f'#include "FLAF/include/Lester_mt2_bisect.cpp"')
         ROOT.gROOT.ProcessLine('#include "FLAF/include/AnalysisTools.h"')
         ROOT.gROOT.ProcessLine('#include "FLAF/include/AnalysisMath.h"')
+        for header in [
+            "Helpers.h",
+            "NeutrinoReco.h",
+            "TopCandidates.h",
+            "HHKinematics.h",
+        ]:
+            DeclareHeader(os.path.join(os.environ["ANALYSIS_PATH"], "include", header))
         initialized = True
 
 
@@ -32,11 +37,11 @@ def analysis_setup(setup):
     analysis = importlib.import_module(f"{analysis_import}")
 
 
-def GetDfw(df, setup, dataset_name, stage=None):
+def GetDfw(df, setup, dataset_name, *, corrections, stage=None):
     global_params = setup.global_params
     isData = dataset_name == "data"
-    period = global_params["era"]
-    dfw = analysis.DataFrameBuilderForHistograms(df, global_params, period)
+    era = global_params["era"]
+    dfw = analysis.DataFrameBuilderForHistograms(df, global_params, era)
     new_dfw = analysis.PrepareDfForHistograms(dfw, isData, stage)
     return new_dfw
 
@@ -55,10 +60,10 @@ def DefineWeightForHistograms(
     global_params,
     final_weight_name,
     df_is_central,
+    corrections,
 ):
     global central_df_weights_computed
     is_central = uncName == central
-    corrections = Corrections.getGlobal()
     if not isData and (not central_df_weights_computed or not df_is_central):
         lepton_legs = ["lep1", "lep2"]
         offline_legs = ["lep1", "lep2"]

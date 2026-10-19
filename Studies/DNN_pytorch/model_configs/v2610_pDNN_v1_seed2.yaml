@@ -1,0 +1,134 @@
+# ==============================================================================
+# Parametric DNN on the v2610 dataset (Studies/DNN_Dataset, dataset_setup_doubleLep_v2610.yaml)
+# First training: Radion + BulkGraviton, 2L + bbtautau signal, spin-inclusive.
+# v2610_pDNN_v1 with another random seed, to measure training-to-training variation of the limits.
+# ==============================================================================
+
+# General Path Settings
+input_folder: "/eos/user/d/daebi/HH_bbWW/DNNDatasets/v2610_training/Dataset"
+output_folder: "/eos/user/d/daebi/HH_bbWW/DNNTraining/pytorch/v2610_pDNN_v1_seed2"
+tree_name: "AppliedTree"
+dedicated_mass: null  # Set to an integer (e.g., 500) if evaluating a single mass point
+seed: 2
+
+# Cross-Validation Parity Setup
+nParity: 4
+model_name: pdnn_model_{regime}_nparity{nParity}.onnx
+train_parity:
+  index: (nParity) % 4
+  func: (event + {nParity}) % 4
+test_parity:
+  index: (nParity + 1) % 4
+  func: (event + {nParity} + 1) % 4
+val_parity:
+  index: (nParity + 2) % 4
+  func: (event + {nParity} + 2) % 4
+app_parity:
+  index: (nParity + 3) % 4
+  func: (event + {nParity} + 3) % 4
+
+# Signal & Output Classes (dataset class_values, see dataset_setup_doubleLep_v2610.yaml)
+#   0 Radion 2L, -1 Radion 1L, -2 Radion bbtautau, -3 Graviton 2L, -4 Graviton 1L, -5 Graviton bbtautau
+#   1 TT, 2 DY, 3 ST, 4 SingleHiggs, 5 VV, 6 W, 7 ttV, 8 VVV
+# 1L signals are not trained on (no output class) but are still scored in the validation tree.
+signal_classes: [ 0, -2, -3, -5 ]
+output_classes:
+  Signal: signal
+  TT: [ 1 ]
+  DY: [ 2 ]
+  Other: rest
+signal_spin: { 0: 0, -1: 0, -2: 0, -3: 2, -4: 2, -5: 2 }
+spin_values: [ 0, 2 ]  # background spin hypotheses, drawn like X_mass when 'spin' is an input
+
+# Event weights from weight_Central (no weight file needed)
+weighting:
+  zero_negative: true
+  clip_sigma: 3.0                 # clip at mean + 3 sigma of |weight| in each loaded fold
+  flatten_signal_per_mass: true   # every signal mass point gets the same total weight...
+  flatten_min_events: 1000        # ...except masses with fewer signal events (boosted 250-400 GeV)
+
+# Hypothesis Mass Points for Parametric Inference & Training
+signal_mass_points: [ 250, 260, 270, 280, 300, 320, 350, 360, 400, 450, 500, 550, 600, 650, 700,
+                      750, 800, 850, 900, 1000, 1100, 1200, 1300, 1400, 1500, 1600, 1700, 1800, 1900, 2000 ]
+
+# Execution Regimes / Topologies
+regimes: [ "boosted", "resolved" ]
+
+# Training Hyperparameters
+training:
+  epochs: 150
+  batch_size: 8192
+  eval_batch_size: 16384
+  learning_rate: 0.002
+  weight_decay: 0.01
+  dropout_rate: 0.35
+  hidden_dims: [ 512, 256, 128, 64 ]
+
+  # Scheduler & Early Stopping
+  early_stopping_patience: 10
+  lr_scheduler:
+    patience: 6
+    factor: 0.5
+
+
+# Base Common Kinematic Features (v6 without DeepHME_mass, plus the v2610 additions)
+common_features:
+  - "X_mass"
+  - "MT"
+  - "ll_mass"
+  - "ll_pt"
+  - "lep1_pt"
+  - "lep2_pt"
+  - "ll_dR_scaled"
+  - "min_lb_dR"
+  - "lb_centrality"
+  - "MET_over_sqrt_HT"
+  - "HT_total"
+  - "PuppiMET_pt"
+  - "ll_dphi"
+  - "met_ll_dphi"
+  - "min_lmet_mt"
+  - "min_lmet_dphi"
+  - "ll_met_MT_WithMass"
+  - "bbllmet_mass"
+  - "ll_bb_dR"
+  - "MT2_blbl1"
+  - "MT2_blbl2"
+  - "MX_reduced"
+  - "Pzeta"
+  - "MT2_bb"
+  - "MT2_ll"
+  - "DeepHME_mass_error_rel"
+
+# Regime-Specific Feature Overrides
+regime_features:
+  resolved:
+    - "bb_pt"
+    - "bb_mass"
+    - "ll_bb_pt_ratio"
+    - "bb_dR_scaled"
+    - "bjet1_pt"
+    - "bjet2_pt"
+    - "bjet1_btagPNetB"
+    - "bjet2_btagPNetB"
+    - "bb_btag_product"
+  boosted:
+    - "fatbjet_pt"
+    - "fatbjet_mass_PNetCorr"
+    - "fatbjet_tau1"
+    - "fatbjet_tau2"
+    - "fatbjet_tau3"
+    - "fatbjet_tau4"
+    - "fatbjet_msoftdrop"
+
+# Auxiliary Branches Required for Output Tree Assembly
+extra_variables:
+  - "channelId"
+  - "class_value"
+  - "DeepHME_mass"
+  - "recovery"
+  - "boosted"
+  - "res2b"
+  # Base unscaled variables required for dynamic mass scaling
+  - "bb_dR"
+  - "ll_dR"

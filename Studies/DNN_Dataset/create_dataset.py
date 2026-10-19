@@ -4,10 +4,11 @@ import numpy as np
 import yaml
 from tqdm import tqdm
 import matplotlib.pyplot as plt
+import glob
+import subprocess
+from concurrent.futures import ThreadPoolExecutor
 
 import ROOT
-import FLAF.RunKit.grid_tools as grid_tools
-from FLAF.RunKit.run_tools import ps_call
 
 ROOT.gROOT.SetBatch(True)
 ROOT.EnableThreadSafety()
@@ -29,10 +30,10 @@ log_variables = [
     # "bjet1_mass",
     # "bjet2_pt",
     # "bjet2_mass",
-    # "other_jet1_pt",
-    # "other_jet1_mass",
-    # "other_jet2_pt",
-    # "other_jet2_mass",
+    # "wjet1_pt",
+    # "wjet1_mass",
+    # "wjet2_pt",
+    # "wjet2_mass",
     # "fatbjet_pt",
     # "fatbjet_mass_PNetCorr",
     # "DoubleLep_DeepHME_mass",
@@ -151,142 +152,172 @@ def add_extra_vars(rdf_tmp, class_value, X_mass):
     return rdf_tmp, cols_to_save
 
 
-def measure_cut_datasets(config_dict, output_folder, remote=False):
-    storage_folder = os.path.join(config_dict["storage_folder"])
+def get_storage_folders(config_dict):
+    # storage_folders: {era: base} where base is a local path or an xrootd URL
+    #   (root://host//store/...), so eras can live on different sites.
+    # storage_folder (legacy): one base, glob wildcards allowed (e.g. .../HistTuples/*/)
+    if "storage_folders" in config_dict:
+        return config_dict["storage_folders"]
+    return {"all": config_dict["storage_folder"]}
 
-    process_dict = {}
 
-    iterate_cut = config_dict["iterate_cut"]
-    parity_cut = config_dict["parity_cut"]
+def list_root_files(base, dataset_name):
+    if base.startswith("root://"):
+        host, _, path = base[len("root://") :].partition("/")
+        server = f"root://{host}"
+        path = os.path.join("/" + path.lstrip("/"), dataset_name)
+        result = subprocess.run(
+            ["xrdfs", server, "ls", path], capture_output=True, text=True
+        )
+        if result.returncode != 0:
+            return []
+        return sorted(
+            f"{server}/{p}" for p in result.stdout.split() if p.endswith(".root")
+        )
+    return sorted(glob.glob(os.path.join(base, dataset_name, "*.root")))
 
-    signal_list = config_dict["signal"]
 
-    background_list = config_dict["background"]
+def collect_inputs(storage_folders, dataset_name):
+    files = []
+    eras_found = {}
+    for era, base in storage_folders.items():
+        era_files = list_root_files(base, dataset_name)
+        if len(era_files) > 0:
+            files += era_files
+            eras_found[era] = len(era_files)
+    return files, eras_found
 
-    for nParity in range(config_dict["nParity"]):
-        output_nParity = os.path.join(output_folder, f"nParity{nParity}_Merged")
-        os.makedirs(output_nParity, exist_ok=True)
 
-        nParity_string = f"nParity_{nParity}"
-
-        process_dict[nParity_string] = {}
-
-        for signal_name in config_dict["signal"]:
-            process_dict[nParity_string][signal_name] = {}
-            signal_dict = config_dict["signal"][signal_name]
-            mass_points = signal_dict["mass_points"]
-            for mass_point in mass_points:
-                process_dict[nParity_string][signal_name][mass_point] = {
-                    "total": 0,
-                    "total_cut": 0,
-                    "total_cut_weighted": 0.0,
-                }
-
-        for background_name in config_dict["background"]:
-            process_dict[nParity_string][background_name] = {}
-            background_dict = config_dict["background"][background_name]
-            dataset_names = background_dict["background_datasets"]
-            for dataset_name in dataset_names:
-                process_dict[nParity_string][background_name][dataset_name] = {
-                    "total": 0,
-                    "total_cut": 0,
-                    "total_cut_weighted": 0.0,
-                }
-
-    print("Looping signal datasets")
-    for signal_name in signal_list:
-        signal_dict = config_dict["signal"][signal_name]
-        mass_points = signal_dict["mass_points"]
-        dataset_name_format = signal_dict["dataset_name_format"]
-        class_value = signal_dict["class_value"]
-
-        for mass_point in tqdm(mass_points):
-            X_mass = mass_point
-            dataset_name = dataset_name_format.format(mass_point)
-
-            process_dir = os.path.join(storage_folder, dataset_name)
-
-            if remote:
-                input_files = f"root://cmseos.fnal.gov/{process_dir}/*.root"
-            else:
-                input_files = f"{process_dir}/*.root"
-            treeName = "Events"
-            rdf = ROOT.RDataFrame(treeName, input_files)
-
-            total = rdf.Count().GetValue()
-            rdf = rdf.Filter(iterate_cut)
-
-            for nParity in range(config_dict["nParity"]):
-                nParity_string = f"nParity_{nParity}"
-                parity_cut_formatted = parity_cut.format(
-                    nParity=config_dict["nParity"], parity_scan=nParity
+def get_dataset_list(config_dict):
+    # (process_name, key in the distribution yaml, dataset_name, class_value, X_mass)
+    datasets = []
+    for signal_name, signal_dict in config_dict["signal"].items():
+        for mass_point in signal_dict["mass_points"]:
+            dataset_name = signal_dict["dataset_name_format"].format(mass_point)
+            datasets.append(
+                (
+                    signal_name,
+                    mass_point,
+                    dataset_name,
+                    signal_dict["class_value"],
+                    mass_point,
                 )
-                output_nParity = os.path.join(output_folder, f"nParity{nParity}_Merged")
-                output_file = os.path.join(output_nParity, f"{dataset_name}_merge.root")
-
-                rdf_tmp = rdf.Filter(parity_cut_formatted)
-                cut = rdf_tmp.Count().GetValue()
-                weighted_cut = rdf_tmp.Sum("weight_Central").GetValue()
-
-                process_dict[nParity_string][signal_name][mass_point]["total"] = total
-                process_dict[nParity_string][signal_name][mass_point]["total_cut"] = cut
-                process_dict[nParity_string][signal_name][mass_point][
-                    "total_cut_weighted"
-                ] = weighted_cut
-
-                rdf_tmp, cols_to_save = add_extra_vars(rdf_tmp, class_value, X_mass)
-                rdf_tmp.Snapshot(treeName, output_file, cols_to_save)
-
-    for background_name in background_list:
-        background_dict = config_dict["background"][background_name]
-        dataset_names = background_dict["background_datasets"]
-        class_value = background_dict["class_value"]
-        X_mass = 0
-
-        print(f"Looping background {background_name}")
-        for dataset_name in tqdm(dataset_names):
-            process_dir = os.path.join(storage_folder, dataset_name)
-
-            if remote:
-                input_files = f"root://cmseos.fnal.gov/{process_dir}/*.root"
-            else:
-                input_files = f"{process_dir}/*.root"
-            treeName = "Events"
-            rdf = ROOT.RDataFrame(treeName, input_files)
-
-            total = rdf.Count().GetValue()
-            rdf = rdf.Filter(iterate_cut)
-
-            for nParity in range(config_dict["nParity"]):
-                nParity_string = f"nParity_{nParity}"
-                parity_cut_formatted = parity_cut.format(
-                    nParity=config_dict["nParity"], parity_scan=nParity
+            )
+    for background_name, background_dict in config_dict["background"].items():
+        for dataset_name in background_dict["background_datasets"]:
+            datasets.append(
+                (
+                    background_name,
+                    dataset_name,
+                    dataset_name,
+                    background_dict["class_value"],
+                    0,
                 )
-                output_nParity = os.path.join(output_folder, f"nParity{nParity}_Merged")
-                output_file = os.path.join(output_nParity, f"{dataset_name}_merge.root")
+            )
+    return datasets
 
-                rdf_tmp = rdf.Filter(parity_cut_formatted)
-                cut = rdf_tmp.Count().GetValue()
-                weighted_cut = rdf_tmp.Sum("weight_Central").GetValue()
 
-                process_dict[nParity_string][background_name][dataset_name][
-                    "total"
-                ] = total
-                process_dict[nParity_string][background_name][dataset_name][
-                    "total_cut"
-                ] = cut
-                process_dict[nParity_string][background_name][dataset_name][
-                    "total_cut_weighted"
-                ] = weighted_cut
+def print_input_summary(storage_folders, inputs):
+    eras = list(storage_folders.keys())
+    name_width = max(len(dataset_name) for dataset_name in inputs)
+    print(f"{'dataset':<{name_width}} " + " ".join(f"{era:>13}" for era in eras))
+    missing = []
+    for dataset_name, (files, eras_found) in inputs.items():
+        counts = [eras_found.get(era, 0) for era in eras]
+        print(
+            f"{dataset_name:<{name_width}} "
+            + " ".join(f"{count:>13}" for count in counts)
+        )
+        if len(files) == 0:
+            missing.append(dataset_name)
+    if len(missing) > 0:
+        print(f"WARNING: no input files in any era for {len(missing)} datasets:")
+        for dataset_name in missing:
+            print(f"  {dataset_name}")
 
-                rdf_tmp, cols_to_save = add_extra_vars(rdf_tmp, class_value, X_mass)
-                rdf_tmp.Snapshot(treeName, output_file, cols_to_save)
 
-    for nParity in range(config_dict["nParity"]):
-        nParity_string = f"nParity_{nParity}"
-        out_yaml = f"dataset_distribution_parity{nParity}.yaml"
+def process_dataset(
+    files, dataset_name, class_value, X_mass, config_dict, output_folder
+):
+    treeName = "Events"
+    nParity = config_dict["nParity"]
+    rdf = ROOT.RDataFrame(treeName, files)
+
+    # Book every count, sum and snapshot first so they all run in one event loop
+    total = rdf.Count()
+    rdf = rdf.Filter(config_dict["iterate_cut"])
+
+    snapshot_opts = ROOT.RDF.RSnapshotOptions()
+    snapshot_opts.fLazy = True
+
+    results = []
+    for parity_scan in range(nParity):
+        parity_cut_formatted = config_dict["parity_cut"].format(
+            nParity=nParity, parity_scan=parity_scan
+        )
+        output_nParity = os.path.join(output_folder, f"nParity{parity_scan}_Merged")
+        output_file = os.path.join(output_nParity, f"{dataset_name}_merge.root")
+
+        rdf_tmp = rdf.Filter(parity_cut_formatted)
+        cut = rdf_tmp.Count()
+        weighted_cut = rdf_tmp.Sum("weight_Central")
+
+        if config_dict.get("extra_vars", False):
+            rdf_tmp, cols_to_save = add_extra_vars(rdf_tmp, class_value, X_mass)
+            snapshot = rdf_tmp.Snapshot(
+                treeName, output_file, cols_to_save, snapshot_opts
+            )
+        else:
+            rdf_tmp = rdf_tmp.Define("class_value", f"{class_value}")
+            rdf_tmp = rdf_tmp.Define("X_mass", f"{X_mass}")
+            snapshot = rdf_tmp.Snapshot(treeName, output_file, "", snapshot_opts)
+        results.append((cut, weighted_cut, snapshot))
+
+    total = total.GetValue()
+    stats = []
+    for cut, weighted_cut, snapshot in results:
+        snapshot.GetValue()
+        stats.append(
+            {
+                "total": total,
+                "total_cut": cut.GetValue(),
+                "total_cut_weighted": weighted_cut.GetValue(),
+            }
+        )
+    return stats
+
+
+def measure_cut_datasets(config_dict, output_folder, inputs):
+    nParity = config_dict["nParity"]
+    for parity_scan in range(nParity):
+        os.makedirs(
+            os.path.join(output_folder, f"nParity{parity_scan}_Merged"), exist_ok=True
+        )
+
+    process_dict = {f"nParity_{parity_scan}": {} for parity_scan in range(nParity)}
+
+    for process_name, key, dataset_name, class_value, X_mass in tqdm(
+        get_dataset_list(config_dict)
+    ):
+        files, eras_found = inputs[dataset_name]
+        if len(files) == 0:
+            print(f"WARNING: skipping {dataset_name}, no input files")
+            stats = [{"total": 0, "total_cut": 0, "total_cut_weighted": 0.0}] * nParity
+        else:
+            stats = process_dataset(
+                files, dataset_name, class_value, X_mass, config_dict, output_folder
+            )
+
+        for parity_scan in range(nParity):
+            process_dict[f"nParity_{parity_scan}"].setdefault(process_name, {})[key] = {
+                **stats[parity_scan],
+                "eras": eras_found,
+            }
+
+    for parity_scan in range(nParity):
+        out_yaml = f"dataset_distribution_parity{parity_scan}.yaml"
         with open(os.path.join(output_folder, out_yaml), "w") as outfile:
-            yaml.dump(process_dict[nParity_string], outfile)
+            yaml.dump(process_dict[f"nParity_{parity_scan}"], outfile)
 
 
 def hadd_files(config_dict, output_folder):
@@ -331,8 +362,11 @@ def add_weight_file(output_folder, mass=None, keep_backgrounds=None, suffix=""):
         class_targets = branches["class_value"]
         class_weight = branches["weight_Central"]
 
+        # Set all signals to target 0
+        class_targets = np.where(class_targets <= 0, 0, class_targets)
+
         # Set to binary for now actually
-        # class_targets = np.where(class_targets > 0, 1, class_targets)
+        class_targets_binary = np.where(class_targets <= 0, 0, 1)
 
         # Set any negative weight events to 0
         class_weight = np.where(class_weight <= 0, 0.0, class_weight)
@@ -430,29 +464,62 @@ def add_weight_file(output_folder, mass=None, keep_backgrounds=None, suffix=""):
             f"Total background: {np.sum(np.where(class_targets != 0, multiclass_weight, 0.0))}"
         )
 
+        counts, bin_edges = np.histogram(
+            branches["class_value"], bins=15, range=(-5, 10), weights=class_weight
+        )
+        weighted_histogram = (counts, bin_edges)
+
+        counts_multiclass, bin_edges_multiclass = np.histogram(
+            branches["class_value"], bins=15, range=(-5, 10), weights=multiclass_weight
+        )
+        weighted_histogram_multiclass = (counts_multiclass, bin_edges_multiclass)
+
         out_dict = {
-            "class_weight": class_weight,
-            "class_target": class_targets,
-            "multiclass_weight": multiclass_weight,
+            "weight_tree": {
+                "class_weight": class_weight,
+                "class_target": class_targets,
+                "multiclass_weight": multiclass_weight,
+                "class_targets_binary": class_targets_binary,
+            },
+            "weighted_class_targets": weighted_histogram,
+            "weighted_class_targets_multiclass": weighted_histogram_multiclass,
         }
 
         print("Finished with dict")
         print(out_dict)
 
-        out_file["weight_tree"] = out_dict
+        for key, value in out_dict.items():
+            if isinstance(value, tuple):
+                val_arr = (
+                    value[0].to_numpy() if hasattr(value[0], "to_numpy") else value[0]
+                )
+                edge_arr = (
+                    value[1].to_numpy() if hasattr(value[1], "to_numpy") else value[1]
+                )
+                out_file[key] = (val_arr, edge_arr)
+            else:
+                # Explicit TTree: newer uproot writes a plain dict as an RNTuple,
+                # which the PyTorch loader cannot read into pandas
+                out_file.mktree(
+                    key, {name: np.asarray(arr) for name, arr in value.items()}
+                )
+
         out_file.close()
 
 
-def input_feature_plots(output_folder):
+def input_feature_plots(config_dict, output_folder):
     inNames = [
         os.path.join(output_folder, x)
         for x in os.listdir(output_folder)
         if x.endswith(".root")
     ]
-    color_map = plt.get_cmap("tab10").colors[:10]
+    # color_map = plt.get_cmap("tab10").colors[:10]
+    color_map = plt.get_cmap("tab20").colors
 
     input_features = set(
         [
+            "nExtraLeps",
+            "nExtraTau",
             "lep1_pt",
             "lep2_pt",
             "PuppiMET_pt",
@@ -460,14 +527,18 @@ def input_feature_plots(output_folder):
             "MT",
             "MT2_ll",
             "MT2_bb",
-            "MT2_blbl",
+            "MT2_blbl1",
             "MT2_blbl2",
+            "total_MT",
+            "lep1_MT",
+            "lep2_MT",
             "ll_mass",
+            "ll_pt",
             "bb_mass_PNetRegPtRawCorr_PNetRegPtRawCorrNeutrino",
-            "pt_ll",
-            "pt_bb",
-            "m_llmet",
-            "m_bbllmet",
+            "bb_pt",
+            "bb_mass",
+            "llmet_mass",
+            "bbllmet_mass",
             "bjet1_pt",
             "bjet1_mass",
             "bjet2_pt",
@@ -548,9 +619,12 @@ def input_feature_plots(output_folder):
         ]
     )
     base_branches = set(["class_value", "X_mass", "weight_Central"])
-    branches_to_load = list(input_features | base_branches)
 
-    class_names = ["Signal", "TT", "DY", "Other"]
+    class_names = {
+        process_dict["class_value"]: process_name
+        for process_type in ["signal", "background"]
+        for process_name, process_dict in config_dict[process_type].items()
+    }
 
     for inName in inNames:
         if "weight" in inName:
@@ -563,16 +637,21 @@ def input_feature_plots(output_folder):
 
         tree = in_file["Events"]
 
-        branches = tree.arrays(branches_to_load)
+        missing_features = input_features - set(tree.keys())
+        if len(missing_features) > 0:
+            print(f"Not plotting features missing from the tree: {missing_features}")
+        plot_features = input_features - missing_features
+        branches = tree.arrays(list(plot_features | base_branches))
 
         X_mass = branches["X_mass"]
         class_targets = branches["class_value"]
         class_weight = branches["weight_Central"]
 
-        for inp_feature in input_features:
+        for inp_feature in plot_features:
             color_map_idx = 0
             # Make a plot of input features with different colors for each class_target
             for class_value in np.unique(class_targets):
+                # print(f"Plotting color {color_map_idx} for class {class_value} on map {color_map}")
                 feature_values = branches[inp_feature][class_targets == class_value]
                 weights = class_weight[class_targets == class_value]
                 mass = X_mass[class_targets == class_value]
@@ -587,7 +666,7 @@ def input_feature_plots(output_folder):
                         plt.hist(
                             feature_values[sig_mask],
                             bins=50,
-                            # weights=weights[mask],
+                            weights=weights[sig_mask],
                             alpha=0.5,
                             label=f"{class_plot_name} m{x_mass}",
                             # Normalize to 1 for better comparison of shapes
@@ -601,7 +680,7 @@ def input_feature_plots(output_folder):
                     plt.hist(
                         feature_values[mask],
                         bins=50,
-                        # weights=weights[mask],
+                        weights=weights[mask],
                         alpha=0.5,
                         label=f"{class_plot_name}",
                         # Normalize to 1 for better comparison of shapes
@@ -634,14 +713,38 @@ if __name__ == "__main__":
         "--output-folder",
         required=False,
         type=str,
-        default="/eos/user/d/daebi/DNN_Training_Datasets",
+        default="/eos/user/d/daebi/HH_bbWW/DNNDatasets",
         help="Output folder to store dataset",
     )
+    parser.add_argument(
+        "--dry-run",
+        action="store_true",
+        help="Only list the input files found per dataset and era",
+    )
+
     args = parser.parse_args()
 
     config_file = args.config
     with open(config_file, "r") as file:
         config_dict = yaml.safe_load(file)
+
+    storage_folders = get_storage_folders(config_dict)
+    print("Collecting input files")
+    dataset_names = [dataset[2] for dataset in get_dataset_list(config_dict)]
+    # Listing remote eras is one xrdfs call per dataset and era, so run them in parallel
+    with ThreadPoolExecutor(max_workers=16) as executor:
+        inputs = dict(
+            zip(
+                dataset_names,
+                executor.map(
+                    lambda dataset_name: collect_inputs(storage_folders, dataset_name),
+                    dataset_names,
+                ),
+            )
+        )
+    print_input_summary(storage_folders, inputs)
+    if args.dry_run:
+        exit(0)
 
     output_base = args.output_folder
     output_folder = os.path.join(output_base, f"Dataset")
@@ -650,10 +753,19 @@ if __name__ == "__main__":
     os.makedirs(output_folder, exist_ok=True)
     os.system(f"cp {config_file} {output_folder}/.")
 
-    measure_cut_datasets(config_dict, output_folder)
+    measure_cut_datasets(config_dict, output_folder, inputs)
     hadd_files(config_dict, output_folder)
-    # add_weight_file(output_folder) # Option for all masses
-    for mass in config_dict["signal"]["XtoYHto2B2W"]["mass_points"]:
-        print(f"Starting mass {mass}")
-        add_weight_file(output_folder, mass=mass)
-    input_feature_plots(output_folder)
+
+    # all_masses: nParity{k}_Merged_weight.root (PyTorch pDNN)
+    # per_mass_signal: nParity{k}_Merged_weight_m{mass}.root for each mass of that signal (TF)
+    # The PyTorch training computes its weights from weight_Central, so no weight file is
+    # written unless the config asks for one (TensorFlow training, legacy PyTorch configs)
+    weight_files = config_dict.get("weight_files") or {}
+    if weight_files.get("all_masses", False):
+        add_weight_file(output_folder)
+    per_mass_signal = weight_files.get("per_mass_signal")
+    if per_mass_signal is not None:
+        for mass in config_dict["signal"][per_mass_signal]["mass_points"]:
+            print(f"Starting mass {mass}")
+            add_weight_file(output_folder, mass=mass)
+    input_feature_plots(config_dict, output_folder)

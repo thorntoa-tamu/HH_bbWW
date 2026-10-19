@@ -21,13 +21,6 @@
       AnaTuple: file
       AnaTupleMerge: process
 
-.TT_processors: &TT_processors
-  - name: Stitcher
-    module: FLAF.Processors.MCStitchingTT
-    class: TTStitcher
-    config: FLAF/config/Processors/stitching_TT_decayMode.yaml
-    stages: [ AnaTuple, AnaTupleMerge ]
-
 .W_processors_allFlavors: &W_processors_allFlavors
   - name: Stitcher
     module: FLAF.Processors.MCStitching

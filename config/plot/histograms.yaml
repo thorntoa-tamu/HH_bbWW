@@ -1104,12 +1104,13 @@ DoubleLepHME_mass:
   divide_by_bin_width: False
 
 DeepHME_mass:
-  x_bins: "150|0.0:1500"
+  # 78 bins: 10 GeV to 700, 25 to 1000, 50 to 1500, 100 to 2000 (bin width <= ~1/3 of the HME resolution)
+  x_bins: [ 0, 200, 210, 220, 230, 240, 250, 260, 270, 280, 290, 300, 310, 320, 330, 340, 350, 360, 370, 380, 390, 400, 410, 420, 430, 440, 450, 460, 470, 480, 490, 500, 510, 520, 530, 540, 550, 560, 570, 580, 590, 600, 610, 620, 630, 640, 650, 660, 670, 680, 690, 700, 725, 750, 775, 800, 825, 850, 875, 900, 925, 950, 975, 1000, 1050, 1100, 1150, 1200, 1250, 1300, 1350, 1400, 1450, 1500, 1600, 1700, 1800, 1900, 2000 ]
   x_title: "Deep HME Mass"
   y_title: "Events"
   use_log_y: False
   max_y_sf: 1.5
-  divide_by_bin_width: False
+  divide_by_bin_width: True
   blind: True
 
 DeepHME_mass_error:
@@ -1180,6 +1181,42 @@ DeepHME_HVV_E:
   max_y_sf: 1.5
   divide_by_bin_width: False
 
+DNN_M250_Signal:
+  x_bins: "100|-15.0:15.0"
+  x_title: DNN M250 Signal Logits
+  y_title: Events
+  use_log_y: True
+  max_y_sf: 1.5
+  divide_by_bin_width: False
+  blind: True
+
+DNN_M260_Signal:
+  x_bins: "100|-15.0:15.0"
+  x_title: DNN M260 Signal Logits
+  y_title: Events
+  use_log_y: True
+  max_y_sf: 1.5
+  divide_by_bin_width: False
+  blind: True
+
+DNN_M270_Signal:
+  x_bins: "100|-15.0:15.0"
+  x_title: DNN M270 Signal Logits
+  y_title: Events
+  use_log_y: True
+  max_y_sf: 1.5
+  divide_by_bin_width: False
+  blind: True
+
+DNN_M280_Signal:
+  x_bins: "100|-15.0:15.0"
+  x_title: DNN M280 Signal Logits
+  y_title: Events
+  use_log_y: True
+  max_y_sf: 1.5
+  divide_by_bin_width: False
+  blind: True
+
 DNN_M300_Signal:
   x_bins: "100|-15.0:15.0"
   x_title: DNN M300 Signal Logits
@@ -1189,9 +1226,45 @@ DNN_M300_Signal:
   divide_by_bin_width: False
   blind: True
 
+DNN_M320_Signal:
+  x_bins: "100|-15.0:15.0"
+  x_title: DNN M320 Signal Logits
+  y_title: Events
+  use_log_y: True
+  max_y_sf: 1.5
+  divide_by_bin_width: False
+  blind: True
+
+DNN_M350_Signal:
+  x_bins: "100|-15.0:15.0"
+  x_title: DNN M350 Signal Logits
+  y_title: Events
+  use_log_y: True
+  max_y_sf: 1.5
+  divide_by_bin_width: False
+  blind: True
+
+DNN_M360_Signal:
+  x_bins: "100|-15.0:15.0"
+  x_title: DNN M360 Signal Logits
+  y_title: Events
+  use_log_y: True
+  max_y_sf: 1.5
+  divide_by_bin_width: False
+  blind: True
+
 DNN_M400_Signal:
   x_bins: "100|-15.0:15.0"
   x_title: DNN M400 Signal Logits
+  y_title: Events
+  use_log_y: True
+  max_y_sf: 1.5
+  divide_by_bin_width: False
+  blind: True
+
+DNN_M450_Signal:
+  x_bins: "100|-15.0:15.0"
+  x_title: DNN M450 Signal Logits
   y_title: Events
   use_log_y: True
   max_y_sf: 1.5
@@ -1243,9 +1316,27 @@ DNN_M700_Signal:
   divide_by_bin_width: False
   blind: True
 
+DNN_M750_Signal:
+  x_bins: "100|-15.0:15.0"
+  x_title: DNN M750 Signal Logits
+  y_title: Events
+  use_log_y: True
+  max_y_sf: 1.5
+  divide_by_bin_width: False
+  blind: True
+
 DNN_M800_Signal:
   x_bins: "100|-15.0:15.0"
   x_title: DNN M800 Signal Logits
+  y_title: Events
+  use_log_y: True
+  max_y_sf: 1.5
+  divide_by_bin_width: False
+  blind: True
+
+DNN_M850_Signal:
+  x_bins: "100|-15.0:15.0"
+  x_title: DNN M850 Signal Logits
   y_title: Events
   use_log_y: True
   max_y_sf: 1.5
@@ -1270,6 +1361,87 @@ DNN_M1000_Signal:
   divide_by_bin_width: False
   blind: True
 
+DNN_M1100_Signal:
+  x_bins: "100|-15.0:15.0"
+  x_title: DNN M1100 Signal Logits
+  y_title: Events
+  use_log_y: True
+  max_y_sf: 1.5
+  divide_by_bin_width: False
+  blind: True
+
+DNN_M1200_Signal:
+  x_bins: "100|-15.0:15.0"
+  x_title: DNN M1200 Signal Logits
+  y_title: Events
+  use_log_y: True
+  max_y_sf: 1.5
+  divide_by_bin_width: False
+  blind: True
+
+DNN_M1300_Signal:
+  x_bins: "100|-15.0:15.0"
+  x_title: DNN M1300 Signal Logits
+  y_title: Events
+  use_log_y: True
+  max_y_sf: 1.5
+  divide_by_bin_width: False
+  blind: True
+
+DNN_M1400_Signal:
+  x_bins: "100|-15.0:15.0"
+  x_title: DNN M1400 Signal Logits
+  y_title: Events
+  use_log_y: True
+  max_y_sf: 1.5
+  divide_by_bin_width: False
+  blind: True
+
+DNN_M1500_Signal:
+  x_bins: "100|-15.0:15.0"
+  x_title: DNN M1500 Signal Logits
+  y_title: Events
+  use_log_y: True
+  max_y_sf: 1.5
+  divide_by_bin_width: False
+  blind: True
+
+DNN_M250_TT:
+  x_bins: "50|-7.5:7.5"
+  x_title: DNN M250 TT Logits
+  y_title: Events
+  use_log_y: True
+  max_y_sf: 1.5
+  divide_by_bin_width: False
+  blind: True
+
+DNN_M260_TT:
+  x_bins: "50|-7.5:7.5"
+  x_title: DNN M260 TT Logits
+  y_title: Events
+  use_log_y: True
+  max_y_sf: 1.5
+  divide_by_bin_width: False
+  blind: True
+
+DNN_M270_TT:
+  x_bins: "50|-7.5:7.5"
+  x_title: DNN M270 TT Logits
+  y_title: Events
+  use_log_y: True
+  max_y_sf: 1.5
+  divide_by_bin_width: False
+  blind: True
+
+DNN_M280_TT:
+  x_bins: "50|-7.5:7.5"
+  x_title: DNN M280 TT Logits
+  y_title: Events
+  use_log_y: True
+  max_y_sf: 1.5
+  divide_by_bin_width: False
+  blind: True
+
 DNN_M300_TT:
   x_bins: "50|-7.5:7.5"
   x_title: DNN M300 TT Logits
@@ -1279,9 +1451,45 @@ DNN_M300_TT:
   divide_by_bin_width: False
   blind: True
 
+DNN_M320_TT:
+  x_bins: "50|-7.5:7.5"
+  x_title: DNN M320 TT Logits
+  y_title: Events
+  use_log_y: True
+  max_y_sf: 1.5
+  divide_by_bin_width: False
+  blind: True
+
+DNN_M350_TT:
+  x_bins: "50|-7.5:7.5"
+  x_title: DNN M350 TT Logits
+  y_title: Events
+  use_log_y: True
+  max_y_sf: 1.5
+  divide_by_bin_width: False
+  blind: True
+
+DNN_M360_TT:
+  x_bins: "50|-7.5:7.5"
+  x_title: DNN M360 TT Logits
+  y_title: Events
+  use_log_y: True
+  max_y_sf: 1.5
+  divide_by_bin_width: False
+  blind: True
+
 DNN_M400_TT:
   x_bins: "50|-7.5:7.5"
   x_title: DNN M400 TT Logits
+  y_title: Events
+  use_log_y: True
+  max_y_sf: 1.5
+  divide_by_bin_width: False
+  blind: True
+
+DNN_M450_TT:
+  x_bins: "50|-7.5:7.5"
+  x_title: DNN M450 TT Logits
   y_title: Events
   use_log_y: True
   max_y_sf: 1.5
@@ -1333,9 +1541,27 @@ DNN_M700_TT:
   divide_by_bin_width: False
   blind: True
 
+DNN_M750_TT:
+  x_bins: "50|-7.5:7.5"
+  x_title: DNN M750 TT Logits
+  y_title: Events
+  use_log_y: True
+  max_y_sf: 1.5
+  divide_by_bin_width: False
+  blind: True
+
 DNN_M800_TT:
   x_bins: "50|-7.5:7.5"
   x_title: DNN M800 TT Logits
+  y_title: Events
+  use_log_y: True
+  max_y_sf: 1.5
+  divide_by_bin_width: False
+  blind: True
+
+DNN_M850_TT:
+  x_bins: "50|-7.5:7.5"
+  x_title: DNN M850 TT Logits
   y_title: Events
   use_log_y: True
   max_y_sf: 1.5
@@ -1360,6 +1586,87 @@ DNN_M1000_TT:
   divide_by_bin_width: False
   blind: True
 
+DNN_M1100_TT:
+  x_bins: "50|-7.5:7.5"
+  x_title: DNN M1100 TT Logits
+  y_title: Events
+  use_log_y: True
+  max_y_sf: 1.5
+  divide_by_bin_width: False
+  blind: True
+
+DNN_M1200_TT:
+  x_bins: "50|-7.5:7.5"
+  x_title: DNN M1200 TT Logits
+  y_title: Events
+  use_log_y: True
+  max_y_sf: 1.5
+  divide_by_bin_width: False
+  blind: True
+
+DNN_M1300_TT:
+  x_bins: "50|-7.5:7.5"
+  x_title: DNN M1300 TT Logits
+  y_title: Events
+  use_log_y: True
+  max_y_sf: 1.5
+  divide_by_bin_width: False
+  blind: True
+
+DNN_M1400_TT:
+  x_bins: "50|-7.5:7.5"
+  x_title: DNN M1400 TT Logits
+  y_title: Events
+  use_log_y: True
+  max_y_sf: 1.5
+  divide_by_bin_width: False
+  blind: True
+
+DNN_M1500_TT:
+  x_bins: "50|-7.5:7.5"
+  x_title: DNN M1500 TT Logits
+  y_title: Events
+  use_log_y: True
+  max_y_sf: 1.5
+  divide_by_bin_width: False
+  blind: True
+
+DNN_M250_DY:
+  x_bins: "50|-7.5:7.5"
+  x_title: DNN M250 DY Logits
+  y_title: Events
+  use_log_y: True
+  max_y_sf: 1.5
+  divide_by_bin_width: False
+  blind: True
+
+DNN_M260_DY:
+  x_bins: "50|-7.5:7.5"
+  x_title: DNN M260 DY Logits
+  y_title: Events
+  use_log_y: True
+  max_y_sf: 1.5
+  divide_by_bin_width: False
+  blind: True
+
+DNN_M270_DY:
+  x_bins: "50|-7.5:7.5"
+  x_title: DNN M270 DY Logits
+  y_title: Events
+  use_log_y: True
+  max_y_sf: 1.5
+  divide_by_bin_width: False
+  blind: True
+
+DNN_M280_DY:
+  x_bins: "50|-7.5:7.5"
+  x_title: DNN M280 DY Logits
+  y_title: Events
+  use_log_y: True
+  max_y_sf: 1.5
+  divide_by_bin_width: False
+  blind: True
+
 DNN_M300_DY:
   x_bins: "50|-7.5:7.5"
   x_title: DNN M300 DY Logits
@@ -1369,9 +1676,45 @@ DNN_M300_DY:
   divide_by_bin_width: False
   blind: True
 
+DNN_M320_DY:
+  x_bins: "50|-7.5:7.5"
+  x_title: DNN M320 DY Logits
+  y_title: Events
+  use_log_y: True
+  max_y_sf: 1.5
+  divide_by_bin_width: False
+  blind: True
+
+DNN_M350_DY:
+  x_bins: "50|-7.5:7.5"
+  x_title: DNN M350 DY Logits
+  y_title: Events
+  use_log_y: True
+  max_y_sf: 1.5
+  divide_by_bin_width: False
+  blind: True
+
+DNN_M360_DY:
+  x_bins: "50|-7.5:7.5"
+  x_title: DNN M360 DY Logits
+  y_title: Events
+  use_log_y: True
+  max_y_sf: 1.5
+  divide_by_bin_width: False
+  blind: True
+
 DNN_M400_DY:
   x_bins: "50|-7.5:7.5"
   x_title: DNN M400 DY Logits
+  y_title: Events
+  use_log_y: True
+  max_y_sf: 1.5
+  divide_by_bin_width: False
+  blind: True
+
+DNN_M450_DY:
+  x_bins: "50|-7.5:7.5"
+  x_title: DNN M450 DY Logits
   y_title: Events
   use_log_y: True
   max_y_sf: 1.5
@@ -1423,9 +1766,27 @@ DNN_M700_DY:
   divide_by_bin_width: False
   blind: True
 
+DNN_M750_DY:
+  x_bins: "50|-7.5:7.5"
+  x_title: DNN M750 DY Logits
+  y_title: Events
+  use_log_y: True
+  max_y_sf: 1.5
+  divide_by_bin_width: False
+  blind: True
+
 DNN_M800_DY:
   x_bins: "50|-7.5:7.5"
   x_title: DNN M800 DY Logits
+  y_title: Events
+  use_log_y: True
+  max_y_sf: 1.5
+  divide_by_bin_width: False
+  blind: True
+
+DNN_M850_DY:
+  x_bins: "50|-7.5:7.5"
+  x_title: DNN M850 DY Logits
   y_title: Events
   use_log_y: True
   max_y_sf: 1.5
@@ -1444,6 +1805,51 @@ DNN_M900_DY:
 DNN_M1000_DY:
   x_bins: "50|-7.5:7.5"
   x_title: DNN M1000 DY Logits
+  y_title: Events
+  use_log_y: True
+  max_y_sf: 1.5
+  divide_by_bin_width: False
+  blind: True
+
+DNN_M1100_DY:
+  x_bins: "50|-7.5:7.5"
+  x_title: DNN M1100 DY Logits
+  y_title: Events
+  use_log_y: True
+  max_y_sf: 1.5
+  divide_by_bin_width: False
+  blind: True
+
+DNN_M1200_DY:
+  x_bins: "50|-7.5:7.5"
+  x_title: DNN M1200 DY Logits
+  y_title: Events
+  use_log_y: True
+  max_y_sf: 1.5
+  divide_by_bin_width: False
+  blind: True
+
+DNN_M1300_DY:
+  x_bins: "50|-7.5:7.5"
+  x_title: DNN M1300 DY Logits
+  y_title: Events
+  use_log_y: True
+  max_y_sf: 1.5
+  divide_by_bin_width: False
+  blind: True
+
+DNN_M1400_DY:
+  x_bins: "50|-7.5:7.5"
+  x_title: DNN M1400 DY Logits
+  y_title: Events
+  use_log_y: True
+  max_y_sf: 1.5
+  divide_by_bin_width: False
+  blind: True
+
+DNN_M1500_DY:
+  x_bins: "50|-7.5:7.5"
+  x_title: DNN M1500 DY Logits
   y_title: Events
   use_log_y: True
   max_y_sf: 1.5
@@ -1540,6 +1946,42 @@ DNN_M1000_ST:
   divide_by_bin_width: False
   blind: True
 
+DNN_M250_Other:
+  x_bins: "50|-7.5:7.5"
+  x_title: DNN M250 Other Logits
+  y_title: Events
+  use_log_y: True
+  max_y_sf: 1.5
+  divide_by_bin_width: False
+  blind: True
+
+DNN_M260_Other:
+  x_bins: "50|-7.5:7.5"
+  x_title: DNN M260 Other Logits
+  y_title: Events
+  use_log_y: True
+  max_y_sf: 1.5
+  divide_by_bin_width: False
+  blind: True
+
+DNN_M270_Other:
+  x_bins: "50|-7.5:7.5"
+  x_title: DNN M270 Other Logits
+  y_title: Events
+  use_log_y: True
+  max_y_sf: 1.5
+  divide_by_bin_width: False
+  blind: True
+
+DNN_M280_Other:
+  x_bins: "50|-7.5:7.5"
+  x_title: DNN M280 Other Logits
+  y_title: Events
+  use_log_y: True
+  max_y_sf: 1.5
+  divide_by_bin_width: False
+  blind: True
+
 DNN_M300_Other:
   x_bins: "50|-7.5:7.5"
   x_title: DNN M300 Other Logits
@@ -1549,9 +1991,45 @@ DNN_M300_Other:
   divide_by_bin_width: False
   blind: True
 
+DNN_M320_Other:
+  x_bins: "50|-7.5:7.5"
+  x_title: DNN M320 Other Logits
+  y_title: Events
+  use_log_y: True
+  max_y_sf: 1.5
+  divide_by_bin_width: False
+  blind: True
+
+DNN_M350_Other:
+  x_bins: "50|-7.5:7.5"
+  x_title: DNN M350 Other Logits
+  y_title: Events
+  use_log_y: True
+  max_y_sf: 1.5
+  divide_by_bin_width: False
+  blind: True
+
+DNN_M360_Other:
+  x_bins: "50|-7.5:7.5"
+  x_title: DNN M360 Other Logits
+  y_title: Events
+  use_log_y: True
+  max_y_sf: 1.5
+  divide_by_bin_width: False
+  blind: True
+
 DNN_M400_Other:
   x_bins: "50|-7.5:7.5"
   x_title: DNN M400 Other Logits
+  y_title: Events
+  use_log_y: True
+  max_y_sf: 1.5
+  divide_by_bin_width: False
+  blind: True
+
+DNN_M450_Other:
+  x_bins: "50|-7.5:7.5"
+  x_title: DNN M450 Other Logits
   y_title: Events
   use_log_y: True
   max_y_sf: 1.5
@@ -1603,9 +2081,27 @@ DNN_M700_Other:
   divide_by_bin_width: False
   blind: True
 
+DNN_M750_Other:
+  x_bins: "50|-7.5:7.5"
+  x_title: DNN M750 Other Logits
+  y_title: Events
+  use_log_y: True
+  max_y_sf: 1.5
+  divide_by_bin_width: False
+  blind: True
+
 DNN_M800_Other:
   x_bins: "50|-7.5:7.5"
   x_title: DNN M800 Other Logits
+  y_title: Events
+  use_log_y: True
+  max_y_sf: 1.5
+  divide_by_bin_width: False
+  blind: True
+
+DNN_M850_Other:
+  x_bins: "50|-7.5:7.5"
+  x_title: DNN M850 Other Logits
   y_title: Events
   use_log_y: True
   max_y_sf: 1.5
@@ -1630,15 +2126,137 @@ DNN_M1000_Other:
   divide_by_bin_width: False
   blind: True
 
-DNN_m300_vs_HME:
+DNN_M1100_Other:
+  x_bins: "50|-7.5:7.5"
+  x_title: DNN M1100 Other Logits
+  y_title: Events
+  use_log_y: True
+  max_y_sf: 1.5
+  divide_by_bin_width: False
+  blind: True
+
+DNN_M1200_Other:
+  x_bins: "50|-7.5:7.5"
+  x_title: DNN M1200 Other Logits
+  y_title: Events
+  use_log_y: True
+  max_y_sf: 1.5
+  divide_by_bin_width: False
+  blind: True
+
+DNN_M1300_Other:
+  x_bins: "50|-7.5:7.5"
+  x_title: DNN M1300 Other Logits
+  y_title: Events
+  use_log_y: True
+  max_y_sf: 1.5
+  divide_by_bin_width: False
+  blind: True
+
+DNN_M1400_Other:
+  x_bins: "50|-7.5:7.5"
+  x_title: DNN M1400 Other Logits
+  y_title: Events
+  use_log_y: True
+  max_y_sf: 1.5
+  divide_by_bin_width: False
+  blind: True
+
+DNN_M1500_Other:
+  x_bins: "50|-7.5:7.5"
+  x_title: DNN M1500 Other Logits
+  y_title: Events
+  use_log_y: True
+  max_y_sf: 1.5
+  divide_by_bin_width: False
+  blind: True
+
+DNN_m250_vs_HME:
+  signal_params: { mass: 250 }
   2d:
     combined_bins:
-      - { y_bin: [ 0, 250 ], x_bins: "50|-7.5:7.5" }
-      - { y_bin: [ 250, 280 ], x_bins: "50|-7.5:7.5" }
-      - { y_bin: [ 280, 300 ], x_bins: "50|-7.5:7.5" }
-      - { y_bin: [ 300, 320 ], x_bins: "50|-7.5:7.5" }
-      - { y_bin: [ 320, 350 ], x_bins: "50|-7.5:7.5" }
-      - { y_bin: [ 350, 500 ], x_bins: "50|-7.5:7.5" }
+      - { y_bin: [ 0, 200 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 200, 230 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 230, 250 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 250, 270 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 270, 300 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 300, 390 ], x_bins: "75|-7.5:15" }
+  x_rebin: True
+  x_title: "DNN M250 in HMEbins"
+  y_title: "Events"
+  use_log_y: True
+  max_y_sf: 100
+  divide_by_bin_width: False
+  blind: True
+  var_list: [ DNN_M250_Signal, DeepHME_mass ]
+
+DNN_m260_vs_HME:
+  signal_params: { mass: 260 }
+  2d:
+    combined_bins:
+      - { y_bin: [ 200, 210 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 210, 240 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 240, 260 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 260, 280 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 280, 310 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 310, 410 ], x_bins: "75|-7.5:15" }
+  x_rebin: True
+  x_title: "DNN M260 in HMEbins"
+  y_title: "Events"
+  use_log_y: True
+  max_y_sf: 100
+  divide_by_bin_width: False
+  blind: True
+  var_list: [ DNN_M260_Signal, DeepHME_mass ]
+
+DNN_m270_vs_HME:
+  signal_params: { mass: 270 }
+  2d:
+    combined_bins:
+      - { y_bin: [ 200, 220 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 220, 250 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 250, 270 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 270, 290 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 290, 320 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 320, 430 ], x_bins: "75|-7.5:15" }
+  x_rebin: True
+  x_title: "DNN M270 in HMEbins"
+  y_title: "Events"
+  use_log_y: True
+  max_y_sf: 100
+  divide_by_bin_width: False
+  blind: True
+  var_list: [ DNN_M270_Signal, DeepHME_mass ]
+
+DNN_m280_vs_HME:
+  signal_params: { mass: 280 }
+  2d:
+    combined_bins:
+      - { y_bin: [ 200, 220 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 220, 260 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 260, 280 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 280, 300 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 300, 340 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 340, 460 ], x_bins: "75|-7.5:15" }
+  x_rebin: True
+  x_title: "DNN M280 in HMEbins"
+  y_title: "Events"
+  use_log_y: True
+  max_y_sf: 100
+  divide_by_bin_width: False
+  blind: True
+  var_list: [ DNN_M280_Signal, DeepHME_mass ]
+
+DNN_m300_vs_HME:
+  signal_params: { mass: 300 }
+  2d:
+    combined_bins:
+      - { y_bin: [ 200, 230 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 230, 270 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 270, 300 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 300, 330 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 330, 370 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 370, 500 ], x_bins: "75|-7.5:15" }
 
   x_rebin: True
   x_title: "DNN M300 in HMEbins"
@@ -1649,15 +2267,73 @@ DNN_m300_vs_HME:
   blind: True
   var_list: [ DNN_M300_Signal, DeepHME_mass ]
 
-DNN_m400_vs_HME:
+DNN_m320_vs_HME:
+  signal_params: { mass: 320 }
   2d:
     combined_bins:
-      - { y_bin: [ 300, 350 ], x_bins: "50|-7.5:7.5" }
-      - { y_bin: [ 350, 380 ], x_bins: "50|-7.5:7.5" }
-      - { y_bin: [ 380, 400 ], x_bins: "50|-7.5:7.5" }
-      - { y_bin: [ 400, 420 ], x_bins: "50|-7.5:7.5" }
-      - { y_bin: [ 420, 450 ], x_bins: "50|-7.5:7.5" }
-      - { y_bin: [ 450, 600 ], x_bins: "50|-7.5:7.5" }
+      - { y_bin: [ 200, 250 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 250, 290 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 290, 320 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 320, 350 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 350, 390 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 390, 540 ], x_bins: "75|-7.5:15" }
+  x_rebin: True
+  x_title: "DNN M320 in HMEbins"
+  y_title: "Events"
+  use_log_y: True
+  max_y_sf: 100
+  divide_by_bin_width: False
+  blind: True
+  var_list: [ DNN_M320_Signal, DeepHME_mass ]
+
+DNN_m350_vs_HME:
+  signal_params: { mass: 350 }
+  2d:
+    combined_bins:
+      - { y_bin: [ 200, 270 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 270, 320 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 320, 350 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 350, 380 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 380, 430 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 430, 600 ], x_bins: "75|-7.5:15" }
+  x_rebin: True
+  x_title: "DNN M350 in HMEbins"
+  y_title: "Events"
+  use_log_y: True
+  max_y_sf: 100
+  divide_by_bin_width: False
+  blind: True
+  var_list: [ DNN_M350_Signal, DeepHME_mass ]
+
+DNN_m360_vs_HME:
+  signal_params: { mass: 360 }
+  2d:
+    combined_bins:
+      - { y_bin: [ 200, 270 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 270, 330 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 330, 360 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 360, 390 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 390, 450 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 450, 620 ], x_bins: "75|-7.5:15" }
+  x_rebin: True
+  x_title: "DNN M360 in HMEbins"
+  y_title: "Events"
+  use_log_y: True
+  max_y_sf: 100
+  divide_by_bin_width: False
+  blind: True
+  var_list: [ DNN_M360_Signal, DeepHME_mass ]
+
+DNN_m400_vs_HME:
+  signal_params: { mass: 400 }
+  2d:
+    combined_bins:
+      - { y_bin: [ 200, 300 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 300, 360 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 360, 400 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 400, 440 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 440, 500 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 500, 700 ], x_bins: "75|-7.5:15" }
   x_rebin: True
   x_title: "DNN M400 in HMEbins"
   y_title: "Events"
@@ -1667,15 +2343,35 @@ DNN_m400_vs_HME:
   blind: True
   var_list: [ DNN_M400_Signal, DeepHME_mass ]
 
-DNN_m500_vs_HME:
+DNN_m450_vs_HME:
+  signal_params: { mass: 450 }
   2d:
     combined_bins:
-      - { y_bin: [ 400, 450 ], x_bins: "50|-7.5:7.5" }
-      - { y_bin: [ 450, 480 ], x_bins: "50|-7.5:7.5" }
-      - { y_bin: [ 480, 500 ], x_bins: "50|-7.5:7.5" }
-      - { y_bin: [ 500, 520 ], x_bins: "50|-7.5:7.5" }
-      - { y_bin: [ 520, 550 ], x_bins: "50|-7.5:7.5" }
-      - { y_bin: [ 550, 700 ], x_bins: "50|-7.5:7.5" }
+      - { y_bin: [ 240, 340 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 340, 410 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 410, 450 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 450, 490 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 490, 560 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 560, 775 ], x_bins: "75|-7.5:15" }
+  x_rebin: True
+  x_title: "DNN M450 in HMEbins"
+  y_title: "Events"
+  use_log_y: True
+  max_y_sf: 100
+  divide_by_bin_width: False
+  blind: True
+  var_list: [ DNN_M450_Signal, DeepHME_mass ]
+
+DNN_m500_vs_HME:
+  signal_params: { mass: 500 }
+  2d:
+    combined_bins:
+      - { y_bin: [ 280, 390 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 390, 460 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 460, 500 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 500, 540 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 540, 610 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 610, 825 ], x_bins: "75|-7.5:15" }
   x_rebin: True
   x_title: "DNN M500 in HMEbins"
   y_title: "Events"
@@ -1686,14 +2382,15 @@ DNN_m500_vs_HME:
   var_list: [ DNN_M500_Signal, DeepHME_mass ]
 
 DNN_m550_vs_HME:
+  signal_params: { mass: 550 }
   2d:
     combined_bins:
-      - { y_bin: [ 450, 500 ], x_bins: "50|-7.5:7.5" }
-      - { y_bin: [ 500, 520 ], x_bins: "50|-7.5:7.5" }
-      - { y_bin: [ 520, 550 ], x_bins: "50|-7.5:7.5" }
-      - { y_bin: [ 550, 580 ], x_bins: "50|-7.5:7.5" }
-      - { y_bin: [ 580, 600 ], x_bins: "50|-7.5:7.5" }
-      - { y_bin: [ 600, 750 ], x_bins: "50|-7.5:7.5" }
+      - { y_bin: [ 320, 440 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 440, 500 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 500, 550 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 550, 600 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 600, 660 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 660, 900 ], x_bins: "75|-7.5:15" }
   x_rebin: True
   x_title: "DNN M550 in HMEbins"
   y_title: "Events"
@@ -1704,6 +2401,7 @@ DNN_m550_vs_HME:
   var_list: [ DNN_M550_Signal, DeepHME_mass ]
 
 DNN_m600_vs_HME:
+  signal_params: { mass: 600 }
   2d:
     combined_bins:
       # - {y_bin: [0,400], x_bins: "5|0.0:1.0"}
@@ -1721,12 +2419,12 @@ DNN_m600_vs_HME:
       # - {y_bin: [700,750], x_bins: [0.0, 0.5, 0.7, 0.8, 0.85, 0.9, 0.91, 0.92, 0.93, 0.94, 0.95, 0.96, 0.97, 0.98, 0.99, 1.0]}
       # - {y_bin: [750,1000], x_bins: "5|0.0:1.0"}
 
-      - { y_bin: [ 450, 500 ], x_bins: "50|-7.5:7.5" }
-      - { y_bin: [ 500, 550 ], x_bins: "50|-7.5:7.5" }
-      - { y_bin: [ 550, 600 ], x_bins: "50|-7.5:7.5" }
-      - { y_bin: [ 600, 650 ], x_bins: "50|-7.5:7.5" }
-      - { y_bin: [ 650, 700 ], x_bins: "50|-7.5:7.5" }
-      - { y_bin: [ 700, 750 ], x_bins: "50|-7.5:7.5" }
+      - { y_bin: [ 370, 480 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 480, 550 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 550, 600 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 600, 650 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 650, 725 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 725, 950 ], x_bins: "75|-7.5:15" }
   x_rebin: True
   x_title: "DNN M600 in HMEbins"
   y_title: "Events"
@@ -1738,14 +2436,15 @@ DNN_m600_vs_HME:
 
 
 DNN_m650_vs_HME:
+  signal_params: { mass: 650 }
   2d:
     combined_bins:
-      - { y_bin: [ 550, 600 ], x_bins: "50|-7.5:7.5" }
-      - { y_bin: [ 600, 630 ], x_bins: "50|-7.5:7.5" }
-      - { y_bin: [ 630, 650 ], x_bins: "50|-7.5:7.5" }
-      - { y_bin: [ 650, 670 ], x_bins: "50|-7.5:7.5" }
-      - { y_bin: [ 670, 700 ], x_bins: "50|-7.5:7.5" }
-      - { y_bin: [ 700, 850 ], x_bins: "50|-7.5:7.5" }
+      - { y_bin: [ 410, 530 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 530, 600 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 600, 650 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 650, 700 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 700, 775 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 775, 1000 ], x_bins: "75|-7.5:15" }
   x_rebin: True
   x_title: "DNN M650 in HMEbins"
   y_title: "Events"
@@ -1756,14 +2455,15 @@ DNN_m650_vs_HME:
   var_list: [ DNN_M650_Signal, DeepHME_mass ]
 
 DNN_m700_vs_HME:
+  signal_params: { mass: 700 }
   2d:
     combined_bins:
-      - { y_bin: [ 600, 650 ], x_bins: "50|-7.5:7.5" }
-      - { y_bin: [ 650, 680 ], x_bins: "50|-7.5:7.5" }
-      - { y_bin: [ 680, 700 ], x_bins: "50|-7.5:7.5" }
-      - { y_bin: [ 700, 720 ], x_bins: "50|-7.5:7.5" }
-      - { y_bin: [ 720, 750 ], x_bins: "50|-7.5:7.5" }
-      - { y_bin: [ 750, 900 ], x_bins: "50|-7.5:7.5" }
+      - { y_bin: [ 450, 570 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 570, 650 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 650, 700 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 700, 750 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 750, 825 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 825, 1100 ], x_bins: "75|-7.5:15" }
   x_rebin: True
   x_title: "DNN M700 in HMEbins"
   y_title: "Events"
@@ -1773,15 +2473,35 @@ DNN_m700_vs_HME:
   blind: True
   var_list: [ DNN_M700_Signal, DeepHME_mass ]
 
-DNN_m800_vs_HME:
+DNN_m750_vs_HME:
+  signal_params: { mass: 750 }
   2d:
     combined_bins:
-      - { y_bin: [ 700, 750 ], x_bins: "50|-7.5:7.5" }
-      - { y_bin: [ 750, 780 ], x_bins: "50|-7.5:7.5" }
-      - { y_bin: [ 780, 800 ], x_bins: "50|-7.5:7.5" }
-      - { y_bin: [ 800, 820 ], x_bins: "50|-7.5:7.5" }
-      - { y_bin: [ 820, 850 ], x_bins: "50|-7.5:7.5" }
-      - { y_bin: [ 850, 1000 ], x_bins: "50|-7.5:7.5" }
+      - { y_bin: [ 490, 620 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 620, 700 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 700, 750 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 750, 800 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 800, 875 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 875, 1150 ], x_bins: "75|-7.5:15" }
+  x_rebin: True
+  x_title: "DNN M750 in HMEbins"
+  y_title: "Events"
+  use_log_y: True
+  max_y_sf: 100
+  divide_by_bin_width: False
+  blind: True
+  var_list: [ DNN_M750_Signal, DeepHME_mass ]
+
+DNN_m800_vs_HME:
+  signal_params: { mass: 800 }
+  2d:
+    combined_bins:
+      - { y_bin: [ 530, 670 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 670, 750 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 750, 800 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 800, 850 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 850, 925 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 925, 1200 ], x_bins: "75|-7.5:15" }
   x_rebin: True
   x_title: "DNN M800 in HMEbins"
   y_title: "Events"
@@ -1791,15 +2511,35 @@ DNN_m800_vs_HME:
   blind: True
   var_list: [ DNN_M800_Signal, DeepHME_mass ]
 
-DNN_m900_vs_HME:
+DNN_m850_vs_HME:
+  signal_params: { mass: 850 }
   2d:
     combined_bins:
-      - { y_bin: [ 800, 850 ], x_bins: "50|-7.5:7.5" }
-      - { y_bin: [ 850, 880 ], x_bins: "50|-7.5:7.5" }
-      - { y_bin: [ 880, 900 ], x_bins: "50|-7.5:7.5" }
-      - { y_bin: [ 900, 920 ], x_bins: "50|-7.5:7.5" }
-      - { y_bin: [ 920, 950 ], x_bins: "50|-7.5:7.5" }
-      - { y_bin: [ 950, 1100 ], x_bins: "50|-7.5:7.5" }
+      - { y_bin: [ 570, 700 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 700, 800 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 800, 850 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 850, 900 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 900, 1000 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 1000, 1250 ], x_bins: "75|-7.5:15" }
+  x_rebin: True
+  x_title: "DNN M850 in HMEbins"
+  y_title: "Events"
+  use_log_y: True
+  max_y_sf: 100
+  divide_by_bin_width: False
+  blind: True
+  var_list: [ DNN_M850_Signal, DeepHME_mass ]
+
+DNN_m900_vs_HME:
+  signal_params: { mass: 900 }
+  2d:
+    combined_bins:
+      - { y_bin: [ 600, 750 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 750, 850 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 850, 900 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 900, 950 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 950, 1050 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 1050, 1350 ], x_bins: "75|-7.5:15" }
   x_rebin: True
   x_title: "DNN M900 in HMEbins"
   y_title: "Events"
@@ -1810,14 +2550,15 @@ DNN_m900_vs_HME:
   var_list: [ DNN_M900_Signal, DeepHME_mass ]
 
 DNN_m1000_vs_HME:
+  signal_params: { mass: 1000 }
   2d:
     combined_bins:
-      - { y_bin: [ 900, 950 ], x_bins: "50|-7.5:7.5" }
-      - { y_bin: [ 950, 980 ], x_bins: "50|-7.5:7.5" }
-      - { y_bin: [ 980, 1000 ], x_bins: "50|-7.5:7.5" }
-      - { y_bin: [ 1000, 1020 ], x_bins: "50|-7.5:7.5" }
-      - { y_bin: [ 1020, 1050 ], x_bins: "50|-7.5:7.5" }
-      - { y_bin: [ 1050, 1200 ], x_bins: "50|-7.5:7.5" }
+      - { y_bin: [ 670, 825 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 825, 925 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 925, 1000 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 1000, 1050 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 1050, 1150 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 1150, 1500 ], x_bins: "75|-7.5:15" }
   x_rebin: True
   x_title: "DNN M1000 in HMEbins"
   y_title: "Events"
@@ -1826,6 +2567,101 @@ DNN_m1000_vs_HME:
   divide_by_bin_width: False
   blind: True
   var_list: [ DNN_M1000_Signal, DeepHME_mass ]
+
+DNN_m1100_vs_HME:
+  signal_params: { mass: 1100 }
+  2d:
+    combined_bins:
+      - { y_bin: [ 750, 925 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 925, 1050 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 1050, 1100 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 1100, 1150 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 1150, 1300 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 1300, 1600 ], x_bins: "75|-7.5:15" }
+  x_rebin: True
+  x_title: "DNN M1100 in HMEbins"
+  y_title: "Events"
+  use_log_y: True
+  max_y_sf: 100
+  divide_by_bin_width: False
+  blind: True
+  var_list: [ DNN_M1100_Signal, DeepHME_mass ]
+
+DNN_m1200_vs_HME:
+  signal_params: { mass: 1200 }
+  2d:
+    combined_bins:
+      - { y_bin: [ 800, 1000 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 1000, 1100 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 1100, 1200 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 1200, 1300 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 1300, 1400 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 1400, 1800 ], x_bins: "75|-7.5:15" }
+  x_rebin: True
+  x_title: "DNN M1200 in HMEbins"
+  y_title: "Events"
+  use_log_y: True
+  max_y_sf: 100
+  divide_by_bin_width: False
+  blind: True
+  var_list: [ DNN_M1200_Signal, DeepHME_mass ]
+
+DNN_m1300_vs_HME:
+  signal_params: { mass: 1300 }
+  2d:
+    combined_bins:
+      - { y_bin: [ 875, 1100 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 1100, 1200 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 1200, 1300 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 1300, 1400 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 1400, 1500 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 1500, 1900 ], x_bins: "75|-7.5:15" }
+  x_rebin: True
+  x_title: "DNN M1300 in HMEbins"
+  y_title: "Events"
+  use_log_y: True
+  max_y_sf: 100
+  divide_by_bin_width: False
+  blind: True
+  var_list: [ DNN_M1300_Signal, DeepHME_mass ]
+
+DNN_m1400_vs_HME:
+  signal_params: { mass: 1400 }
+  2d:
+    combined_bins:
+      - { y_bin: [ 950, 1150 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 1150, 1300 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 1300, 1400 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 1400, 1500 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 1500, 1600 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 1600, 2000 ], x_bins: "75|-7.5:15" }
+  x_rebin: True
+  x_title: "DNN M1400 in HMEbins"
+  y_title: "Events"
+  use_log_y: True
+  max_y_sf: 100
+  divide_by_bin_width: False
+  blind: True
+  var_list: [ DNN_M1400_Signal, DeepHME_mass ]
+
+DNN_m1500_vs_HME:
+  signal_params: { mass: 1500 }
+  2d:
+    combined_bins:
+      - { y_bin: [ 1000, 1250 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 1250, 1400 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 1400, 1500 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 1500, 1600 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 1600, 1700 ], x_bins: "75|-7.5:15" }
+      - { y_bin: [ 1700, 2000 ], x_bins: "75|-7.5:15" }
+  x_rebin: True
+  x_title: "DNN M1500 in HMEbins"
+  y_title: "Events"
+  use_log_y: True
+  max_y_sf: 100
+  divide_by_bin_width: False
+  blind: True
+  var_list: [ DNN_M1500_Signal, DeepHME_mass ]
 
 # Two-stage DNN
 TwoStageDNN_M300_binary:
@@ -2778,3 +3614,83 @@ TwoStageDNN_M1000_VV:
   max_y_sf: 1.5
   divide_by_bin_width: False
   blind: True
+
+Pzeta:
+  x_bins: "50|-200:300"
+  x_title: "P_{#zeta}"
+  y_title: Events
+  use_log_y: False
+  max_y_sf: 1.5
+  divide_by_bin_width: False
+
+Pzeta_visible:
+  x_bins: "40|0:400"
+  x_title: "P_{#zeta}^{vis}"
+  y_title: Events
+  use_log_y: False
+  max_y_sf: 1.5
+  divide_by_bin_width: False
+
+CosThetaStar_HH:
+  x_bins: "20|-1.0:1.0"
+  x_title: "cos#theta^{*} (H#rightarrowbb in HH frame)"
+  y_title: Events
+  use_log_y: False
+  max_y_sf: 1.5
+  divide_by_bin_width: False
+
+HelicityCosTheta_Hbb:
+  x_bins: "20|-1.0:1.0"
+  x_title: "cos#theta_{b} (helicity)"
+  y_title: Events
+  use_log_y: False
+  max_y_sf: 1.5
+  divide_by_bin_width: False
+
+HelicityCosTheta_HWW:
+  x_bins: "20|-1.0:1.0"
+  x_title: "cos#theta_{l} (helicity)"
+  y_title: Events
+  use_log_y: False
+  max_y_sf: 1.5
+  divide_by_bin_width: False
+
+Phi_HH:
+  x_bins: "20|0:3.1416"
+  x_title: "#Phi (H#rightarrowbb vs H#rightarrowWW decay planes)"
+  y_title: Events
+  use_log_y: False
+  max_y_sf: 1.5
+  divide_by_bin_width: False
+
+Phi1_HWW:
+  x_bins: "20|0:3.1416"
+  x_title: "#Phi_{1} (H#rightarrowWW decay vs production plane)"
+  y_title: Events
+  use_log_y: False
+  max_y_sf: 1.5
+  divide_by_bin_width: False
+
+bb_dR_HbbFrame:
+  x_bins: "30|3.0:9.0"
+  x_title: "#DeltaR(b, b) in H#rightarrowbb frame"
+  y_title: Events
+  use_log_y: False
+  max_y_sf: 1.5
+  divide_by_bin_width: False
+
+ll_dR_HWWFrame:
+  x_bins: "30|0:6.0"
+  x_title: "#DeltaR(l, l) in ll+MET frame"
+  y_title: Events
+  use_log_y: False
+  max_y_sf: 1.5
+  divide_by_bin_width: False
+
+MX_reduced:
+  x_bins: "50|200:2200"
+  x_title: "Reduced m_{X} [GeV]"
+  y_title: Events
+  use_log_y: True
+  max_y_sf: 1.5
+  divide_by_bin_width: False

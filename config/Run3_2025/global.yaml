@@ -4,55 +4,9 @@ met_type: PuppiMET
 nanoAODVersions:
   data: v15
   mc: v15
+# Everything not listed here comes from the top-level corrections block.
 corrections:
-  mu:
-    stages: [ HistTuple, AnalysisCache ]
-    columns:
-      pfRelIso04_all: Muon_pfRelIso04_all
-      tightId: Muon_tightId
-      tkRelIso: Muon_tkRelIso
-      highPtId: Muon_highPtId
-      mediumId: Muon_mediumId
-      looseId: Muon_looseId
-  trigger:
-    stages: [ HistTuple, AnalysisCache ]
-    mode: SF
-  ele: { stages: [ HistTuple, AnalysisCache ] }
-  fatjet:
-    stages: [ HistTuple, AnalysisCache ]
-    ana: bbWW
-    tagger: particleNetWithMass_HbbvsQCD
-    fatJetName: fatbjet
-  muScaRe: {
-    stage: AnaTuple,
-    mu_pt_for_ScaReApplication: "nano",
-    selection: "Muon_looseId",
-  }
-  eleES: { stages: [ AnaTuple, AnalysisCache ] }
-  lumi: { stage: AnaTuple }
-  xs: { stage: AnaTuple }
-  gen: { stage: AnaTuple }
-  pu:
-    stages: [ AnaTuple, AnaTupleMerge ]
-    enabled:
-      AnaTuple: true
-      AnaTupleMerge: false
-  # Parton-shower ISR/FSR -- keep in sync with config/global.yaml. This era declares its
-  # own complete `corrections:` block, and config is concatenated text parsed once, so a
-  # duplicate key replaces the top-level block wholesale instead of merging into it.
-  # Without this copy, weight_base_isr*_rel is never defined and PS_ISR/PS_FSR in this
-  # era's weights.yaml reference a column that does not exist.
-  parton_shower:
-    stages: [ AnaTuple, AnaTupleMerge ]
-    branch: PSWeight
-    enabled:
-      AnaTuple: true
-      AnaTupleMerge: false
-  base: { stage: AnaTupleMerge }
-  JEC: { stage: AnaTuple }
-  JER:
-    stage: AnaTuple
-    apply_jet_horns_fix: true
+  <<: *corrections_default
   btag:
     stages: [ AnaTuple, HistTuple, AnalysisCache ]
     modes:

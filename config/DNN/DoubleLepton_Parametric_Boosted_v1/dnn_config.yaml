@@ -12,7 +12,7 @@ dedicated_mass: null  # Set to an integer (e.g., 500) if evaluating a single mas
 # Cross-Validation Parity Setup
 #
 # Fold `f` (0 <= f < nParity) owns the events satisfying
-#     (event_number + f + offset) % nParity == 0
+#     event_number % nParity == (f + offset) % nParity
 # for the offset of the split in question. The offsets below must be distinct
 # and cover 0..nParity-1, so that the folds of any single split partition the
 # events exactly once each; DNN_Application.py verifies this at runtime.

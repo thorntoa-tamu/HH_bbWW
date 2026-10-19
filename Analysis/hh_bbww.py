@@ -23,7 +23,7 @@ WorkingPointsUParTAK4 = {
 }
 
 
-def createKeyFilterDict(global_params, period):
+def createKeyFilterDict(global_params, era):
     filter_dict = {}
     filter_str = ""
     channels_to_consider = global_params["channels_to_consider"]
@@ -290,56 +290,52 @@ class DataFrameBuilderForHistograms(DataFrameBuilderBase):
 
         SL_CR_active = False
         for QCDReg in self.config["QCDRegions"]:
-            if QCDReg.startswith("SL_SR") or QCDReg.startswith("SL_CR"):
+            # The regions are named SR_SL_M<mass> and CR_SL_<class>_M<mass> below.
+            if QCDReg.startswith("SR_SL") or QCDReg.startswith("CR_SL"):
                 SL_CR_active = True
+
         if stage == "HistTuple" and SL_CR_active:
+            self.df = self.df.Define(
+                "num_extra_tau", "return Sum(ExtraTau_idDeepTau2018v2p5VSjet >= 4);"
+            )
+            self.df = self.df.Define("tau_veto", f"num_extra_tau == 0;")
+
             # Individual mass signal regions
             masspoints = self.config["masspoints"]
             for mp in masspoints:
+                classes = ["Signal", "TT", "ST", "WJets", "DY", "H", "VV"]
+                scores = ", ".join(f"TwoStageDNN_M{mp}_{c}" for c in classes)
                 self.df = self.df.Define(
-                    f"predicted_class_M{mp}",
-                    f"""std::vector<double> scores = {{
-                            TwoStageDNN_M{mp}_Signal,
-                            TwoStageDNN_M{mp}_TT,
-                            TwoStageDNN_M{mp}_ST,
-                            TwoStageDNN_M{mp}_WJets,
-                            TwoStageDNN_M{mp}_DY,
-                            TwoStageDNN_M{mp}_H,
-                            TwoStageDNN_M{mp}_VV
-                        }};
-                        auto it = std::max_element(scores.begin(), scores.end());
-                        size_t cls = it - scores.begin();
-                        return cls;
-                    """,
+                    f"predicted_class_M{mp}", f"hh_bbww::ArgMax({{{scores}}})"
                 )
 
                 self.DefineAndAppend(
                     f"SR_SL_M{mp}",
-                    f"return predicted_class_M{mp} == 0 && Iso && event_selection;",
+                    f"return predicted_class_M{mp} == 0 && Iso && event_selection && tau_veto;",
                 )
                 self.DefineAndAppend(
                     f"CR_SL_TT_M{mp}",
-                    f"return predicted_class_M{mp} == 1 && Iso && event_selection;",
+                    f"return predicted_class_M{mp} == 1 && Iso && event_selection && tau_veto;",
                 )
                 self.DefineAndAppend(
                     f"CR_SL_ST_M{mp}",
-                    f"return predicted_class_M{mp} == 2 && Iso && event_selection;",
+                    f"return predicted_class_M{mp} == 2 && Iso && event_selection && tau_veto;",
                 )
                 self.DefineAndAppend(
                     f"CR_SL_WJets_M{mp}",
-                    f"return predicted_class_M{mp} == 3 && Iso && event_selection;",
+                    f"return predicted_class_M{mp} == 3 && Iso && event_selection && tau_veto;",
                 )
                 self.DefineAndAppend(
                     f"CR_SL_DY_M{mp}",
-                    f"return predicted_class_M{mp} == 4 && Iso && event_selection;",
+                    f"return predicted_class_M{mp} == 4 && Iso && event_selection && tau_veto;",
                 )
                 self.DefineAndAppend(
                     f"CR_SL_H_M{mp}",
-                    f"return predicted_class_M{mp} == 5 && Iso && event_selection;",
+                    f"return predicted_class_M{mp} == 5 && Iso && event_selection && tau_veto;",
                 )
                 self.DefineAndAppend(
                     f"CR_SL_VV_M{mp}",
-                    f"return predicted_class_M{mp} == 6 && Iso && event_selection;",
+                    f"return predicted_class_M{mp} == 6 && Iso && event_selection && tau_veto;",
                 )
 
     def calculateMT(self):
@@ -384,13 +380,13 @@ class DataFrameBuilderForHistograms(DataFrameBuilderBase):
         self.df = self.df.Define(varToDefine, var_expression)
         self.colToSave.append(varToDefine)
 
-    def __init__(self, df, config, period, colToSave=[], **kwargs):
+    def __init__(self, df, config, era, colToSave=[], **kwargs):
         super(DataFrameBuilderForHistograms, self).__init__(df, **kwargs)
         self.config = config
-        self.period = period
+        self.era = era
         self.colToSave = colToSave + ["channelId"]
-        self.bTagWP = WorkingPointsParticleNet[period]["Medium"]
-        self.bTagWP_Loose = WorkingPointsParticleNet[period][
+        self.bTagWP = WorkingPointsParticleNet[era]["Medium"]
+        self.bTagWP_Loose = WorkingPointsParticleNet[era][
             "Loose"
         ]  # wp should go to global config.
 
@@ -529,8 +525,7 @@ def AddDNNVariablesDL(df, isData=False):
     df = df.Define(
         "MT2_blbl_dR",
         f"(lep1_legType > 0 && lep2_legType > 0) ? float("
-        f"(ROOT::Math::VectorUtil::DeltaR(lep1_p4, bjet1_p4) + ROOT::Math::VectorUtil::DeltaR(lep2_p4, bjet2_p4)) <= "
-        f"(ROOT::Math::VectorUtil::DeltaR(lep1_p4, bjet2_p4) + ROOT::Math::VectorUtil::DeltaR(lep2_p4, bjet1_p4)) ? "
+        f"hh_bbww::IsDiagonalLepBPairing(lep1_p4, lep2_p4, bjet1_p4, bjet2_p4) ? "
         f"analysis::Calculate_MT2_func(l1b1_p4, l2b2_p4, PuppiMET_p4, 0.0, 0.0) : "
         f"analysis::Calculate_MT2_func(l1b2_p4, l2b1_p4, PuppiMET_p4, 0.0, 0.0)"
         f") : -100.",
@@ -615,7 +610,7 @@ def AddDNNVariablesDL(df, isData=False):
     return df
 
 
-def defineJetSelections(df, isData, period="Run3_2023BPix"):
+def defineJetSelections(df, isData, era="Run3_2023BPix"):
     # Define vars to save
     jet_vars = [
         "p4",
@@ -741,13 +736,11 @@ def defineJetSelections(df, isData, period="Run3_2023BPix"):
     elif use_upart:
         id_branch = None
         score_branch = "btagUParTAK4B"
-        bTagWP = WorkingPointsUParTAK4.get(period, WorkingPointsParticleNet[period])[
-            "Medium"
-        ]
+        bTagWP = WorkingPointsUParTAK4.get(era, WorkingPointsParticleNet[era])["Medium"]
     else:
         id_branch = None
         score_branch = "btagPNetB"
-        bTagWP = WorkingPointsParticleNet[period]["Medium"]
+        bTagWP = WorkingPointsParticleNet[era]["Medium"]
     if id_branch is not None:
         df = df.Define(
             "bjet1_isBTagged", f"bjet1_isValid ? BJet_{id_branch}[0] >= 1 : 0"
@@ -991,291 +984,35 @@ def defineTopCandP4(df):
     Function computing top candidate's p4 in SL channel.
     Requires categories to be defined.
     """
-    # compute leptonic W candidate assuming MET = (nu_px, nu_py) and onshell W from t->bW decays
-    # first prepare auxilliary p4s of two possible leptonic W candidates
-    # there are two because pz is determined by quadratic equation
-    # in case of two solutions use both labelled pos and neg
-    # when discriminant is < 0, use real part for both pos and neg
+    # leptonic W candidates from MET = (nu_px, nu_py) and an on-shell W from t->bW: the quadratic in
+    # nu_pz gives two solutions, labelled pos and neg (both the real part when the discriminant < 0)
     df = df.Define(
-        "lambda_top",
-        """
-            float mw = 80.1f;
-            float lep_pt = lep1_p4.Pt();
-            float lep_E = lep1_p4.E();
-            float lep_pz = lep1_p4.Pz();
-            float lambda_top = mw*mw/2 + PuppiMET_p4.Px()*lep1_p4.Px() + PuppiMET_p4.Py()*lep1_p4.Py();
-            return lambda_top;
-        """,
+        "nuFromT_sol", "hh_bbww::SolveNuPzFromW(lep1_p4, PuppiMET_p4, PuppiMET_pt)"
     )
-    df = df.Define(
-        "disc_top_sqr",
-        """
-            float mw = 80.1f;
-            float lep_pt = lep1_p4.Pt();
-            float lep_E = lep1_p4.E();
-            float lep_pz = lep1_p4.Pz();
-            float disc_top_sqr = lambda_top*lambda_top*lep_pz*lep_pz/(lep_pt*lep_pt*lep_pt*lep_pt) - (lep_E*lep_E*PuppiMET_pt*PuppiMET_pt - lambda_top*lambda_top)/(lep_pt*lep_pt);
-            return disc_top_sqr;
-        """,
-    )
+    df = df.Define("disc_top_sqr", "nuFromT_sol.disc_sqr")
+    for sol in ["pos", "neg"]:
+        df = df.Define(
+            f"nuFromT_{sol}_p4",
+            f"hh_bbww::NeutrinoP4(PuppiMET_p4, PuppiMET_pt, nuFromT_sol.pz_{sol})",
+        )
+        df = df.Define(f"lepWFromT_{sol}_p4", f"lep1_p4 + nuFromT_{sol}_p4")
 
-    df = df.Define(
-        "nuFromT_pz_poz",
-        """
-            float lep_pt = lep1_p4.Pt();
-            float lep_E = lep1_p4.E();
-            float lep_pz = lep1_p4.Pz();
-            if (disc_top_sqr > 0)
-                return static_cast<float>(lambda_top*lep_pz/(lep_pt*lep_pt) + std::sqrt(disc_top_sqr));
-            else
-                return static_cast<float>(lambda_top*lep_pz/(lep_pt*lep_pt));
-        """,
-    )
-
-    df = df.Define(
-        "nuFromT_pz_neg",
-        """
-            float lep_pt = lep1_p4.Pt();
-            float lep_E = lep1_p4.E();
-            float lep_pz = lep1_p4.Pz();
-            if (disc_top_sqr > 0)
-                return static_cast<float>(lambda_top*lep_pz/(lep_pt*lep_pt) - std::sqrt(disc_top_sqr));
-            else
-                return static_cast<float>(lambda_top*lep_pz/(lep_pt*lep_pt));
-        """,
-    )
-
-    df = df.Define(
-        "nuFromT_E_pos",
-        "return std::sqrt(PuppiMET_pt*PuppiMET_pt + nuFromT_pz_poz*nuFromT_pz_poz);",
-    )
-    df = df.Define(
-        "nuFromT_E_neg",
-        "return std::sqrt(PuppiMET_pt*PuppiMET_pt + nuFromT_pz_neg*nuFromT_pz_neg);",
-    )
-
-    df = df.Define(
-        "nuFromT_pos_p4",
-        "return LorentzVectorXYZ(PuppiMET_p4.Px(), PuppiMET_p4.Py(), nuFromT_pz_poz, nuFromT_E_pos);",
-    )
-    df = df.Define(
-        "nuFromT_neg_p4",
-        "return LorentzVectorXYZ(PuppiMET_p4.Px(), PuppiMET_p4.Py(), nuFromT_pz_neg, nuFromT_E_neg);",
-    )
-
-    df = df.Define("lepWFromT_pos_p4", "return lep1_p4 + nuFromT_pos_p4;")
-    df = df.Define("lepWFromT_neg_p4", "return lep1_p4 + nuFromT_neg_p4;")
-
-    # define collection of p4s of top quark candidates
-    # will have 3 elements:
-    #   0. hadronic top candidate from t->bW->bqq decay
-    #   1. leptonic top candidate with lepWFromT_pos_p4
-    #   2. leptonic top candidate with lepWFromT_neg_p4
-    # each element 0-3 is a collection itself and it contains
-    # constituents of top candidate, i.e.
-    #   0. b-tagged object (jet or fatjet)
-    #   1. leptonic W (in case of t->bW->blv) or jet (in case t->bW->bqq)
-    #   2. jet (in case t->bW->bqq) or nothing (in case of t->bW->blv)
+    # top candidates as lists of constituents: [0] hadronic top (b, W jets or fat W),
+    # [1] and [2] leptonic top (b, leptonic W) with the pos and neg neutrino solution
     df = df.Define(
         "tops",
-        f"""
-            RVecVec<LorentzVectorM> tops(3, RVecLV{{}});
-            if ((resolved || res2b) && !DL)
-            {{
-                float lep_bjet1_dr = ROOT::Math::VectorUtil::DeltaR(lep1_p4, bjet1_p4);
-                float lep_bjet2_dr = ROOT::Math::VectorUtil::DeltaR(lep1_p4, bjet2_p4);
-                if (lep_bjet1_dr < lep_bjet2_dr)
-                {{
-                    tops[0] = {{bjet2_p4, wjet1_p4, wjet2_p4}};
-                    tops[1] = {{bjet1_p4, lepWFromT_pos_p4}};
-                    tops[2] = {{bjet1_p4, lepWFromT_neg_p4}};
-                }}
-                else
-                {{
-                    tops[0] = {{bjet1_p4, wjet1_p4, wjet2_p4}};
-                    tops[1] = {{bjet2_p4, lepWFromT_pos_p4}};
-                    tops[2] = {{bjet2_p4, lepWFromT_neg_p4}};
-                }}
-            }}
-            else if (boosted)
-            {{
-                if (fatwjet_isValid && fatbjet_isValid)
-                {{
-                    
-                    if (bjet1_isValid && bjet2_isValid)
-                    {{
-                        std::vector<LorentzVectorM> bcands = {{bjet1_p4, bjet2_p4, fatbjet_p4}};
-                        auto dr_cmp_lep = [&lep1_p4](LorentzVectorM const& v1, LorentzVectorM const& v2){{
-                            return ROOT::Math::VectorUtil::DeltaR(v1, lep1_p4) < ROOT::Math::VectorUtil::DeltaR(v2, lep1_p4);
-                        }};
-                        auto it = std::min_element(bcands.begin(), bcands.end(), dr_cmp_lep);
-                        size_t bcand_from_lep_top_idx = it - bcands.begin();
-
-                        LorentzVectorM hadW_p4 = (wjet1_isValid && wjet2_isValid && !WJets_Boosted) ? (wjet1_p4 + wjet2_p4) : fatwjet_p4;
-                        size_t bcand_from_had_top_idx = (bcand_from_lep_top_idx == 0) ? 1 : 0;
-                        float min_dr = ROOT::Math::VectorUtil::DeltaR(bcands[bcand_from_had_top_idx], hadW_p4);
-
-                        for (size_t i = 0; i < 3; ++i)
-                        {{
-                            float dr = ROOT::Math::VectorUtil::DeltaR(bcands[i], hadW_p4);
-                            if (i != bcand_from_lep_top_idx && dr < min_dr)
-                            {{
-                                min_dr = dr;
-                                bcand_from_had_top_idx = i;
-                            }}
-                        }}
-                        
-                        if (wjet1_isValid && wjet2_isValid && !WJets_Boosted)
-                            tops[0] = {{bcands[bcand_from_had_top_idx], wjet1_p4, wjet2_p4}};
-                        else
-                            tops[0] = {{bcands[bcand_from_had_top_idx], fatwjet_p4}};
-                        tops[1] = {{bcands[bcand_from_lep_top_idx], lepWFromT_pos_p4}};
-                        tops[2] = {{bcands[bcand_from_lep_top_idx], lepWFromT_neg_p4}};
-                    }}
-                    else if (bjet1_isValid || bjet2_isValid)
-                    {{
-                        auto bjet_p4 = bjet1_isValid ? bjet1_p4 : bjet2_p4;
-                        float lep_bjet_dr = ROOT::Math::VectorUtil::DeltaR(lep1_p4, bjet_p4);
-                        float lep_fatbjet_dr = ROOT::Math::VectorUtil::DeltaR(lep1_p4, fatbjet_p4);
-                        if (lep_bjet_dr < lep_fatbjet_dr)
-                        {{
-                            if (wjet1_isValid && wjet2_isValid && !WJets_Boosted)
-                                tops[0] = {{fatbjet_p4, wjet1_p4, wjet2_p4}};
-                            else
-                                tops[0] = {{fatbjet_p4, fatwjet_p4 }};
-                            tops[1] = {{bjet_p4, lepWFromT_pos_p4}};
-                            tops[2] = {{bjet_p4, lepWFromT_neg_p4}};
-                        }}
-                        else
-                        {{
-                            if (wjet1_isValid && wjet2_isValid && !WJets_Boosted)
-                                tops[0] = {{bjet_p4, wjet1_p4, wjet2_p4}};
-                            else
-                                tops[0] = {{bjet_p4, fatwjet_p4}};
-                            tops[1] = {{fatbjet_p4, lepWFromT_pos_p4}};
-                            tops[2] = {{fatbjet_p4, lepWFromT_neg_p4}};
-                        }}
-                    }}
-                }}
-                else if (!fatwjet_isValid && fatbjet_isValid)
-                {{
-                    if (bjet1_isValid && bjet2_isValid)
-                    {{
-                        if (!wjet1_isValid || !wjet2_isValid)
-                        {{
-                            return tops;
-                        }}
-
-                        LorentzVectorM hadW_p4 = wjet1_p4 + wjet2_p4;
-
-                        std::vector<LorentzVectorM> bcands = {{bjet1_p4, bjet2_p4, fatbjet_p4}};
-                        auto dr_cmp_lep = [&lep1_p4](LorentzVectorM const& v1, LorentzVectorM const& v2){{
-                            return ROOT::Math::VectorUtil::DeltaR(v1, lep1_p4) < ROOT::Math::VectorUtil::DeltaR(v2, lep1_p4);
-                        }};
-                        auto it = std::min_element(bcands.begin(), bcands.end(), dr_cmp_lep);
-                        size_t bcand_from_lep_top_idx = it - bcands.begin();
-
-                        size_t bcand_from_had_top_idx = (bcand_from_lep_top_idx == 0) ? 1 : 0;
-                        float min_dr = ROOT::Math::VectorUtil::DeltaR(bcands[bcand_from_had_top_idx], hadW_p4);
-
-                        for (size_t i = 0; i < 3; ++i)
-                        {{
-                            float dr = ROOT::Math::VectorUtil::DeltaR(bcands[i], hadW_p4);
-                            if (i != bcand_from_lep_top_idx && dr < min_dr)
-                            {{
-                                min_dr = dr;
-                                bcand_from_had_top_idx = i;
-                            }}
-                        }}
-
-                        tops[0] = {{bcands[bcand_from_had_top_idx], wjet1_p4, wjet2_p4}};
-                        tops[1] = {{bcands[bcand_from_lep_top_idx], lepWFromT_pos_p4}};
-                        tops[2] = {{bcands[bcand_from_lep_top_idx], lepWFromT_neg_p4}};
-                    }}
-                    else if (bjet1_isValid || bjet2_isValid)
-                    {{
-                        auto bjet_p4 = bjet1_isValid ? bjet1_p4 : bjet2_p4;
-                        if (wjet1_isValid && wjet2_isValid)
-                        {{
-                            float lep_bjet_dr = ROOT::Math::VectorUtil::DeltaR(lep1_p4, bjet_p4);
-                            float lep_fatbjet_dr = ROOT::Math::VectorUtil::DeltaR(lep1_p4, fatbjet_p4);
-                            if (lep_bjet_dr < lep_fatbjet_dr)
-                            {{
-                                tops[0] = {{fatbjet_p4, wjet1_p4, wjet2_p4}};
-                                tops[1] = {{bjet_p4, lepWFromT_pos_p4}};
-                                tops[2] = {{bjet_p4, lepWFromT_neg_p4}};
-                            }}
-                            else
-                            {{
-                                tops[0] = {{bjet_p4, wjet1_p4, wjet2_p4}};
-                                tops[1] = {{fatbjet_p4, lepWFromT_pos_p4}};
-                                tops[2] = {{fatbjet_p4, lepWFromT_neg_p4}};
-                            }}
-                        }}
-                    }}
-                }}
-                else if (fatwjet_isValid && !fatbjet_isValid)
-                {{
-                    if (bjet1_isValid && bjet2_isValid)
-                    {{
-                        float lep_bjet1_dr = ROOT::Math::VectorUtil::DeltaR(lep1_p4, bjet1_p4);
-                        float lep_bjet2_dr = ROOT::Math::VectorUtil::DeltaR(lep1_p4, bjet2_p4);
-                        if (lep_bjet1_dr < lep_bjet2_dr)
-                        {{
-                            tops[0] = {{bjet2_p4, fatwjet_p4}};
-                            tops[1] = {{bjet1_p4, lepWFromT_pos_p4}};
-                            tops[2] = {{bjet1_p4, lepWFromT_neg_p4}};
-                        }}
-                        else
-                        {{
-                            tops[0] = {{bjet1_p4, fatwjet_p4}};
-                            tops[1] = {{bjet2_p4, lepWFromT_pos_p4}};
-                            tops[2] = {{bjet2_p4, lepWFromT_neg_p4}};
-                        }}
-                    }}
-                }}
-            }}
-            return tops;
-        """,
+        "hh_bbww::BuildTopCandidates(resolved, res2b, boosted, DL, lep1_p4, bjet1_p4, bjet1_isValid, "
+        "bjet2_p4, bjet2_isValid, fatbjet_p4, fatbjet_isValid, wjet1_p4, wjet1_isValid, wjet2_p4, "
+        "wjet2_isValid, fatwjet_p4, fatwjet_isValid, WJets_Boosted, lepWFromT_pos_p4, lepWFromT_neg_p4)",
     )
-
-    # now define p4 of each top
-    df = df.Define(
-        "hadT_p4",
-        """
-            LorentzVectorM res;
-            for (auto const& v: tops[0])
-                res += v;
-            return res;
-        """,
-    )
-    df = df.Define(
-        "lepT_pos_p4",
-        """
-            LorentzVectorM res;
-            for (auto const& v: tops[1])
-                res += v;
-            return res;
-        """,
-    )
-    df = df.Define(
-        "lepT_neg_p4",
-        """
-            LorentzVectorM res;
-            for (auto const& v: tops[2])
-                res += v;
-            return res;
-        """,
-    )
+    df = df.Define("hadT_p4", "hh_bbww::SumP4(tops[0])")
+    df = df.Define("lepT_pos_p4", "hh_bbww::SumP4(tops[1])")
+    df = df.Define("lepT_neg_p4", "hh_bbww::SumP4(tops[2])")
 
     # boolean indicating which solution (positive or negative) was picked for leptonic top candidate
     df = df.Define(
         "top_solution_tag",
-        """
-            float dphi_pos = std::abs(ROOT::Math::VectorUtil::DeltaPhi(hadT_p4, lepT_pos_p4));
-            float dphi_neg = std::abs(ROOT::Math::VectorUtil::DeltaPhi(hadT_p4, lepT_neg_p4));
-            return dphi_pos > dphi_neg;
-        """,
+        "hh_bbww::PickPositiveSolution(hadT_p4, lepT_pos_p4, lepT_neg_p4)",
     )
 
     df = df.Define("lepT_p4", "return top_solution_tag ? lepT_pos_p4 : lepT_neg_p4;")
@@ -1299,24 +1036,12 @@ def defineTopVariables(df):
 
     df = df.Define(
         "hadT_constituentPtFrac",
-        """
-            if (tops[0].empty())
-                return 0.0f;
-            float sum_pt = 0.0f;
-            for (auto const& p: tops[0])
-                sum_pt += p.Pt();
-            return static_cast<float>(hadT_p4.Pt()/sum_pt);
-        """,
+        "hh_bbww::HadTopConstituentPtFrac(tops[0], hadT_p4)",
     )
 
     df = df.Define(
         "lepT_constituentPtFrac",
-        """
-            if (top_solution_tag)
-                return static_cast<float>(tops[1].empty() ? 0.0f : lepT_p4.Pt()/(tops[1][0].Pt() + PuppiMET_pt + lep1_pt));
-            else
-                return static_cast<float>(tops[2].empty() ? 0.0f : lepT_p4.Pt()/(tops[2][0].Pt() + PuppiMET_pt + lep1_pt));
-        """,
+        "hh_bbww::LepTopConstituentPtFrac(top_solution_tag, tops, lepT_p4, PuppiMET_pt, lep1_pt)",
     )
 
     df = df.Define(
@@ -1326,30 +1051,7 @@ def defineTopVariables(df):
 
     df = df.Define(
         "lepT_mT",
-        f"""
-            VectorXY<float> nu_t;
-            LorentzVectorM bjet_p4;
-            if (top_solution_tag)
-            {{
-                nu_t = VectorXY<float>(nuFromT_pos_p4.Px(), nuFromT_pos_p4.Py());
-                bjet_p4 = tops[1].empty() ? LorentzVectorM() : tops[1][0];
-            }}
-            else
-            {{
-                nu_t = VectorXY<float>(nuFromT_neg_p4.Px(), nuFromT_neg_p4.Py());
-                bjet_p4 = tops[2].empty() ? LorentzVectorM() : tops[2][0];
-            }}
-            VectorXY<float> lep1_t = VectorXY<float>(lep1_p4.Px(), lep1_p4.Py());
-            VectorXY<float> bjet_t = VectorXY<float>(bjet_p4.Px(), bjet_p4.Py());
-            VectorXY<float> total_transverse_momentum = nu_t + lep1_t + bjet_t;
-
-            float total_transverse_energy = std::sqrt(nu_t.Mag2())
-                                          + std::sqrt(lep1_t.Mag2() + lep1_p4.M2())
-                                          + std::sqrt(bjet_t.Mag2() + bjet_p4.M2());
-
-            float mt_square = total_transverse_energy*total_transverse_energy - total_transverse_momentum.Mag2();
-            return static_cast<float>(mt_square > 0.0f ? std::sqrt(mt_square) : -1.0f);
-        """,
+        "hh_bbww::LepTopMT(top_solution_tag, nuFromT_pos_p4, nuFromT_neg_p4, tops, lep1_p4)",
     )
 
     df = df.Define(
@@ -1376,31 +1078,12 @@ def defineTopVariables(df):
 
     df = df.Define(
         "bjet_lepWfromT_minDphi",
-        """
-            RVecF dphis;
-            if (fatbjet_isValid)
-                dphis.push_back(ROOT::Math::VectorUtil::DeltaPhi(lepWfromT_p4, fatbjet_p4));
-            if (bjet1_isValid)
-                dphis.push_back(ROOT::Math::VectorUtil::DeltaPhi(lepWfromT_p4, bjet1_p4));
-            if (bjet2_isValid)
-                dphis.push_back(ROOT::Math::VectorUtil::DeltaPhi(lepWfromT_p4, bjet2_p4));
-
-            auto it = std::min_element(dphis.begin(), dphis.end());
-            if (it != dphis.end())
-                return static_cast<float>(*it);
-            return 5.0f;
-        """,
+        "hh_bbww::MinDeltaPhiToBCands(lepWfromT_p4, fatbjet_p4, fatbjet_isValid, bjet1_p4, bjet1_isValid, bjet2_p4, bjet2_isValid, 5.0f)",
     )
 
     df = df.Define(
         "bjet_lep_mass",
-        """
-            if (top_solution_tag)
-                return static_cast<float>(tops[1].empty() ? -1.0f : (tops[1][0] + lep1_p4).M());
-            else
-                return static_cast<float>(tops[2].empty() ? -1.0f : (tops[2][0] + lep1_p4).M());
-            return -1.0f;
-        """,
+        "hh_bbww::LepTopBLepMass(top_solution_tag, tops, lep1_p4)",
     )
 
     return df
@@ -1535,85 +1218,22 @@ def defineFeatureValidityFlags(df):
 def defineLepWCandP4(df):
     "Function computing p4 of leptonic W from H->WW decay assuming higgs mass constraint"
 
-    df = df.Define("mWhadLep_p4", "return hadW_p4 + lep1_p4;")
-
     df = df.Define(
-        "lambda_higgs",
-        """
-            float mh = 125.0f;
-            float mWhadLep = mWhadLep_p4.M();
-            float lambda_higgs = (mh*mh - mWhadLep*mWhadLep)/2 + PuppiMET_p4.Px()*mWhadLep_p4.Px() + PuppiMET_p4.Py()*mWhadLep_p4.Py();
-            return lambda_higgs;
-        """,
+        "nuFromH_sol",
+        "hh_bbww::SolveNuPzFromH(hadW_p4 + lep1_p4, PuppiMET_p4, PuppiMET_pt)",
     )
-    df = df.Define(
-        "a",
-        "return mWhadLep_p4.Pz()*mWhadLep_p4.Pz() - mWhadLep_p4.E()*mWhadLep_p4.E();",
-    )
-    df = df.Define("b", "return 2*lambda_higgs*mWhadLep_p4.Pz();")
-    df = df.Define(
-        "c",
-        "return lambda_higgs*lambda_higgs - mWhadLep_p4.E()*mWhadLep_p4.E()*PuppiMET_pt*PuppiMET_pt;",
-    )
-    df = df.Define("disc_higgs_sqr", "return b*b - 4*a*c;")
-
-    df = df.Define(
-        "nuFromH_pz_poz",
-        """
-            float const eps = 1e-6f;
-            if (std::abs(a) < eps)
-                return (std::abs(b) > eps) ? static_cast<float>(-c/b) : 0.0f;
-            if (disc_higgs_sqr > 0)
-                return static_cast<float>(-b/(2*a) + std::sqrt(disc_higgs_sqr)/(2*a));
-            else
-                return static_cast<float>(-b/(2*a));
-        """,
-    )
-
-    df = df.Define(
-        "nuFromH_pz_neg",
-        """
-            float const eps = 1e-6f;
-            if (std::abs(a) < eps)
-                return (std::abs(b) > eps) ? static_cast<float>(-c/b) : 0.0f;
-            if (disc_higgs_sqr > 0)
-                return static_cast<float>(-b/(2*a) - std::sqrt(disc_higgs_sqr)/(2*a));
-            else
-                return static_cast<float>(-b/(2*a));
-        """,
-    )
-
-    df = df.Define(
-        "nuFromH_E_pos",
-        "return std::sqrt(PuppiMET_pt*PuppiMET_pt + nuFromH_pz_poz*nuFromH_pz_poz);",
-    )
-    df = df.Define(
-        "nuFromH_E_neg",
-        "return std::sqrt(PuppiMET_pt*PuppiMET_pt + nuFromH_pz_neg*nuFromH_pz_neg);",
-    )
-
-    df = df.Define(
-        "nuFromH_pos_p4",
-        "return LorentzVectorXYZ(PuppiMET_p4.Px(), PuppiMET_p4.Py(), nuFromH_pz_poz, nuFromH_E_pos);",
-    )
-    df = df.Define(
-        "nuFromH_neg_p4",
-        "return LorentzVectorXYZ(PuppiMET_p4.Px(), PuppiMET_p4.Py(), nuFromH_pz_neg, nuFromH_E_neg);",
-    )
-
-    df = df.Define("lepWFromH_pos_p4", "return lep1_p4 + nuFromH_pos_p4;")
-    df = df.Define("lepWFromH_neg_p4", "return lep1_p4 + nuFromH_neg_p4;")
-
-    df = df.Define("Hww_pos_p4", "return lepWFromH_pos_p4 + hadW_p4;")
-    df = df.Define("Hww_neg_p4", "return lepWFromH_neg_p4 + hadW_p4;")
+    df = df.Define("disc_higgs_sqr", "nuFromH_sol.disc_sqr")
+    for sol in ["pos", "neg"]:
+        df = df.Define(
+            f"nuFromH_{sol}_p4",
+            f"hh_bbww::NeutrinoP4(PuppiMET_p4, PuppiMET_pt, nuFromH_sol.pz_{sol})",
+        )
+        df = df.Define(f"lepWFromH_{sol}_p4", f"lep1_p4 + nuFromH_{sol}_p4")
+        df = df.Define(f"Hww_{sol}_p4", f"lepWFromH_{sol}_p4 + hadW_p4")
 
     df = df.Define(
         "higgs_solution_tag",
-        """
-            float dphi_pos = std::abs(ROOT::Math::VectorUtil::DeltaPhi(Hbb_p4, Hww_pos_p4));
-            float dphi_neg = std::abs(ROOT::Math::VectorUtil::DeltaPhi(Hbb_p4, Hww_neg_p4));
-            return dphi_pos > dphi_neg;
-        """,
+        "hh_bbww::PickPositiveSolution(Hbb_p4, Hww_pos_p4, Hww_neg_p4)",
     )
 
     df = df.Define(
@@ -1622,6 +1242,89 @@ def defineLepWCandP4(df):
     )
     df = df.Define("Hww_p4", "return higgs_solution_tag ? Hww_pos_p4 : Hww_neg_p4;")
 
+    return df
+
+
+def AddHHSystemVariables(df):
+    """
+    HH production and decay variables, -100 where undefined (-9999 for the signed Pzeta pair).
+    H1 is the H->bb candidate (Hbb_p4).
+    H2 is H->WW: ll + MET (MET pz = 0) in DL, Hww_p4 in SL; its decay plane is (lep1, lep2) in DL
+    and (leptonic W, hadronic W) in SL. Requires categories and defineLepWCandP4.
+    """
+    df = df.Define("DL_leps_isValid", "DL && lep1_legType > 0 && lep2_legType > 0")
+    df = df.Define(
+        "HWWCand_isValid",
+        "DL_leps_isValid || (SL && lep1_legType > 0 && WhadCand_isValid)",
+    )
+    df = df.Define(
+        "HWWCand_p4",
+        "DL_leps_isValid ? LorentzVectorM(ll_p4 + PuppiMET_p4) : (HWWCand_isValid ? Hww_p4 : LorentzVectorM())",
+    )
+    df = df.Define("HWW_dau1_p4", "DL ? lep1_p4 : lepWfromH_p4")
+    df = df.Define("HWW_dau2_p4", "DL ? lep2_p4 : hadW_p4")
+    df = df.Define("HH_isValid", "HbbCand_isValid && HWWCand_isValid")
+    df = df.Define(
+        "Hbb_isResolved", "bjet1_isValid && bjet2_isValid && !fatbjet_isValid"
+    )
+
+    hh_variables = [
+        (
+            "Pzeta",
+            "DL_leps_isValid",
+            "hh_bbww::Calculate_Pzeta(lep1_p4, lep2_p4, PuppiMET_p4)",
+        ),
+        (
+            "Pzeta_visible",
+            "DL_leps_isValid",
+            "hh_bbww::Calculate_visiblePzeta(lep1_p4, lep2_p4)",
+        ),
+        (
+            "CosThetaStar_HH",
+            "HH_isValid",
+            "hh_bbww::Calculate_cosThetaStar(Hbb_p4, HWWCand_p4)",
+        ),
+        (
+            "HelicityCosTheta_Hbb",
+            "Hbb_isResolved",
+            "hh_bbww::Calculate_cosTheta_2bodies(bjet1_p4, Hbb_p4)",
+        ),
+        (
+            "HelicityCosTheta_HWW",
+            "HWWCand_isValid",
+            "hh_bbww::Calculate_cosTheta_2bodies(lep1_p4, HWWCand_p4)",
+        ),
+        (
+            "Phi_HH",
+            "HH_isValid && Hbb_isResolved",
+            "hh_bbww::Calculate_phi(HWW_dau1_p4, HWW_dau2_p4, bjet1_p4, bjet2_p4, HWWCand_p4, Hbb_p4)",
+        ),
+        (
+            "Phi1_HWW",
+            "HH_isValid",
+            "hh_bbww::Calculate_phi1(HWW_dau1_p4, HWW_dau2_p4, HWWCand_p4, Hbb_p4)",
+        ),
+        (
+            "bb_dR_HbbFrame",
+            "Hbb_isResolved",
+            "hh_bbww::Calculate_dR_boosted(bjet1_p4, bjet2_p4, Hbb_p4)",
+        ),
+        (
+            "ll_dR_HWWFrame",
+            "DL_leps_isValid",
+            "hh_bbww::Calculate_dR_boosted(lep1_p4, lep2_p4, HWWCand_p4)",
+        ),
+        (
+            "MX_reduced",
+            "HH_isValid",
+            "hh_bbww::Calculate_MX_reduced(Hbb_p4, HWWCand_p4)",
+        ),
+    ]
+    # Pzeta can be any real number, so its sentinel sits far outside the physical range.
+    sentinels = {"Pzeta": "-9999.f", "Pzeta_visible": "-9999.f"}
+    for name, valid, expr in hh_variables:
+        sentinel = sentinels.get(name, "-100.f")
+        df = df.Define(name, f"{valid} ? static_cast<float>({expr}) : {sentinel}")
     return df
 
 
@@ -1667,56 +1370,17 @@ def AddDNNVariablesSL(df, isData=False):
 
     df = df.Define(
         "lep1_bjets_minDr",
-        """
-            RVecF drs;
-            if (fatbjet_isValid)
-                drs.push_back(ROOT::Math::VectorUtil::DeltaR(lep1_p4, fatbjet_p4));
-            if (bjet1_isValid)
-                drs.push_back(ROOT::Math::VectorUtil::DeltaR(lep1_p4, bjet1_p4));
-            if (bjet2_isValid)
-                drs.push_back(ROOT::Math::VectorUtil::DeltaR(lep1_p4, bjet2_p4));
-
-            auto it = std::min_element(drs.begin(), drs.end());
-            if (it != drs.end())
-                return static_cast<float>(*it);
-            return -1.0f;
-        """,
+        "hh_bbww::MinDeltaRToBCands(lep1_p4, fatbjet_p4, fatbjet_isValid, bjet1_p4, bjet1_isValid, bjet2_p4, bjet2_isValid, -1.0f)",
     )
 
     df = df.Define(
         "lep1_bjets_minDphi",
-        """
-            RVecF dphis;
-            if (fatbjet_isValid)
-                dphis.push_back(ROOT::Math::VectorUtil::DeltaPhi(lep1_p4, fatbjet_p4));
-            if (bjet1_isValid)
-                dphis.push_back(ROOT::Math::VectorUtil::DeltaPhi(lep1_p4, bjet1_p4));
-            if (bjet2_isValid)
-                dphis.push_back(ROOT::Math::VectorUtil::DeltaPhi(lep1_p4, bjet2_p4));
-
-            auto it = std::min_element(dphis.begin(), dphis.end());
-            if (it != dphis.end())
-                return static_cast<float>(*it);
-            return 5.0f;
-        """,
+        "hh_bbww::MinDeltaPhiToBCands(lep1_p4, fatbjet_p4, fatbjet_isValid, bjet1_p4, bjet1_isValid, bjet2_p4, bjet2_isValid, 5.0f)",
     )
 
     df = df.Define(
         "bjet_lepWfromH_minDphi",
-        """
-            RVecF dphis;
-            if (fatbjet_isValid)
-                dphis.push_back(ROOT::Math::VectorUtil::DeltaPhi(lepWfromH_p4, fatbjet_p4));
-            if (bjet1_isValid)
-                dphis.push_back(ROOT::Math::VectorUtil::DeltaPhi(lepWfromH_p4, bjet1_p4));
-            if (bjet2_isValid)
-                dphis.push_back(ROOT::Math::VectorUtil::DeltaPhi(lepWfromH_p4, bjet2_p4));
-
-            auto it = std::min_element(dphis.begin(), dphis.end());
-            if (it != dphis.end())
-                return static_cast<float>(*it);
-            return 5.0f;
-        """,
+        "hh_bbww::MinDeltaPhiToBCands(lepWfromH_p4, fatbjet_p4, fatbjet_isValid, bjet1_p4, bjet1_isValid, bjet2_p4, bjet2_isValid, 5.0f)",
     )
 
     df = df.Define("WW_pt", "return static_cast<float>(Hww_p4.Pt());")
@@ -1824,7 +1488,7 @@ def PrepareDfForHistograms(dfForHistograms, isData, stage):
     dfForHistograms.df = defineJetSelections(
         dfForHistograms.df,
         isData,
-        getattr(dfForHistograms, "period", "Run3_2023BPix"),
+        dfForHistograms.era,
     )
     dfForHistograms.df = AddDNNVariablesCommon(dfForHistograms.df, isData)
     dfForHistograms.df = AddDNNVariablesDL(dfForHistograms.df, isData)
@@ -1835,6 +1499,7 @@ def PrepareDfForHistograms(dfForHistograms, isData, stage):
     dfForHistograms.defineCategories()
     dfForHistograms.df = defineTopCandP4(dfForHistograms.df)
     dfForHistograms.df = defineLepWCandP4(dfForHistograms.df)
+    dfForHistograms.df = AddHHSystemVariables(dfForHistograms.df)
     dfForHistograms.df = AddDNNVariablesSL(dfForHistograms.df, isData)
     dfForHistograms.df = defineTopVariables(dfForHistograms.df)
     # I comment this out now to save computation time

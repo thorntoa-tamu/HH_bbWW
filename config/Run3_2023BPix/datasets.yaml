@@ -1,3 +1,1932 @@
+# Start Resonant Signal samples) #
+# Signals(SL,S=0) #
+GluGlutoRadiontoHHto2B2Vto2B2JLNu_M_250:
+  sampleType: GluGluToRadion
+  mass: 250
+  spin: 0
+  crossSection: XtoHHto2B2Vto2B2JLNu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Vto2B2JLNu_M-250
+GluGlutoRadiontoHHto2B2Vto2B2JLNu_M_260:
+  sampleType: GluGluToRadion
+  mass: 260
+  spin: 0
+  crossSection: XtoHHto2B2Vto2B2JLNu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Vto2B2JLNu_M-260
+GluGlutoRadiontoHHto2B2Vto2B2JLNu_M_270:
+  sampleType: GluGluToRadion
+  mass: 270
+  spin: 0
+  crossSection: XtoHHto2B2Vto2B2JLNu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Vto2B2JLNu_M-270
+GluGlutoRadiontoHHto2B2Vto2B2JLNu_M_280:
+  sampleType: GluGluToRadion
+  mass: 280
+  spin: 0
+  crossSection: XtoHHto2B2Vto2B2JLNu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Vto2B2JLNu_M-280
+GluGlutoRadiontoHHto2B2Vto2B2JLNu_M_300:
+  sampleType: GluGluToRadion
+  mass: 300
+  spin: 0
+  crossSection: XtoHHto2B2Vto2B2JLNu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Vto2B2JLNu_M-300
+GluGlutoRadiontoHHto2B2Vto2B2JLNu_M_320:
+  sampleType: GluGluToRadion
+  mass: 320
+  spin: 0
+  crossSection: XtoHHto2B2Vto2B2JLNu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Vto2B2JLNu_M-320
+GluGlutoRadiontoHHto2B2Vto2B2JLNu_M_350:
+  sampleType: GluGluToRadion
+  mass: 350
+  spin: 0
+  crossSection: XtoHHto2B2Vto2B2JLNu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Vto2B2JLNu_M-350
+GluGlutoRadiontoHHto2B2Vto2B2JLNu_M_360:
+  sampleType: GluGluToRadion
+  mass: 360
+  spin: 0
+  crossSection: XtoHHto2B2Vto2B2JLNu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Vto2B2JLNu_M-360
+GluGlutoRadiontoHHto2B2Vto2B2JLNu_M_400:
+  sampleType: GluGluToRadion
+  mass: 400
+  spin: 0
+  crossSection: XtoHHto2B2Vto2B2JLNu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Vto2B2JLNu_M-400
+GluGlutoRadiontoHHto2B2Vto2B2JLNu_M_450:
+  sampleType: GluGluToRadion
+  mass: 450
+  spin: 0
+  crossSection: XtoHHto2B2Vto2B2JLNu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Vto2B2JLNu_M-450
+GluGlutoRadiontoHHto2B2Vto2B2JLNu_M_500:
+  sampleType: GluGluToRadion
+  mass: 500
+  spin: 0
+  crossSection: XtoHHto2B2Vto2B2JLNu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Vto2B2JLNu_M-500
+GluGlutoRadiontoHHto2B2Vto2B2JLNu_M_550:
+  sampleType: GluGluToRadion
+  mass: 550
+  spin: 0
+  crossSection: XtoHHto2B2Vto2B2JLNu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Vto2B2JLNu_M-550
+GluGlutoRadiontoHHto2B2Vto2B2JLNu_M_600:
+  sampleType: GluGluToRadion
+  mass: 600
+  spin: 0
+  crossSection: XtoHHto2B2Vto2B2JLNu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Vto2B2JLNu_M-600
+GluGlutoRadiontoHHto2B2Vto2B2JLNu_M_650:
+  sampleType: GluGluToRadion
+  mass: 650
+  spin: 0
+  crossSection: XtoHHto2B2Vto2B2JLNu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Vto2B2JLNu_M-650
+GluGlutoRadiontoHHto2B2Vto2B2JLNu_M_700:
+  sampleType: GluGluToRadion
+  mass: 700
+  spin: 0
+  crossSection: XtoHHto2B2Vto2B2JLNu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Vto2B2JLNu_M-700
+GluGlutoRadiontoHHto2B2Vto2B2JLNu_M_750:
+  sampleType: GluGluToRadion
+  mass: 750
+  spin: 0
+  crossSection: XtoHHto2B2Vto2B2JLNu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Vto2B2JLNu_M-750
+GluGlutoRadiontoHHto2B2Vto2B2JLNu_M_800:
+  sampleType: GluGluToRadion
+  mass: 800
+  spin: 0
+  crossSection: XtoHHto2B2Vto2B2JLNu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Vto2B2JLNu_M-800
+GluGlutoRadiontoHHto2B2Vto2B2JLNu_M_850:
+  sampleType: GluGluToRadion
+  mass: 850
+  spin: 0
+  crossSection: XtoHHto2B2Vto2B2JLNu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Vto2B2JLNu_M-850
+GluGlutoRadiontoHHto2B2Vto2B2JLNu_M_900:
+  sampleType: GluGluToRadion
+  mass: 900
+  spin: 0
+  crossSection: XtoHHto2B2Vto2B2JLNu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Vto2B2JLNu_M-900
+GluGlutoRadiontoHHto2B2Vto2B2JLNu_M_1000:
+  sampleType: GluGluToRadion
+  mass: 1000
+  spin: 0
+  crossSection: XtoHHto2B2Vto2B2JLNu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Vto2B2JLNu_M-1000
+GluGlutoRadiontoHHto2B2Vto2B2JLNu_M_1100:
+  sampleType: GluGluToRadion
+  mass: 1100
+  spin: 0
+  crossSection: XtoHHto2B2Vto2B2JLNu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Vto2B2JLNu_M-1100
+GluGlutoRadiontoHHto2B2Vto2B2JLNu_M_1200:
+  sampleType: GluGluToRadion
+  mass: 1200
+  spin: 0
+  crossSection: XtoHHto2B2Vto2B2JLNu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Vto2B2JLNu_M-1200
+GluGlutoRadiontoHHto2B2Vto2B2JLNu_M_1300:
+  sampleType: GluGluToRadion
+  mass: 1300
+  spin: 0
+  crossSection: XtoHHto2B2Vto2B2JLNu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Vto2B2JLNu_M-1300
+GluGlutoRadiontoHHto2B2Vto2B2JLNu_M_1400:
+  sampleType: GluGluToRadion
+  mass: 1400
+  spin: 0
+  crossSection: XtoHHto2B2Vto2B2JLNu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Vto2B2JLNu_M-1400
+GluGlutoRadiontoHHto2B2Vto2B2JLNu_M_1500:
+  sampleType: GluGluToRadion
+  mass: 1500
+  spin: 0
+  crossSection: XtoHHto2B2Vto2B2JLNu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Vto2B2JLNu_M-1500
+GluGlutoRadiontoHHto2B2Vto2B2JLNu_M_1600:
+  sampleType: GluGluToRadion
+  mass: 1600
+  spin: 0
+  crossSection: XtoHHto2B2Vto2B2JLNu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Vto2B2JLNu_M-1600
+GluGlutoRadiontoHHto2B2Vto2B2JLNu_M_1700:
+  sampleType: GluGluToRadion
+  mass: 1700
+  spin: 0
+  crossSection: XtoHHto2B2Vto2B2JLNu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Vto2B2JLNu_M-1700
+GluGlutoRadiontoHHto2B2Vto2B2JLNu_M_1800:
+  sampleType: GluGluToRadion
+  mass: 1800
+  spin: 0
+  crossSection: XtoHHto2B2Vto2B2JLNu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Vto2B2JLNu_M-1800
+GluGlutoRadiontoHHto2B2Vto2B2JLNu_M_1900:
+  sampleType: GluGluToRadion
+  mass: 1900
+  spin: 0
+  crossSection: XtoHHto2B2Vto2B2JLNu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Vto2B2JLNu_M-1900
+GluGlutoRadiontoHHto2B2Vto2B2JLNu_M_2000:
+  sampleType: GluGluToRadion
+  mass: 2000
+  spin: 0
+  crossSection: XtoHHto2B2Vto2B2JLNu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Vto2B2JLNu_M-2000
+GluGlutoRadiontoHHto2B2Vto2B2JLNu_M_2200:
+  sampleType: GluGluToRadion
+  mass: 2200
+  spin: 0
+  crossSection: XtoHHto2B2Vto2B2JLNu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Vto2B2JLNu_M-2200
+GluGlutoRadiontoHHto2B2Vto2B2JLNu_M_2400:
+  sampleType: GluGluToRadion
+  mass: 2400
+  spin: 0
+  crossSection: XtoHHto2B2Vto2B2JLNu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Vto2B2JLNu_M-2400
+GluGlutoRadiontoHHto2B2Vto2B2JLNu_M_2500:
+  sampleType: GluGluToRadion
+  mass: 2500
+  spin: 0
+  crossSection: XtoHHto2B2Vto2B2JLNu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Vto2B2JLNu_M-2500
+GluGlutoRadiontoHHto2B2Vto2B2JLNu_M_2600:
+  sampleType: GluGluToRadion
+  mass: 2600
+  spin: 0
+  crossSection: XtoHHto2B2Vto2B2JLNu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Vto2B2JLNu_M-2600
+GluGlutoRadiontoHHto2B2Vto2B2JLNu_M_2800:
+  sampleType: GluGluToRadion
+  mass: 2800
+  spin: 0
+  crossSection: XtoHHto2B2Vto2B2JLNu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Vto2B2JLNu_M-2800
+GluGlutoRadiontoHHto2B2Vto2B2JLNu_M_3000:
+  sampleType: GluGluToRadion
+  mass: 3000
+  spin: 0
+  crossSection: XtoHHto2B2Vto2B2JLNu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Vto2B2JLNu_M-3000
+GluGlutoRadiontoHHto2B2Vto2B2JLNu_M_3500:
+  sampleType: GluGluToRadion
+  mass: 3500
+  spin: 0
+  crossSection: XtoHHto2B2Vto2B2JLNu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Vto2B2JLNu_M-3500
+GluGlutoRadiontoHHto2B2Vto2B2JLNu_M_4000:
+  sampleType: GluGluToRadion
+  mass: 4000
+  spin: 0
+  crossSection: XtoHHto2B2Vto2B2JLNu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Vto2B2JLNu_M-4000
+GluGlutoRadiontoHHto2B2Vto2B2JLNu_M_4500:
+  sampleType: GluGluToRadion
+  mass: 4500
+  spin: 0
+  crossSection: XtoHHto2B2Vto2B2JLNu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Vto2B2JLNu_M-4500
+GluGlutoRadiontoHHto2B2Vto2B2JLNu_M_5000:
+  sampleType: GluGluToRadion
+  mass: 5000
+  spin: 0
+  crossSection: XtoHHto2B2Vto2B2JLNu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Vto2B2JLNu_M-5000
+# Signals(SL,S=2) #
+GluGlutoBulkGravitontoHHto2B2Vto2B2JLNu_M_250:
+  sampleType: GluGluToBulkGraviton
+  mass: 250
+  spin: 2
+  crossSection: XtoHHto2B2Vto2B2JLNu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Vto2B2JLNu_M-250
+GluGlutoBulkGravitontoHHto2B2Vto2B2JLNu_M_260:
+  sampleType: GluGluToBulkGraviton
+  mass: 260
+  spin: 2
+  crossSection: XtoHHto2B2Vto2B2JLNu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Vto2B2JLNu_M-260
+GluGlutoBulkGravitontoHHto2B2Vto2B2JLNu_M_270:
+  sampleType: GluGluToBulkGraviton
+  mass: 270
+  spin: 2
+  crossSection: XtoHHto2B2Vto2B2JLNu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Vto2B2JLNu_M-270
+GluGlutoBulkGravitontoHHto2B2Vto2B2JLNu_M_280:
+  sampleType: GluGluToBulkGraviton
+  mass: 280
+  spin: 2
+  crossSection: XtoHHto2B2Vto2B2JLNu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Vto2B2JLNu_M-280
+GluGlutoBulkGravitontoHHto2B2Vto2B2JLNu_M_300:
+  sampleType: GluGluToBulkGraviton
+  mass: 300
+  spin: 2
+  crossSection: XtoHHto2B2Vto2B2JLNu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Vto2B2JLNu_M-300
+GluGlutoBulkGravitontoHHto2B2Vto2B2JLNu_M_320:
+  sampleType: GluGluToBulkGraviton
+  mass: 320
+  spin: 2
+  crossSection: XtoHHto2B2Vto2B2JLNu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Vto2B2JLNu_M-320
+GluGlutoBulkGravitontoHHto2B2Vto2B2JLNu_M_350:
+  sampleType: GluGluToBulkGraviton
+  mass: 350
+  spin: 2
+  crossSection: XtoHHto2B2Vto2B2JLNu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Vto2B2JLNu_M-350
+GluGlutoBulkGravitontoHHto2B2Vto2B2JLNu_M_360:
+  sampleType: GluGluToBulkGraviton
+  mass: 360
+  spin: 2
+  crossSection: XtoHHto2B2Vto2B2JLNu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Vto2B2JLNu_M-360
+GluGlutoBulkGravitontoHHto2B2Vto2B2JLNu_M_400:
+  sampleType: GluGluToBulkGraviton
+  mass: 400
+  spin: 2
+  crossSection: XtoHHto2B2Vto2B2JLNu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Vto2B2JLNu_M-400
+GluGlutoBulkGravitontoHHto2B2Vto2B2JLNu_M_450:
+  sampleType: GluGluToBulkGraviton
+  mass: 450
+  spin: 2
+  crossSection: XtoHHto2B2Vto2B2JLNu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Vto2B2JLNu_M-450
+GluGlutoBulkGravitontoHHto2B2Vto2B2JLNu_M_500:
+  sampleType: GluGluToBulkGraviton
+  mass: 500
+  spin: 2
+  crossSection: XtoHHto2B2Vto2B2JLNu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Vto2B2JLNu_M-500
+GluGlutoBulkGravitontoHHto2B2Vto2B2JLNu_M_550:
+  sampleType: GluGluToBulkGraviton
+  mass: 550
+  spin: 2
+  crossSection: XtoHHto2B2Vto2B2JLNu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Vto2B2JLNu_M-550
+GluGlutoBulkGravitontoHHto2B2Vto2B2JLNu_M_600:
+  sampleType: GluGluToBulkGraviton
+  mass: 600
+  spin: 2
+  crossSection: XtoHHto2B2Vto2B2JLNu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Vto2B2JLNu_M-600
+GluGlutoBulkGravitontoHHto2B2Vto2B2JLNu_M_650:
+  sampleType: GluGluToBulkGraviton
+  mass: 650
+  spin: 2
+  crossSection: XtoHHto2B2Vto2B2JLNu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Vto2B2JLNu_M-650
+GluGlutoBulkGravitontoHHto2B2Vto2B2JLNu_M_700:
+  sampleType: GluGluToBulkGraviton
+  mass: 700
+  spin: 2
+  crossSection: XtoHHto2B2Vto2B2JLNu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Vto2B2JLNu_M-700
+GluGlutoBulkGravitontoHHto2B2Vto2B2JLNu_M_750:
+  sampleType: GluGluToBulkGraviton
+  mass: 750
+  spin: 2
+  crossSection: XtoHHto2B2Vto2B2JLNu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Vto2B2JLNu_M-750
+GluGlutoBulkGravitontoHHto2B2Vto2B2JLNu_M_800:
+  sampleType: GluGluToBulkGraviton
+  mass: 800
+  spin: 2
+  crossSection: XtoHHto2B2Vto2B2JLNu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Vto2B2JLNu_M-800
+GluGlutoBulkGravitontoHHto2B2Vto2B2JLNu_M_850:
+  sampleType: GluGluToBulkGraviton
+  mass: 850
+  spin: 2
+  crossSection: XtoHHto2B2Vto2B2JLNu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Vto2B2JLNu_M-850
+GluGlutoBulkGravitontoHHto2B2Vto2B2JLNu_M_900:
+  sampleType: GluGluToBulkGraviton
+  mass: 900
+  spin: 2
+  crossSection: XtoHHto2B2Vto2B2JLNu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Vto2B2JLNu_M-900
+GluGlutoBulkGravitontoHHto2B2Vto2B2JLNu_M_1000:
+  sampleType: GluGluToBulkGraviton
+  mass: 1000
+  spin: 2
+  crossSection: XtoHHto2B2Vto2B2JLNu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Vto2B2JLNu_M-1000
+GluGlutoBulkGravitontoHHto2B2Vto2B2JLNu_M_1100:
+  sampleType: GluGluToBulkGraviton
+  mass: 1100
+  spin: 2
+  crossSection: XtoHHto2B2Vto2B2JLNu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Vto2B2JLNu_M-1100
+GluGlutoBulkGravitontoHHto2B2Vto2B2JLNu_M_1200:
+  sampleType: GluGluToBulkGraviton
+  mass: 1200
+  spin: 2
+  crossSection: XtoHHto2B2Vto2B2JLNu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Vto2B2JLNu_M-1200
+GluGlutoBulkGravitontoHHto2B2Vto2B2JLNu_M_1300:
+  sampleType: GluGluToBulkGraviton
+  mass: 1300
+  spin: 2
+  crossSection: XtoHHto2B2Vto2B2JLNu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Vto2B2JLNu_M-1300
+GluGlutoBulkGravitontoHHto2B2Vto2B2JLNu_M_1400:
+  sampleType: GluGluToBulkGraviton
+  mass: 1400
+  spin: 2
+  crossSection: XtoHHto2B2Vto2B2JLNu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Vto2B2JLNu_M-1400
+GluGlutoBulkGravitontoHHto2B2Vto2B2JLNu_M_1500:
+  sampleType: GluGluToBulkGraviton
+  mass: 1500
+  spin: 2
+  crossSection: XtoHHto2B2Vto2B2JLNu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Vto2B2JLNu_M-1500
+GluGlutoBulkGravitontoHHto2B2Vto2B2JLNu_M_1600:
+  sampleType: GluGluToBulkGraviton
+  mass: 1600
+  spin: 2
+  crossSection: XtoHHto2B2Vto2B2JLNu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Vto2B2JLNu_M-1600
+GluGlutoBulkGravitontoHHto2B2Vto2B2JLNu_M_1700:
+  sampleType: GluGluToBulkGraviton
+  mass: 1700
+  spin: 2
+  crossSection: XtoHHto2B2Vto2B2JLNu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Vto2B2JLNu_M-1700
+GluGlutoBulkGravitontoHHto2B2Vto2B2JLNu_M_1800:
+  sampleType: GluGluToBulkGraviton
+  mass: 1800
+  spin: 2
+  crossSection: XtoHHto2B2Vto2B2JLNu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Vto2B2JLNu_M-1800
+GluGlutoBulkGravitontoHHto2B2Vto2B2JLNu_M_1900:
+  sampleType: GluGluToBulkGraviton
+  mass: 1900
+  spin: 2
+  crossSection: XtoHHto2B2Vto2B2JLNu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Vto2B2JLNu_M-1900
+GluGlutoBulkGravitontoHHto2B2Vto2B2JLNu_M_2000:
+  sampleType: GluGluToBulkGraviton
+  mass: 2000
+  spin: 2
+  crossSection: XtoHHto2B2Vto2B2JLNu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Vto2B2JLNu_M-2000
+GluGlutoBulkGravitontoHHto2B2Vto2B2JLNu_M_2200:
+  sampleType: GluGluToBulkGraviton
+  mass: 2200
+  spin: 2
+  crossSection: XtoHHto2B2Vto2B2JLNu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Vto2B2JLNu_M-2200
+GluGlutoBulkGravitontoHHto2B2Vto2B2JLNu_M_2400:
+  sampleType: GluGluToBulkGraviton
+  mass: 2400
+  spin: 2
+  crossSection: XtoHHto2B2Vto2B2JLNu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Vto2B2JLNu_M-2400
+GluGlutoBulkGravitontoHHto2B2Vto2B2JLNu_M_2500:
+  sampleType: GluGluToBulkGraviton
+  mass: 2500
+  spin: 2
+  crossSection: XtoHHto2B2Vto2B2JLNu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Vto2B2JLNu_M-2500
+GluGlutoBulkGravitontoHHto2B2Vto2B2JLNu_M_2600:
+  sampleType: GluGluToBulkGraviton
+  mass: 2600
+  spin: 2
+  crossSection: XtoHHto2B2Vto2B2JLNu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Vto2B2JLNu_M-2600
+GluGlutoBulkGravitontoHHto2B2Vto2B2JLNu_M_2800:
+  sampleType: GluGluToBulkGraviton
+  mass: 2800
+  spin: 2
+  crossSection: XtoHHto2B2Vto2B2JLNu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Vto2B2JLNu_M-2800
+GluGlutoBulkGravitontoHHto2B2Vto2B2JLNu_M_3000:
+  sampleType: GluGluToBulkGraviton
+  mass: 3000
+  spin: 2
+  crossSection: XtoHHto2B2Vto2B2JLNu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Vto2B2JLNu_M-3000
+GluGlutoBulkGravitontoHHto2B2Vto2B2JLNu_M_3500:
+  sampleType: GluGluToBulkGraviton
+  mass: 3500
+  spin: 2
+  crossSection: XtoHHto2B2Vto2B2JLNu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Vto2B2JLNu_M-3500
+GluGlutoBulkGravitontoHHto2B2Vto2B2JLNu_M_4000:
+  sampleType: GluGluToBulkGraviton
+  mass: 4000
+  spin: 2
+  crossSection: XtoHHto2B2Vto2B2JLNu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Vto2B2JLNu_M-4000
+GluGlutoBulkGravitontoHHto2B2Vto2B2JLNu_M_4500:
+  sampleType: GluGluToBulkGraviton
+  mass: 4500
+  spin: 2
+  crossSection: XtoHHto2B2Vto2B2JLNu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Vto2B2JLNu_M-4500
+GluGlutoBulkGravitontoHHto2B2Vto2B2JLNu_M_5000:
+  sampleType: GluGluToBulkGraviton
+  mass: 5000
+  spin: 2
+  crossSection: XtoHHto2B2Vto2B2JLNu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Vto2B2JLNu_M-5000
+# Signals(DL,S=0 #
+GluGlutoRadiontoHHto2B2Vto2B2L2Nu_M_250:
+  sampleType: GluGluToRadion
+  mass: 250
+  spin: 0
+  crossSection: XtoHHto2B2Vto2B2L2Nu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Vto2B2L2Nu_M-250
+GluGlutoRadiontoHHto2B2Vto2B2L2Nu_M_260:
+  sampleType: GluGluToRadion
+  mass: 260
+  spin: 0
+  crossSection: XtoHHto2B2Vto2B2L2Nu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Vto2B2L2Nu_M-260
+GluGlutoRadiontoHHto2B2Vto2B2L2Nu_M_270:
+  sampleType: GluGluToRadion
+  mass: 270
+  spin: 0
+  crossSection: XtoHHto2B2Vto2B2L2Nu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Vto2B2L2Nu_M-270
+GluGlutoRadiontoHHto2B2Vto2B2L2Nu_M_280:
+  sampleType: GluGluToRadion
+  mass: 280
+  spin: 0
+  crossSection: XtoHHto2B2Vto2B2L2Nu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Vto2B2L2Nu_M-280
+GluGlutoRadiontoHHto2B2Vto2B2L2Nu_M_300:
+  sampleType: GluGluToRadion
+  mass: 300
+  spin: 0
+  crossSection: XtoHHto2B2Vto2B2L2Nu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Vto2B2L2Nu_M-300
+GluGlutoRadiontoHHto2B2Vto2B2L2Nu_M_320:
+  sampleType: GluGluToRadion
+  mass: 320
+  spin: 0
+  crossSection: XtoHHto2B2Vto2B2L2Nu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Vto2B2L2Nu_M-320
+GluGlutoRadiontoHHto2B2Vto2B2L2Nu_M_350:
+  sampleType: GluGluToRadion
+  mass: 350
+  spin: 0
+  crossSection: XtoHHto2B2Vto2B2L2Nu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Vto2B2L2Nu_M-350
+GluGlutoRadiontoHHto2B2Vto2B2L2Nu_M_360:
+  sampleType: GluGluToRadion
+  mass: 360
+  spin: 0
+  crossSection: XtoHHto2B2Vto2B2L2Nu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Vto2B2L2Nu_M-360
+GluGlutoRadiontoHHto2B2Vto2B2L2Nu_M_400:
+  sampleType: GluGluToRadion
+  mass: 400
+  spin: 0
+  crossSection: XtoHHto2B2Vto2B2L2Nu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Vto2B2L2Nu_M-400
+GluGlutoRadiontoHHto2B2Vto2B2L2Nu_M_450:
+  sampleType: GluGluToRadion
+  mass: 450
+  spin: 0
+  crossSection: XtoHHto2B2Vto2B2L2Nu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Vto2B2L2Nu_M-450
+GluGlutoRadiontoHHto2B2Vto2B2L2Nu_M_500:
+  sampleType: GluGluToRadion
+  mass: 500
+  spin: 0
+  crossSection: XtoHHto2B2Vto2B2L2Nu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Vto2B2L2Nu_M-500
+GluGlutoRadiontoHHto2B2Vto2B2L2Nu_M_550:
+  sampleType: GluGluToRadion
+  mass: 550
+  spin: 0
+  crossSection: XtoHHto2B2Vto2B2L2Nu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Vto2B2L2Nu_M-550
+GluGlutoRadiontoHHto2B2Vto2B2L2Nu_M_600:
+  sampleType: GluGluToRadion
+  mass: 600
+  spin: 0
+  crossSection: XtoHHto2B2Vto2B2L2Nu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Vto2B2L2Nu_M-600
+GluGlutoRadiontoHHto2B2Vto2B2L2Nu_M_650:
+  sampleType: GluGluToRadion
+  mass: 650
+  spin: 0
+  crossSection: XtoHHto2B2Vto2B2L2Nu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Vto2B2L2Nu_M-650
+GluGlutoRadiontoHHto2B2Vto2B2L2Nu_M_700:
+  sampleType: GluGluToRadion
+  mass: 700
+  spin: 0
+  crossSection: XtoHHto2B2Vto2B2L2Nu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Vto2B2L2Nu_M-700
+GluGlutoRadiontoHHto2B2Vto2B2L2Nu_M_750:
+  sampleType: GluGluToRadion
+  mass: 750
+  spin: 0
+  crossSection: XtoHHto2B2Vto2B2L2Nu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Vto2B2L2Nu_M-750
+GluGlutoRadiontoHHto2B2Vto2B2L2Nu_M_800:
+  sampleType: GluGluToRadion
+  mass: 800
+  spin: 0
+  crossSection: XtoHHto2B2Vto2B2L2Nu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Vto2B2L2Nu_M-800
+GluGlutoRadiontoHHto2B2Vto2B2L2Nu_M_850:
+  sampleType: GluGluToRadion
+  mass: 850
+  spin: 0
+  crossSection: XtoHHto2B2Vto2B2L2Nu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Vto2B2L2Nu_M-850
+GluGlutoRadiontoHHto2B2Vto2B2L2Nu_M_900:
+  sampleType: GluGluToRadion
+  mass: 900
+  spin: 0
+  crossSection: XtoHHto2B2Vto2B2L2Nu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Vto2B2L2Nu_M-900
+GluGlutoRadiontoHHto2B2Vto2B2L2Nu_M_1000:
+  sampleType: GluGluToRadion
+  mass: 1000
+  spin: 0
+  crossSection: XtoHHto2B2Vto2B2L2Nu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Vto2B2L2Nu_M-1000
+GluGlutoRadiontoHHto2B2Vto2B2L2Nu_M_1100:
+  sampleType: GluGluToRadion
+  mass: 1100
+  spin: 0
+  crossSection: XtoHHto2B2Vto2B2L2Nu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Vto2B2L2Nu_M-1100
+GluGlutoRadiontoHHto2B2Vto2B2L2Nu_M_1200:
+  sampleType: GluGluToRadion
+  mass: 1200
+  spin: 0
+  crossSection: XtoHHto2B2Vto2B2L2Nu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Vto2B2L2Nu_M-1200
+GluGlutoRadiontoHHto2B2Vto2B2L2Nu_M_1300:
+  sampleType: GluGluToRadion
+  mass: 1300
+  spin: 0
+  crossSection: XtoHHto2B2Vto2B2L2Nu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Vto2B2L2Nu_M-1300
+GluGlutoRadiontoHHto2B2Vto2B2L2Nu_M_1400:
+  sampleType: GluGluToRadion
+  mass: 1400
+  spin: 0
+  crossSection: XtoHHto2B2Vto2B2L2Nu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Vto2B2L2Nu_M-1400
+GluGlutoRadiontoHHto2B2Vto2B2L2Nu_M_1500:
+  sampleType: GluGluToRadion
+  mass: 1500
+  spin: 0
+  crossSection: XtoHHto2B2Vto2B2L2Nu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Vto2B2L2Nu_M-1500
+GluGlutoRadiontoHHto2B2Vto2B2L2Nu_M_1600:
+  sampleType: GluGluToRadion
+  mass: 1600
+  spin: 0
+  crossSection: XtoHHto2B2Vto2B2L2Nu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Vto2B2L2Nu_M-1600
+GluGlutoRadiontoHHto2B2Vto2B2L2Nu_M_1700:
+  sampleType: GluGluToRadion
+  mass: 1700
+  spin: 0
+  crossSection: XtoHHto2B2Vto2B2L2Nu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Vto2B2L2Nu_M-1700
+GluGlutoRadiontoHHto2B2Vto2B2L2Nu_M_1800:
+  sampleType: GluGluToRadion
+  mass: 1800
+  spin: 0
+  crossSection: XtoHHto2B2Vto2B2L2Nu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Vto2B2L2Nu_M-1800
+GluGlutoRadiontoHHto2B2Vto2B2L2Nu_M_1900:
+  sampleType: GluGluToRadion
+  mass: 1900
+  spin: 0
+  crossSection: XtoHHto2B2Vto2B2L2Nu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Vto2B2L2Nu_M-1900
+GluGlutoRadiontoHHto2B2Vto2B2L2Nu_M_2000:
+  sampleType: GluGluToRadion
+  mass: 2000
+  spin: 0
+  crossSection: XtoHHto2B2Vto2B2L2Nu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Vto2B2L2Nu_M-2000
+GluGlutoRadiontoHHto2B2Vto2B2L2Nu_M_2200:
+  sampleType: GluGluToRadion
+  mass: 2200
+  spin: 0
+  crossSection: XtoHHto2B2Vto2B2L2Nu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Vto2B2L2Nu_M-2200
+GluGlutoRadiontoHHto2B2Vto2B2L2Nu_M_2400:
+  sampleType: GluGluToRadion
+  mass: 2400
+  spin: 0
+  crossSection: XtoHHto2B2Vto2B2L2Nu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Vto2B2L2Nu_M-2400
+GluGlutoRadiontoHHto2B2Vto2B2L2Nu_M_2500:
+  sampleType: GluGluToRadion
+  mass: 2500
+  spin: 0
+  crossSection: XtoHHto2B2Vto2B2L2Nu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Vto2B2L2Nu_M-2500
+GluGlutoRadiontoHHto2B2Vto2B2L2Nu_M_2600:
+  sampleType: GluGluToRadion
+  mass: 2600
+  spin: 0
+  crossSection: XtoHHto2B2Vto2B2L2Nu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Vto2B2L2Nu_M-2600
+GluGlutoRadiontoHHto2B2Vto2B2L2Nu_M_2800:
+  sampleType: GluGluToRadion
+  mass: 2800
+  spin: 0
+  crossSection: XtoHHto2B2Vto2B2L2Nu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Vto2B2L2Nu_M-2800
+GluGlutoRadiontoHHto2B2Vto2B2L2Nu_M_3000:
+  sampleType: GluGluToRadion
+  mass: 3000
+  spin: 0
+  crossSection: XtoHHto2B2Vto2B2L2Nu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Vto2B2L2Nu_M-3000
+GluGlutoRadiontoHHto2B2Vto2B2L2Nu_M_3500:
+  sampleType: GluGluToRadion
+  mass: 3500
+  spin: 0
+  crossSection: XtoHHto2B2Vto2B2L2Nu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Vto2B2L2Nu_M-3500
+GluGlutoRadiontoHHto2B2Vto2B2L2Nu_M_4000:
+  sampleType: GluGluToRadion
+  mass: 4000
+  spin: 0
+  crossSection: XtoHHto2B2Vto2B2L2Nu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Vto2B2L2Nu_M-4000
+GluGlutoRadiontoHHto2B2Vto2B2L2Nu_M_4500:
+  sampleType: GluGluToRadion
+  mass: 4500
+  spin: 0
+  crossSection: XtoHHto2B2Vto2B2L2Nu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Vto2B2L2Nu_M-4500
+GluGlutoRadiontoHHto2B2Vto2B2L2Nu_M_5000:
+  sampleType: GluGluToRadion
+  mass: 5000
+  spin: 0
+  crossSection: XtoHHto2B2Vto2B2L2Nu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Vto2B2L2Nu_M-5000
+# Signals(DL,S=2) #
+GluGlutoBulkGravitontoHHto2B2Vto2B2L2Nu_M_250:
+  sampleType: GluGluToBulkGraviton
+  mass: 250
+  spin: 2
+  crossSection: XtoHHto2B2Vto2B2L2Nu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Vto2B2L2Nu_M-250
+GluGlutoBulkGravitontoHHto2B2Vto2B2L2Nu_M_260:
+  sampleType: GluGluToBulkGraviton
+  mass: 260
+  spin: 2
+  crossSection: XtoHHto2B2Vto2B2L2Nu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Vto2B2L2Nu_M-260
+GluGlutoBulkGravitontoHHto2B2Vto2B2L2Nu_M_270:
+  sampleType: GluGluToBulkGraviton
+  mass: 270
+  spin: 2
+  crossSection: XtoHHto2B2Vto2B2L2Nu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Vto2B2L2Nu_M-270
+GluGlutoBulkGravitontoHHto2B2Vto2B2L2Nu_M_280:
+  sampleType: GluGluToBulkGraviton
+  mass: 280
+  spin: 2
+  crossSection: XtoHHto2B2Vto2B2L2Nu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Vto2B2L2Nu_M-280
+GluGlutoBulkGravitontoHHto2B2Vto2B2L2Nu_M_300:
+  sampleType: GluGluToBulkGraviton
+  mass: 300
+  spin: 2
+  crossSection: XtoHHto2B2Vto2B2L2Nu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Vto2B2L2Nu_M-300
+GluGlutoBulkGravitontoHHto2B2Vto2B2L2Nu_M_320:
+  sampleType: GluGluToBulkGraviton
+  mass: 320
+  spin: 2
+  crossSection: XtoHHto2B2Vto2B2L2Nu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Vto2B2L2Nu_M-320
+GluGlutoBulkGravitontoHHto2B2Vto2B2L2Nu_M_350:
+  sampleType: GluGluToBulkGraviton
+  mass: 350
+  spin: 2
+  crossSection: XtoHHto2B2Vto2B2L2Nu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Vto2B2L2Nu_M-350
+GluGlutoBulkGravitontoHHto2B2Vto2B2L2Nu_M_360:
+  sampleType: GluGluToBulkGraviton
+  mass: 360
+  spin: 2
+  crossSection: XtoHHto2B2Vto2B2L2Nu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Vto2B2L2Nu_M-360
+GluGlutoBulkGravitontoHHto2B2Vto2B2L2Nu_M_400:
+  sampleType: GluGluToBulkGraviton
+  mass: 400
+  spin: 2
+  crossSection: XtoHHto2B2Vto2B2L2Nu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Vto2B2L2Nu_M-400
+GluGlutoBulkGravitontoHHto2B2Vto2B2L2Nu_M_450:
+  sampleType: GluGluToBulkGraviton
+  mass: 450
+  spin: 2
+  crossSection: XtoHHto2B2Vto2B2L2Nu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Vto2B2L2Nu_M-450
+GluGlutoBulkGravitontoHHto2B2Vto2B2L2Nu_M_500:
+  sampleType: GluGluToBulkGraviton
+  mass: 500
+  spin: 2
+  crossSection: XtoHHto2B2Vto2B2L2Nu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Vto2B2L2Nu_M-500
+GluGlutoBulkGravitontoHHto2B2Vto2B2L2Nu_M_550:
+  sampleType: GluGluToBulkGraviton
+  mass: 550
+  spin: 2
+  crossSection: XtoHHto2B2Vto2B2L2Nu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Vto2B2L2Nu_M-550
+GluGlutoBulkGravitontoHHto2B2Vto2B2L2Nu_M_600:
+  sampleType: GluGluToBulkGraviton
+  mass: 600
+  spin: 2
+  crossSection: XtoHHto2B2Vto2B2L2Nu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Vto2B2L2Nu_M-600
+GluGlutoBulkGravitontoHHto2B2Vto2B2L2Nu_M_650:
+  sampleType: GluGluToBulkGraviton
+  mass: 650
+  spin: 2
+  crossSection: XtoHHto2B2Vto2B2L2Nu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Vto2B2L2Nu_M-650
+GluGlutoBulkGravitontoHHto2B2Vto2B2L2Nu_M_700:
+  sampleType: GluGluToBulkGraviton
+  mass: 700
+  spin: 2
+  crossSection: XtoHHto2B2Vto2B2L2Nu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Vto2B2L2Nu_M-700
+GluGlutoBulkGravitontoHHto2B2Vto2B2L2Nu_M_750:
+  sampleType: GluGluToBulkGraviton
+  mass: 750
+  spin: 2
+  crossSection: XtoHHto2B2Vto2B2L2Nu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Vto2B2L2Nu_M-750
+GluGlutoBulkGravitontoHHto2B2Vto2B2L2Nu_M_800:
+  sampleType: GluGluToBulkGraviton
+  mass: 800
+  spin: 2
+  crossSection: XtoHHto2B2Vto2B2L2Nu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Vto2B2L2Nu_M-800
+GluGlutoBulkGravitontoHHto2B2Vto2B2L2Nu_M_850:
+  sampleType: GluGluToBulkGraviton
+  mass: 850
+  spin: 2
+  crossSection: XtoHHto2B2Vto2B2L2Nu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Vto2B2L2Nu_M-850
+GluGlutoBulkGravitontoHHto2B2Vto2B2L2Nu_M_900:
+  sampleType: GluGluToBulkGraviton
+  mass: 900
+  spin: 2
+  crossSection: XtoHHto2B2Vto2B2L2Nu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Vto2B2L2Nu_M-900
+GluGlutoBulkGravitontoHHto2B2Vto2B2L2Nu_M_1000:
+  sampleType: GluGluToBulkGraviton
+  mass: 1000
+  spin: 2
+  crossSection: XtoHHto2B2Vto2B2L2Nu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Vto2B2L2Nu_M-1000
+GluGlutoBulkGravitontoHHto2B2Vto2B2L2Nu_M_1100:
+  sampleType: GluGluToBulkGraviton
+  mass: 1100
+  spin: 2
+  crossSection: XtoHHto2B2Vto2B2L2Nu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Vto2B2L2Nu_M-1100
+GluGlutoBulkGravitontoHHto2B2Vto2B2L2Nu_M_1200:
+  sampleType: GluGluToBulkGraviton
+  mass: 1200
+  spin: 2
+  crossSection: XtoHHto2B2Vto2B2L2Nu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Vto2B2L2Nu_M-1200
+GluGlutoBulkGravitontoHHto2B2Vto2B2L2Nu_M_1300:
+  sampleType: GluGluToBulkGraviton
+  mass: 1300
+  spin: 2
+  crossSection: XtoHHto2B2Vto2B2L2Nu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Vto2B2L2Nu_M-1300
+GluGlutoBulkGravitontoHHto2B2Vto2B2L2Nu_M_1400:
+  sampleType: GluGluToBulkGraviton
+  mass: 1400
+  spin: 2
+  crossSection: XtoHHto2B2Vto2B2L2Nu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Vto2B2L2Nu_M-1400
+GluGlutoBulkGravitontoHHto2B2Vto2B2L2Nu_M_1500:
+  sampleType: GluGluToBulkGraviton
+  mass: 1500
+  spin: 2
+  crossSection: XtoHHto2B2Vto2B2L2Nu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Vto2B2L2Nu_M-1500
+GluGlutoBulkGravitontoHHto2B2Vto2B2L2Nu_M_1600:
+  sampleType: GluGluToBulkGraviton
+  mass: 1600
+  spin: 2
+  crossSection: XtoHHto2B2Vto2B2L2Nu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Vto2B2L2Nu_M-1600
+GluGlutoBulkGravitontoHHto2B2Vto2B2L2Nu_M_1700:
+  sampleType: GluGluToBulkGraviton
+  mass: 1700
+  spin: 2
+  crossSection: XtoHHto2B2Vto2B2L2Nu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Vto2B2L2Nu_M-1700
+GluGlutoBulkGravitontoHHto2B2Vto2B2L2Nu_M_1800:
+  sampleType: GluGluToBulkGraviton
+  mass: 1800
+  spin: 2
+  crossSection: XtoHHto2B2Vto2B2L2Nu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Vto2B2L2Nu_M-1800
+GluGlutoBulkGravitontoHHto2B2Vto2B2L2Nu_M_1900:
+  sampleType: GluGluToBulkGraviton
+  mass: 1900
+  spin: 2
+  crossSection: XtoHHto2B2Vto2B2L2Nu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Vto2B2L2Nu_M-1900
+GluGlutoBulkGravitontoHHto2B2Vto2B2L2Nu_M_2000:
+  sampleType: GluGluToBulkGraviton
+  mass: 2000
+  spin: 2
+  crossSection: XtoHHto2B2Vto2B2L2Nu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Vto2B2L2Nu_M-2000
+GluGlutoBulkGravitontoHHto2B2Vto2B2L2Nu_M_2200:
+  sampleType: GluGluToBulkGraviton
+  mass: 2200
+  spin: 2
+  crossSection: XtoHHto2B2Vto2B2L2Nu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Vto2B2L2Nu_M-2200
+GluGlutoBulkGravitontoHHto2B2Vto2B2L2Nu_M_2400:
+  sampleType: GluGluToBulkGraviton
+  mass: 2400
+  spin: 2
+  crossSection: XtoHHto2B2Vto2B2L2Nu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Vto2B2L2Nu_M-2400
+GluGlutoBulkGravitontoHHto2B2Vto2B2L2Nu_M_2500:
+  sampleType: GluGluToBulkGraviton
+  mass: 2500
+  spin: 2
+  crossSection: XtoHHto2B2Vto2B2L2Nu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Vto2B2L2Nu_M-2500
+GluGlutoBulkGravitontoHHto2B2Vto2B2L2Nu_M_2600:
+  sampleType: GluGluToBulkGraviton
+  mass: 2600
+  spin: 2
+  crossSection: XtoHHto2B2Vto2B2L2Nu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Vto2B2L2Nu_M-2600
+GluGlutoBulkGravitontoHHto2B2Vto2B2L2Nu_M_2800:
+  sampleType: GluGluToBulkGraviton
+  mass: 2800
+  spin: 2
+  crossSection: XtoHHto2B2Vto2B2L2Nu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Vto2B2L2Nu_M-2800
+GluGlutoBulkGravitontoHHto2B2Vto2B2L2Nu_M_3000:
+  sampleType: GluGluToBulkGraviton
+  mass: 3000
+  spin: 2
+  crossSection: XtoHHto2B2Vto2B2L2Nu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Vto2B2L2Nu_M-3000
+GluGlutoBulkGravitontoHHto2B2Vto2B2L2Nu_M_3500:
+  sampleType: GluGluToBulkGraviton
+  mass: 3500
+  spin: 2
+  crossSection: XtoHHto2B2Vto2B2L2Nu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Vto2B2L2Nu_M-3500
+GluGlutoBulkGravitontoHHto2B2Vto2B2L2Nu_M_4000:
+  sampleType: GluGluToBulkGraviton
+  mass: 4000
+  spin: 2
+  crossSection: XtoHHto2B2Vto2B2L2Nu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Vto2B2L2Nu_M-4000
+GluGlutoBulkGravitontoHHto2B2Vto2B2L2Nu_M_4500:
+  sampleType: GluGluToBulkGraviton
+  mass: 4500
+  spin: 2
+  crossSection: XtoHHto2B2Vto2B2L2Nu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Vto2B2L2Nu_M-4500
+GluGlutoBulkGravitontoHHto2B2Vto2B2L2Nu_M_5000:
+  sampleType: GluGluToBulkGraviton
+  mass: 5000
+  spin: 2
+  crossSection: XtoHHto2B2Vto2B2L2Nu
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbWW/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Vto2B2L2Nu_M-5000
+# Start X->HH->bbtautau samples (central where DAS has them, DSProd Run3_XHHbbtautau otherwise) #
+# Signals(2B2Tau,S=0) #
+GluGlutoRadiontoHHto2B2Tau_M_250:
+  sampleType: GluGluToRadion
+  mass: 250
+  spin: 0
+  crossSection: XtoHHto2B2Tau
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbtautau/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Tau_M-250
+GluGlutoRadiontoHHto2B2Tau_M_260:
+  sampleType: GluGluToRadion
+  mass: 260
+  spin: 0
+  crossSection: XtoHHto2B2Tau
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbtautau/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Tau_M-260
+GluGlutoRadiontoHHto2B2Tau_M_270:
+  sampleType: GluGluToRadion
+  mass: 270
+  spin: 0
+  crossSection: XtoHHto2B2Tau
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbtautau/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Tau_M-270
+GluGlutoRadiontoHHto2B2Tau_M_280:
+  sampleType: GluGluToRadion
+  mass: 280
+  spin: 0
+  crossSection: XtoHHto2B2Tau
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbtautau/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Tau_M-280
+GluGlutoRadiontoHHto2B2Tau_M_300:
+  sampleType: GluGluToRadion
+  mass: 300
+  spin: 0
+  crossSection: XtoHHto2B2Tau
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbtautau/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Tau_M-300
+GluGlutoRadiontoHHto2B2Tau_M_320:
+  sampleType: GluGluToRadion
+  mass: 320
+  spin: 0
+  crossSection: XtoHHto2B2Tau
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbtautau/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Tau_M-320
+GluGlutoRadiontoHHto2B2Tau_M_350:
+  sampleType: GluGluToRadion
+  mass: 350
+  spin: 0
+  crossSection: XtoHHto2B2Tau
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbtautau/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Tau_M-350
+GluGlutoRadiontoHHto2B2Tau_M_360:
+  sampleType: GluGluToRadion
+  mass: 360
+  spin: 0
+  crossSection: XtoHHto2B2Tau
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbtautau/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Tau_M-360
+GluGlutoRadiontoHHto2B2Tau_M_400:
+  sampleType: GluGluToRadion
+  mass: 400
+  spin: 0
+  crossSection: XtoHHto2B2Tau
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbtautau/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Tau_M-400
+GluGlutoRadiontoHHto2B2Tau_M_450:
+  sampleType: GluGluToRadion
+  mass: 450
+  spin: 0
+  crossSection: XtoHHto2B2Tau
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbtautau/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Tau_M-450
+GluGlutoRadiontoHHto2B2Tau_M_500:
+  sampleType: GluGluToRadion
+  mass: 500
+  spin: 0
+  crossSection: XtoHHto2B2Tau
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbtautau/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Tau_M-500
+GluGlutoRadiontoHHto2B2Tau_M_550:
+  sampleType: GluGluToRadion
+  mass: 550
+  spin: 0
+  crossSection: XtoHHto2B2Tau
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbtautau/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Tau_M-550
+GluGlutoRadiontoHHto2B2Tau_M_600:
+  sampleType: GluGluToRadion
+  mass: 600
+  spin: 0
+  crossSection: XtoHHto2B2Tau
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbtautau/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Tau_M-600
+GluGlutoRadiontoHHto2B2Tau_M_650:
+  sampleType: GluGluToRadion
+  mass: 650
+  spin: 0
+  crossSection: XtoHHto2B2Tau
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbtautau/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Tau_M-650
+GluGlutoRadiontoHHto2B2Tau_M_700:
+  sampleType: GluGluToRadion
+  mass: 700
+  spin: 0
+  crossSection: XtoHHto2B2Tau
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbtautau/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Tau_M-700
+GluGlutoRadiontoHHto2B2Tau_M_750:
+  sampleType: GluGluToRadion
+  mass: 750
+  spin: 0
+  crossSection: XtoHHto2B2Tau
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbtautau/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Tau_M-750
+GluGlutoRadiontoHHto2B2Tau_M_800:
+  sampleType: GluGluToRadion
+  mass: 800
+  spin: 0
+  crossSection: XtoHHto2B2Tau
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbtautau/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Tau_M-800
+GluGlutoRadiontoHHto2B2Tau_M_850:
+  sampleType: GluGluToRadion
+  mass: 850
+  spin: 0
+  crossSection: XtoHHto2B2Tau
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbtautau/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Tau_M-850
+GluGlutoRadiontoHHto2B2Tau_M_900:
+  sampleType: GluGluToRadion
+  mass: 900
+  spin: 0
+  crossSection: XtoHHto2B2Tau
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbtautau/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Tau_M-900
+GluGlutoRadiontoHHto2B2Tau_M_1000:
+  sampleType: GluGluToRadion
+  mass: 1000
+  spin: 0
+  crossSection: XtoHHto2B2Tau
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbtautau/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Tau_M-1000
+GluGlutoRadiontoHHto2B2Tau_M_1100:
+  sampleType: GluGluToRadion
+  mass: 1100
+  spin: 0
+  crossSection: XtoHHto2B2Tau
+  generator: madgraph
+  nanoAOD:
+    v12: /GluGlutoRadiontoHHto2B2Tau_M-1100_narrow_TuneCP5_13p6TeV_madgraph-pythia8/Run3Summer23BPixNanoAODv12-130X_mcRun3_2023_realistic_postBPix_v6-v2/NANOAODSIM
+GluGlutoRadiontoHHto2B2Tau_M_1200:
+  sampleType: GluGluToRadion
+  mass: 1200
+  spin: 0
+  crossSection: XtoHHto2B2Tau
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbtautau/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Tau_M-1200
+GluGlutoRadiontoHHto2B2Tau_M_1300:
+  sampleType: GluGluToRadion
+  mass: 1300
+  spin: 0
+  crossSection: XtoHHto2B2Tau
+  generator: madgraph
+  nanoAOD:
+    v12: /GluGlutoRadiontoHHto2B2Tau_M-1300_narrow_TuneCP5_13p6TeV_madgraph-pythia8/Run3Summer23BPixNanoAODv12-130X_mcRun3_2023_realistic_postBPix_v6-v4/NANOAODSIM
+GluGlutoRadiontoHHto2B2Tau_M_1400:
+  sampleType: GluGluToRadion
+  mass: 1400
+  spin: 0
+  crossSection: XtoHHto2B2Tau
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbtautau/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Tau_M-1400
+GluGlutoRadiontoHHto2B2Tau_M_1500:
+  sampleType: GluGluToRadion
+  mass: 1500
+  spin: 0
+  crossSection: XtoHHto2B2Tau
+  generator: madgraph
+  nanoAOD:
+    v12: /GluGlutoRadiontoHHto2B2Tau_M-1500_narrow_TuneCP5_13p6TeV_madgraph-pythia8/Run3Summer23BPixNanoAODv12-130X_mcRun3_2023_realistic_postBPix_v6-v4/NANOAODSIM
+GluGlutoRadiontoHHto2B2Tau_M_1600:
+  sampleType: GluGluToRadion
+  mass: 1600
+  spin: 0
+  crossSection: XtoHHto2B2Tau
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbtautau/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Tau_M-1600
+GluGlutoRadiontoHHto2B2Tau_M_1700:
+  sampleType: GluGluToRadion
+  mass: 1700
+  spin: 0
+  crossSection: XtoHHto2B2Tau
+  generator: madgraph
+  nanoAOD:
+    v12: /GluGlutoRadiontoHHto2B2Tau_M-1700_narrow_TuneCP5_13p6TeV_madgraph-pythia8/Run3Summer23BPixNanoAODv12-130X_mcRun3_2023_realistic_postBPix_v6-v4/NANOAODSIM
+GluGlutoRadiontoHHto2B2Tau_M_1800:
+  sampleType: GluGluToRadion
+  mass: 1800
+  spin: 0
+  crossSection: XtoHHto2B2Tau
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbtautau/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Tau_M-1800
+GluGlutoRadiontoHHto2B2Tau_M_1900:
+  sampleType: GluGluToRadion
+  mass: 1900
+  spin: 0
+  crossSection: XtoHHto2B2Tau
+  generator: madgraph
+  nanoAOD:
+    v12: /GluGlutoRadiontoHHto2B2Tau_M-1900_narrow_TuneCP5_13p6TeV_madgraph-pythia8/Run3Summer23BPixNanoAODv12-130X_mcRun3_2023_realistic_postBPix_v6-v2/NANOAODSIM
+GluGlutoRadiontoHHto2B2Tau_M_2000:
+  sampleType: GluGluToRadion
+  mass: 2000
+  spin: 0
+  crossSection: XtoHHto2B2Tau
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbtautau/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Tau_M-2000
+GluGlutoRadiontoHHto2B2Tau_M_2200:
+  sampleType: GluGluToRadion
+  mass: 2200
+  spin: 0
+  crossSection: XtoHHto2B2Tau
+  generator: madgraph
+  nanoAOD:
+    v12: /GluGlutoRadiontoHHto2B2Tau_M-2200_narrow_TuneCP5_13p6TeV_madgraph-pythia8/Run3Summer23BPixNanoAODv12-130X_mcRun3_2023_realistic_postBPix_v6-v4/NANOAODSIM
+GluGlutoRadiontoHHto2B2Tau_M_2400:
+  sampleType: GluGluToRadion
+  mass: 2400
+  spin: 0
+  crossSection: XtoHHto2B2Tau
+  generator: madgraph
+  nanoAOD:
+    v12: /GluGlutoRadiontoHHto2B2Tau_M-2400_narrow_TuneCP5_13p6TeV_madgraph-pythia8/Run3Summer23BPixNanoAODv12-130X_mcRun3_2023_realistic_postBPix_v6-v4/NANOAODSIM
+GluGlutoRadiontoHHto2B2Tau_M_2500:
+  sampleType: GluGluToRadion
+  mass: 2500
+  spin: 0
+  crossSection: XtoHHto2B2Tau
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbtautau/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Tau_M-2500
+GluGlutoRadiontoHHto2B2Tau_M_2600:
+  sampleType: GluGluToRadion
+  mass: 2600
+  spin: 0
+  crossSection: XtoHHto2B2Tau
+  generator: madgraph
+  nanoAOD:
+    v12: /GluGlutoRadiontoHHto2B2Tau_M-2600_narrow_TuneCP5_13p6TeV_madgraph-pythia8/Run3Summer23BPixNanoAODv12-130X_mcRun3_2023_realistic_postBPix_v6-v4/NANOAODSIM
+GluGlutoRadiontoHHto2B2Tau_M_2800:
+  sampleType: GluGluToRadion
+  mass: 2800
+  spin: 0
+  crossSection: XtoHHto2B2Tau
+  generator: madgraph
+  nanoAOD:
+    v12: /GluGlutoRadiontoHHto2B2Tau_M-2800_narrow_TuneCP5_13p6TeV_madgraph-pythia8/Run3Summer23BPixNanoAODv12-130X_mcRun3_2023_realistic_postBPix_v6-v4/NANOAODSIM
+GluGlutoRadiontoHHto2B2Tau_M_3000:
+  sampleType: GluGluToRadion
+  mass: 3000
+  spin: 0
+  crossSection: XtoHHto2B2Tau
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbtautau/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Tau_M-3000
+GluGlutoRadiontoHHto2B2Tau_M_3500:
+  sampleType: GluGluToRadion
+  mass: 3500
+  spin: 0
+  crossSection: XtoHHto2B2Tau
+  generator: madgraph
+  nanoAOD:
+    v12: /GluGlutoRadiontoHHto2B2Tau_M-3500_narrow_TuneCP5_13p6TeV_madgraph-pythia8/Run3Summer23BPixNanoAODv12-130X_mcRun3_2023_realistic_postBPix_v6-v4/NANOAODSIM
+GluGlutoRadiontoHHto2B2Tau_M_4000:
+  sampleType: GluGluToRadion
+  mass: 4000
+  spin: 0
+  crossSection: XtoHHto2B2Tau
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbtautau/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Tau_M-4000
+GluGlutoRadiontoHHto2B2Tau_M_4500:
+  sampleType: GluGluToRadion
+  mass: 4500
+  spin: 0
+  crossSection: XtoHHto2B2Tau
+  generator: madgraph
+  nanoAOD:
+    v12: /GluGlutoRadiontoHHto2B2Tau_M-4500_narrow_TuneCP5_13p6TeV_madgraph-pythia8/Run3Summer23BPixNanoAODv12-130X_mcRun3_2023_realistic_postBPix_v6-v4/NANOAODSIM
+GluGlutoRadiontoHHto2B2Tau_M_5000:
+  sampleType: GluGluToRadion
+  mass: 5000
+  spin: 0
+  crossSection: XtoHHto2B2Tau
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbtautau/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoRadiontoHHto2B2Tau_M-5000
+# Signals(2B2Tau,S=2) #
+GluGlutoBulkGravitontoHHto2B2Tau_M_250:
+  sampleType: GluGluToBulkGraviton
+  mass: 250
+  spin: 2
+  crossSection: XtoHHto2B2Tau
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbtautau/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Tau_M-250
+GluGlutoBulkGravitontoHHto2B2Tau_M_260:
+  sampleType: GluGluToBulkGraviton
+  mass: 260
+  spin: 2
+  crossSection: XtoHHto2B2Tau
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbtautau/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Tau_M-260
+GluGlutoBulkGravitontoHHto2B2Tau_M_270:
+  sampleType: GluGluToBulkGraviton
+  mass: 270
+  spin: 2
+  crossSection: XtoHHto2B2Tau
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbtautau/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Tau_M-270
+GluGlutoBulkGravitontoHHto2B2Tau_M_280:
+  sampleType: GluGluToBulkGraviton
+  mass: 280
+  spin: 2
+  crossSection: XtoHHto2B2Tau
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbtautau/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Tau_M-280
+GluGlutoBulkGravitontoHHto2B2Tau_M_300:
+  sampleType: GluGluToBulkGraviton
+  mass: 300
+  spin: 2
+  crossSection: XtoHHto2B2Tau
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbtautau/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Tau_M-300
+GluGlutoBulkGravitontoHHto2B2Tau_M_320:
+  sampleType: GluGluToBulkGraviton
+  mass: 320
+  spin: 2
+  crossSection: XtoHHto2B2Tau
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbtautau/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Tau_M-320
+GluGlutoBulkGravitontoHHto2B2Tau_M_350:
+  sampleType: GluGluToBulkGraviton
+  mass: 350
+  spin: 2
+  crossSection: XtoHHto2B2Tau
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbtautau/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Tau_M-350
+GluGlutoBulkGravitontoHHto2B2Tau_M_360:
+  sampleType: GluGluToBulkGraviton
+  mass: 360
+  spin: 2
+  crossSection: XtoHHto2B2Tau
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbtautau/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Tau_M-360
+GluGlutoBulkGravitontoHHto2B2Tau_M_400:
+  sampleType: GluGluToBulkGraviton
+  mass: 400
+  spin: 2
+  crossSection: XtoHHto2B2Tau
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbtautau/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Tau_M-400
+GluGlutoBulkGravitontoHHto2B2Tau_M_450:
+  sampleType: GluGluToBulkGraviton
+  mass: 450
+  spin: 2
+  crossSection: XtoHHto2B2Tau
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbtautau/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Tau_M-450
+GluGlutoBulkGravitontoHHto2B2Tau_M_500:
+  sampleType: GluGluToBulkGraviton
+  mass: 500
+  spin: 2
+  crossSection: XtoHHto2B2Tau
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbtautau/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Tau_M-500
+GluGlutoBulkGravitontoHHto2B2Tau_M_550:
+  sampleType: GluGluToBulkGraviton
+  mass: 550
+  spin: 2
+  crossSection: XtoHHto2B2Tau
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbtautau/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Tau_M-550
+GluGlutoBulkGravitontoHHto2B2Tau_M_600:
+  sampleType: GluGluToBulkGraviton
+  mass: 600
+  spin: 2
+  crossSection: XtoHHto2B2Tau
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbtautau/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Tau_M-600
+GluGlutoBulkGravitontoHHto2B2Tau_M_650:
+  sampleType: GluGluToBulkGraviton
+  mass: 650
+  spin: 2
+  crossSection: XtoHHto2B2Tau
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbtautau/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Tau_M-650
+GluGlutoBulkGravitontoHHto2B2Tau_M_700:
+  sampleType: GluGluToBulkGraviton
+  mass: 700
+  spin: 2
+  crossSection: XtoHHto2B2Tau
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbtautau/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Tau_M-700
+GluGlutoBulkGravitontoHHto2B2Tau_M_750:
+  sampleType: GluGluToBulkGraviton
+  mass: 750
+  spin: 2
+  crossSection: XtoHHto2B2Tau
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbtautau/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Tau_M-750
+GluGlutoBulkGravitontoHHto2B2Tau_M_800:
+  sampleType: GluGluToBulkGraviton
+  mass: 800
+  spin: 2
+  crossSection: XtoHHto2B2Tau
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbtautau/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Tau_M-800
+GluGlutoBulkGravitontoHHto2B2Tau_M_850:
+  sampleType: GluGluToBulkGraviton
+  mass: 850
+  spin: 2
+  crossSection: XtoHHto2B2Tau
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbtautau/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Tau_M-850
+GluGlutoBulkGravitontoHHto2B2Tau_M_900:
+  sampleType: GluGluToBulkGraviton
+  mass: 900
+  spin: 2
+  crossSection: XtoHHto2B2Tau
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbtautau/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Tau_M-900
+GluGlutoBulkGravitontoHHto2B2Tau_M_1000:
+  sampleType: GluGluToBulkGraviton
+  mass: 1000
+  spin: 2
+  crossSection: XtoHHto2B2Tau
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbtautau/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Tau_M-1000
+GluGlutoBulkGravitontoHHto2B2Tau_M_1100:
+  sampleType: GluGluToBulkGraviton
+  mass: 1100
+  spin: 2
+  crossSection: XtoHHto2B2Tau
+  generator: madgraph
+  nanoAOD:
+    v12: /GluGlutoBulkGravitontoHHto2B2Tau_M-1100_narrow_TuneCP5_13p6TeV_madgraph-pythia8/Run3Summer23BPixNanoAODv12-130X_mcRun3_2023_realistic_postBPix_v6-v4/NANOAODSIM
+GluGlutoBulkGravitontoHHto2B2Tau_M_1200:
+  sampleType: GluGluToBulkGraviton
+  mass: 1200
+  spin: 2
+  crossSection: XtoHHto2B2Tau
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbtautau/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Tau_M-1200
+GluGlutoBulkGravitontoHHto2B2Tau_M_1300:
+  sampleType: GluGluToBulkGraviton
+  mass: 1300
+  spin: 2
+  crossSection: XtoHHto2B2Tau
+  generator: madgraph
+  nanoAOD:
+    v12: /GluGlutoBulkGravitontoHHto2B2Tau_M-1300_narrow_TuneCP5_13p6TeV_madgraph-pythia8/Run3Summer23BPixNanoAODv12-130X_mcRun3_2023_realistic_postBPix_v6-v4/NANOAODSIM
+GluGlutoBulkGravitontoHHto2B2Tau_M_1400:
+  sampleType: GluGluToBulkGraviton
+  mass: 1400
+  spin: 2
+  crossSection: XtoHHto2B2Tau
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbtautau/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Tau_M-1400
+GluGlutoBulkGravitontoHHto2B2Tau_M_1500:
+  sampleType: GluGluToBulkGraviton
+  mass: 1500
+  spin: 2
+  crossSection: XtoHHto2B2Tau
+  generator: madgraph
+  nanoAOD:
+    v12: /GluGlutoBulkGravitontoHHto2B2Tau_M-1500_narrow_TuneCP5_13p6TeV_madgraph-pythia8/Run3Summer23BPixNanoAODv12-130X_mcRun3_2023_realistic_postBPix_v6-v4/NANOAODSIM
+GluGlutoBulkGravitontoHHto2B2Tau_M_1600:
+  sampleType: GluGluToBulkGraviton
+  mass: 1600
+  spin: 2
+  crossSection: XtoHHto2B2Tau
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbtautau/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Tau_M-1600
+GluGlutoBulkGravitontoHHto2B2Tau_M_1700:
+  sampleType: GluGluToBulkGraviton
+  mass: 1700
+  spin: 2
+  crossSection: XtoHHto2B2Tau
+  generator: madgraph
+  nanoAOD:
+    v12: /GluGlutoBulkGravitontoHHto2B2Tau_M-1700_narrow_TuneCP5_13p6TeV_madgraph-pythia8/Run3Summer23BPixNanoAODv12-130X_mcRun3_2023_realistic_postBPix_v6-v4/NANOAODSIM
+GluGlutoBulkGravitontoHHto2B2Tau_M_1800:
+  sampleType: GluGluToBulkGraviton
+  mass: 1800
+  spin: 2
+  crossSection: XtoHHto2B2Tau
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbtautau/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Tau_M-1800
+GluGlutoBulkGravitontoHHto2B2Tau_M_1900:
+  sampleType: GluGluToBulkGraviton
+  mass: 1900
+  spin: 2
+  crossSection: XtoHHto2B2Tau
+  generator: madgraph
+  nanoAOD:
+    v12: /GluGlutoBulkGravitontoHHto2B2Tau_M-1900_narrow_TuneCP5_13p6TeV_madgraph-pythia8/Run3Summer23BPixNanoAODv12-130X_mcRun3_2023_realistic_postBPix_v6-v2/NANOAODSIM
+GluGlutoBulkGravitontoHHto2B2Tau_M_2000:
+  sampleType: GluGluToBulkGraviton
+  mass: 2000
+  spin: 2
+  crossSection: XtoHHto2B2Tau
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbtautau/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Tau_M-2000
+GluGlutoBulkGravitontoHHto2B2Tau_M_2200:
+  sampleType: GluGluToBulkGraviton
+  mass: 2200
+  spin: 2
+  crossSection: XtoHHto2B2Tau
+  generator: madgraph
+  nanoAOD:
+    v12: /GluGlutoBulkGravitontoHHto2B2Tau_M-2200_narrow_TuneCP5_13p6TeV_madgraph-pythia8/Run3Summer23BPixNanoAODv12-130X_mcRun3_2023_realistic_postBPix_v6-v4/NANOAODSIM
+GluGlutoBulkGravitontoHHto2B2Tau_M_2400:
+  sampleType: GluGluToBulkGraviton
+  mass: 2400
+  spin: 2
+  crossSection: XtoHHto2B2Tau
+  generator: madgraph
+  nanoAOD:
+    v12: /GluGlutoBulkGravitontoHHto2B2Tau_M-2400_narrow_TuneCP5_13p6TeV_madgraph-pythia8/Run3Summer23BPixNanoAODv12-130X_mcRun3_2023_realistic_postBPix_v6-v4/NANOAODSIM
+GluGlutoBulkGravitontoHHto2B2Tau_M_2500:
+  sampleType: GluGluToBulkGraviton
+  mass: 2500
+  spin: 2
+  crossSection: XtoHHto2B2Tau
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbtautau/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Tau_M-2500
+GluGlutoBulkGravitontoHHto2B2Tau_M_2600:
+  sampleType: GluGluToBulkGraviton
+  mass: 2600
+  spin: 2
+  crossSection: XtoHHto2B2Tau
+  generator: madgraph
+  nanoAOD:
+    v12: /GluGlutoBulkGravitontoHHto2B2Tau_M-2600_narrow_TuneCP5_13p6TeV_madgraph-pythia8/Run3Summer23BPixNanoAODv12-130X_mcRun3_2023_realistic_postBPix_v6-v4/NANOAODSIM
+GluGlutoBulkGravitontoHHto2B2Tau_M_2800:
+  sampleType: GluGluToBulkGraviton
+  mass: 2800
+  spin: 2
+  crossSection: XtoHHto2B2Tau
+  generator: madgraph
+  nanoAOD:
+    v12: /GluGlutoBulkGravitontoHHto2B2Tau_M-2800_narrow_TuneCP5_13p6TeV_madgraph-pythia8/Run3Summer23BPixNanoAODv12-130X_mcRun3_2023_realistic_postBPix_v6-v4/NANOAODSIM
+GluGlutoBulkGravitontoHHto2B2Tau_M_3000:
+  sampleType: GluGluToBulkGraviton
+  mass: 3000
+  spin: 2
+  crossSection: XtoHHto2B2Tau
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbtautau/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Tau_M-3000
+GluGlutoBulkGravitontoHHto2B2Tau_M_3500:
+  sampleType: GluGluToBulkGraviton
+  mass: 3500
+  spin: 2
+  crossSection: XtoHHto2B2Tau
+  generator: madgraph
+  nanoAOD:
+    v12: /GluGlutoBulkGravitontoHHto2B2Tau_M-3500_narrow_TuneCP5_13p6TeV_madgraph-pythia8/Run3Summer23BPixNanoAODv12-130X_mcRun3_2023_realistic_postBPix_v6-v4/NANOAODSIM
+GluGlutoBulkGravitontoHHto2B2Tau_M_4000:
+  sampleType: GluGluToBulkGraviton
+  mass: 4000
+  spin: 2
+  crossSection: XtoHHto2B2Tau
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbtautau/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Tau_M-4000
+GluGlutoBulkGravitontoHHto2B2Tau_M_4500:
+  sampleType: GluGluToBulkGraviton
+  mass: 4500
+  spin: 2
+  crossSection: XtoHHto2B2Tau
+  generator: madgraph
+  nanoAOD:
+    v12: /GluGlutoBulkGravitontoHHto2B2Tau_M-4500_narrow_TuneCP5_13p6TeV_madgraph-pythia8/Run3Summer23BPixNanoAODv12-130X_mcRun3_2023_realistic_postBPix_v6-v4/NANOAODSIM
+GluGlutoBulkGravitontoHHto2B2Tau_M_5000:
+  sampleType: GluGluToBulkGraviton
+  mass: 5000
+  spin: 2
+  crossSection: XtoHHto2B2Tau
+  generator: madgraph
+  fs_nanoAOD: root://cmseos.fnal.gov//eos/uscms/store/user/lpcflaf/HH_bbWW/PProd/XHHbbtautau/nanoAOD_v12/Run3_2023BPix
+  dirName: GluGlutoBulkGravitontoHHto2B2Tau_M-5000
+# Finished X->HH->bbtautau samples #
 # Started YH samples #
 XtoYHto2B2Wto2B2L2Nu_MX_1000_MY_100:
   sampleType: XtoYH

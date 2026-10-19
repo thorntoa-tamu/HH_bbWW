@@ -12,10 +12,10 @@ higs_output_mapping = {
 
 
 class DeepHMEProducer:
-    def __init__(self, cfg, payload_name, period):
+    def __init__(self, cfg, payload_name, era):
         self.cfg = cfg
         self.payload_name = payload_name
-        self.period = period
+        self.era = era
 
         self.cfg_dict = {
             "DL": self.cfg.get("DL", None),

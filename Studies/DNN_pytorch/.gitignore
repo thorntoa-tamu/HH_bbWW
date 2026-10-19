@@ -1,0 +1,3 @@
+# Training outputs (named by `output_folder` in the model config) and validation plots
+looseBTag_*/
+model_performance/

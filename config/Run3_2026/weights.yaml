@@ -44,5 +44,7 @@ shape:
     name: CMS_scale_j_{}
   EleES:
     name: CMS_scale_e_{}
+  EleSmear:
+    name: CMS_res_e_{}
   ScaRe:
     name: CMS_ScaRe_mu_{}

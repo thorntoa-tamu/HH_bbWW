@@ -46,13 +46,6 @@ norm:
     expression: "(boosted ? 1.0f : weight_bTagShape_cferr2{scale}_rel) * final_weight"
     name: CMS_btag_cferr2_{}
 
-  # DY reweighting derived in the hh2bbtautau phase space
-  # (Corrections/data/DY_corr_hbt/hbt_corrections_v2.json.gz). `requires` keeps the
-  # entry a no-op on processes the correction is not applied to -- it is configured
-  # with a `processes:` list in global.yaml, so its branches exist for DY only.
-  # The three stat sources are the statistical uncertainty of this era's own fit, so
-  # they carry the era; the two syst sources are fit-model variations and are
-  # correlated across eras.
   DYw_stat_btag0:
     requires: dy_hhbbtautau
     expression: weight_dy_stat_btag0_{scale}_rel * final_weight
@@ -73,6 +66,7 @@ norm:
     requires: dy_hhbbtautau
     expression: weight_dy_syst_linear_{scale}_rel * final_weight
     name: CMS_bbww_dy_syst_linear_{}
+
   fatJetSF_Hbb:
     expression: "(boosted ? weight_FatJetSF_Hbb{scale}_rel : 1.0f) * final_weight"
     name: CMS_bbww_ak8_Hbb_2023BPix_{}
@@ -83,12 +77,6 @@ norm:
     expression: "(boosted ? weight_FatJetSF_tau21{scale}_rel : 1.0f) * final_weight"
     name: CMS_bbww_ak8_tau21_2023BPix_{}
 
-  # Parton shower ISR/FSR, shape-only: weight_base_isr{scale}_rel is already normalised
-  # by its own inclusive sum of weights, so only the acceptance difference survives.
-  # No era token -- one correlated ps_isr and ps_fsr for every era and every process.
-  # No `requires:` either: weights entries do not support that key here, and
-  # parton_shower lives at AnaTuple/AnaTupleMerge, so it is never in to_apply at
-  # HistTuple and could not match even if the key were honoured.
   PS_ISR:
     expression: weight_base_isr{scale}_rel * final_weight
     name: ps_isr_{}
@@ -103,3 +91,7 @@ shape:
     name: CMS_scale_j_2023BPix_{}
   EleES:
     name: CMS_scale_e_2023BPix_{}
+  EleSmear:
+    name: CMS_res_e_2023BPix_{}
+  ScaRe:
+    name: CMS_ScaRe_mu_2023BPix_{}

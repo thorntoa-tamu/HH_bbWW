@@ -23,7 +23,7 @@ step the chain runs first — see [Where the binning is decided](#where-the-binn
 law run PlotResonantLimitsTask \
   --version dev \
   --hists-version VERSION_OF_THE_MERGED_HISTS \
-  --period Run3_2022 \
+  --era Run3_2022,Run3_2022EE,Run3_2023,Run3_2023BPix \
   --workflow local
 ```
 
@@ -51,12 +51,17 @@ selected by `StatInference.config` in `config/global.yaml`. It declares the eras
 channels, categories, mass points, processes and uncertainties — the chain reads them
 from there, not from `global.yaml`'s own variable lists.
 
-!!! warning "`--period` does not choose the era"
+!!! warning "`--era` must hold every era behind the datacards"
     Which eras get datacards and limits comes from the configuration's `eras:` and
-    `era_groups:` blocks. A real era listed inside an `era_groups:` entry is covered by
-    that meta-era and is not built standalone, so with the Run 3 configuration the chain
-    always builds the `Run3_Early` combination of all four eras regardless of `--period`.
-    `--period` is only used to construct a valid FLAF `Setup`.
+    `era_groups:` blocks, not from `--era`. A real era listed inside an `era_groups:` entry
+    is covered by that meta-era and is not built standalone, so with the Run 3
+    configuration the chain builds the `Run3_Early` combination of all four eras. `--era`
+    must name every real era those cards read — here the four of `Run3_Early` — or the
+    run stops with `the cards of … need Run3_Early: …, which --era does not include`.
+    Further eras are allowed and are not carded. `CreateDatacardsTask` and
+    `PreprocessShapesTask` are one workflow each, with one branch per card, and their
+    outputs (`Datacards/<card>`, `Hists_preprocessed/<card>`) do not depend on `--era`
+    ([FLAF → Eras](https://cms-flaf.github.io/FLAF/concepts/eras/#which-tasks-take-several-eras)).
 
 ### Where the shape uncertainties come from
 
@@ -79,6 +84,13 @@ the caches were produced before it was registered — the symptom is
 file, not at the anaTuple. Checking the anaTuple alone is not sufficient. Adding a new
 `shape:` source means regenerating the caches, so it belongs with an anaTuple production
 rather than a weights-only re-run.
+
+An event that only a shift moves into the selection (typically JES or JER) enters that shift's
+template with its real weight. The generator-level inputs of `weight_base` are listed in
+`anaTuple_shift_invariant_columns` (see [Analysis](analysis.md#columns-taken-from-the-central-tree)),
+so the central tree carries them for that event too and the merge computes its `weight_base`. In
+anaTuples produced before that list existed such events had weight 0, so they were missing from the
+shifted templates.
 
 #### Correlating and decorrelating across eras
 
@@ -210,22 +222,28 @@ A configuration with no `preprocess:` block skips the task entirely and the data
 built from the merged histograms unchanged, so an analysis that needs no preprocessing is
 unaffected.
 
-This analysis plugs in `StatInference/bin_opt_2d/rebin_2d.py`, which derives the DNN slice
-boundaries and the HME mass-bin edges from the shapes themselves. Each base category
-`SR/res2b` becomes the datacard bins `SR/res2b_dnn0…dnn3`.
+This analysis plugs in `StatInference/bin_opt_2d/rebin_2d.py`, which derives the binning
+from the shapes themselves. The DL card uses its `window` strategy (`window_axis: y`): for
+each mass, channel and base category, one HME window around the resonance with the DNN
+score binned inside it; events outside the window are dropped. Each base category
+`SR/res2b` becomes the single datacard bin `SR/res2b_hmebox0`.
 
 ```yaml
 preprocess:
   script: StatInference/bin_opt_2d/rebin_2d.py
   args:
     - --binning-config
-    - config/Datacards/binning_2d.yaml
+    - config/Datacards/binning_hmebox.yaml
 ```
 
-The two halves live in different places on purpose. The **knobs** — slice count, bin
-budget, and the minimum signal/background yields and effective-entry floors a bin must
+The alternative, `config/Datacards/binning_2d.yaml`, cuts each base category into DNN
+slices (`SR/res2b_dnn0…dnn3`) with HME bins inside each; the window gives a ~5% better
+expected limit with about a third fewer fit bins.
+
+The two halves live in different places on purpose. The **knobs** — strategy, slice count,
+bin budget, and the minimum signal/background yields and effective-entry floors a bin must
 satisfy — are analysis configuration, versioned with the card in
-[`config/Datacards/binning_2d.yaml`](https://github.com/cms-flaf/HH_bbWW/blob/main/config/Datacards/binning_2d.yaml).
+[`config/Datacards/binning_hmebox.yaml`](https://github.com/cms-flaf/HH_bbWW/blob/main/config/Datacards/binning_hmebox.yaml).
 The **derived** `binning.json` is a product, not configuration, and is written into the
 task's output on EOS beside the shapes it produced.
 
@@ -243,12 +261,12 @@ python3 StatInference/bin_opt_2d/rebin_2d.py \
   --output /tmp/$USER/rebin_Run3_Early \
   --era    Run3_Early \
   --config config/Datacards/x_hh_bbww_DL_run3.yaml \
-  --binning-config config/Datacards/binning_2d.yaml
+  --binning-config config/Datacards/binning_hmebox.yaml
 ```
 
-The datacard configuration then lists the sliced names in `categories:` and repeats the
-`category_pattern` used to write them, which is how the per-category limits group the
-slices of one base category back together.
+The datacard configuration then lists the written names in `categories:`
+(`SR/res2b_hmebox0`, …) and repeats the `category_pattern` used to write them, which is
+how the per-category limits group the bins of one base category back together.
 
 There is also `StatInference/bin_opt/`, an offline combine-driven search over candidate
 binnings feeding the `hist_bins` option. This analysis does not use it, and leaves
@@ -290,7 +308,7 @@ beside the limit plots:
 law run PlotPullsAndImpactsTask \
   --version dev \
   --hists-version VERSION_OF_THE_MERGED_HISTS \
-  --period Run3_2022
+  --era Run3_2022,Run3_2022EE,Run3_2023,Run3_2023BPix
 ```
 
 ```yaml

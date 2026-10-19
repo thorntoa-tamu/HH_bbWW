@@ -40,12 +40,12 @@ class DNNTrainingTask(Task, HTCondorWorkflow, law.LocalWorkflow):
         training_name = config["training_name"]
         outFolderName = f"{training_name}"
         output_path = os.path.join(
-            "DNNTraining", self.version, self.period, training_name, outFolderName
+            "DNNTraining", self.version, self.only_era, training_name, outFolderName
         )
         config_path = os.path.join(
             "DNNTraining",
             self.version,
-            self.period,
+            self.only_era,
             training_name,
             os.path.basename(config_name),
         )
@@ -137,7 +137,7 @@ class DNNValidationTask(Task, HTCondorWorkflow, law.LocalWorkflow):
         training_name = config["training_name"]
         outFileName = f"validation"
         output_path = os.path.join(
-            "DNNTraining", self.version, self.period, training_name, outFileName
+            "DNNTraining", self.version, self.only_era, training_name, outFileName
         )
         return [
             self.remote_target(output_path, fs=self.fs_histograms),
@@ -227,7 +227,7 @@ class DNNValidation2Task(Task, HTCondorWorkflow, law.LocalWorkflow):
         training_name = config["training_name"]
         outFileName = f"validation"
         output_path = os.path.join(
-            "DNNTraining", self.version, self.period, training_name, outFileName
+            "DNNTraining", self.version, self.only_era, training_name, outFileName
         )
         return [
             self.remote_target(output_path, fs=self.fs_histograms),

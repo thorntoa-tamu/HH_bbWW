@@ -1,0 +1,36 @@
+# rebin_2d.py binning for the DL card: an HME window (y) around the resonance, with the
+# DNN score (x) binned inside it; events outside the window are dropped. Each base
+# category becomes one datacard bin, SR/res2b -> SR/res2b_hmebox0.
+#
+# Against a 2D DNN-slice binning this improved the expected limit by 5.3% (geometric
+# mean over MX = 500-1000) with ~32% fewer fit bins. Keys not set here take
+# BINNING_DEFAULTS in rebin_2d.py.
+
+strategy: window
+window_axis: y
+n_slices: 1
+slice_var: HME
+# must match the datacard configuration's category_pattern
+category_pattern: "{base_category}_hmebox{slice_idx}"
+
+# --- the window ---
+min_slice_bkg_sum: 1.0
+min_slice_bkg_neff: 4.0
+min_slice_bkg_each: 0.01
+min_slice_bkg_each_neff: 0.0
+
+# --- the DNN bins inside it ---
+max_bins_per_slice: 10
+bkg_per_bin: 1.0
+min_bin_bkg_neff: 4.0
+min_bin_bkg_each: 0.01
+# every non-negligible background measured in every bin (keeps DY out of empty bins)
+min_bin_bkg_each_neff: 2.0
+dp_min_bin_gain: 0.002
+
+# --- both ---
+# Negligible backgrounds are judged over the whole window, so one just under 5% of the
+# window is exempt from the per-bin floors even where it is larger.
+min_bkg_frac: 0.05
+min_signal: 0.5
+significance_mode: asimov

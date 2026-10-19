@@ -95,7 +95,7 @@ class DNNLimitTask(Task, HTCondorWorkflow, law.LocalWorkflow):
         output_path = os.path.join(
             "DNNLimits",
             self.version,
-            self.period,
+            self.only_era,
             training_name,
             resolved_or_boosted,
             outFileName,
@@ -216,7 +216,11 @@ class DNNComparisonTask(Task, HTCondorWorkflow, law.LocalWorkflow):
         outFileName = f"DNNComparisonPlots"
         resolved_or_boosted = "resolved" if int(resolved) else "boosted"
         output_path = os.path.join(
-            "DNNComparison", self.version, self.period, resolved_or_boosted, outFileName
+            "DNNComparison",
+            self.version,
+            self.only_era,
+            resolved_or_boosted,
+            outFileName,
         )
         return [
             self.remote_target(output_path, fs=self.fs_histograms),

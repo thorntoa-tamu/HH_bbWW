@@ -3,16 +3,21 @@ storage_folder: /eos/user/d/daebi/HH_bbWW/histTuples/v2601a/*/ # Include all era
 
 nParity: 4
 
+# Training-file branches: all HistTuple columns, plus add_extra_vars (p4 components etc.) when true
+extra_vars: true
+
+# nParity{k}_Merged_weight.root (all_masses) and/or nParity{k}_Merged_weight_m{mass}.root per mass of per_mass_signal
+weight_files:
+  all_masses: false
+  per_mass_signal: XtoYHto2B2W
+
 # Cuts for RDF in creating the training file
 iterate_cut: (
   (ZVeto_OS_Iso == 1) &&
-  (bb_mass_PNetRegPtRawCorr_PNetRegPtRawCorrNeutrino > 70) &&
-  (bb_mass_PNetRegPtRawCorr_PNetRegPtRawCorrNeutrino < 150) &&
-  ( (res2b == 1) || (recovery == 1) ) &&
+  (boosted == 1) &&
   ( (channelId == 11) || (channelId == 12) || (channelId == 22) )
   ) &&
-  ( ll_mass < 70 ) &&
-  ( dR_dilep < 2.5 )
+  ( ll_mass < 70 )
 parity_cut: (
   (event%{nParity} == {parity_scan})
   )

@@ -1,15 +1,16 @@
 # Binning for the CI, read by rebin_2d.py via CI_card.yaml's `preprocess:` block.
 #
-# One slice, one bin: everything in the 2D DNN-vs-HME plane collapses into a single
-# datacard bin per channel and category. The CI runs with --test (--nEvents 1000 per
-# dataset), so every yield is ~1e-3 of nominal and the per-bin distribution is mostly
-# empty or negative -- which combine will not fit. Collapsing to one bin is what makes
-# the datacard and limit steps runnable on that little data, and it is all the CI is
-# asking of the binning: that the chain runs end to end, not that the binning is good.
+# The production strategy (an HME window with the DNN binned inside it, as in
+# binning_hmebox.yaml), but with one bin: each channel and category becomes a single
+# datacard bin. The CI runs with --test (--nEvents 1000 per dataset), where a finer
+# binning is mostly empty or negative and combine will not fit it. The CI checks that
+# the chain runs end to end, not that the binning is good.
 #
 # Only the production defaults that have to change are listed; rebin_2d.py fills the
 # rest from BINNING_DEFAULTS and rejects any key it does not know.
 
+strategy: window
+window_axis: y
 n_slices: 1
 max_bins_per_slice: 1
 
@@ -28,5 +29,5 @@ min_signal: 0.0
 
 # Must match the category_pattern CI_card.yaml declares, since that is how the datacard
 # maker recovers a slice's base category.
-category_pattern: "{base_category}_dnn{slice_idx}"
-slice_var: DNN
+category_pattern: "{base_category}_hmebox{slice_idx}"
+slice_var: HME

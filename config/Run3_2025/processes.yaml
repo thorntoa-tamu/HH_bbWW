@@ -50,6 +50,7 @@ DY_LO:
 TT:
   name: "t#bar{t}"
   color: "kGreen-3"
+  genInfo: [ TT ]
   datasets:
     - TTto2L2Nu
     - TTtoLNu2Q
@@ -136,23 +137,70 @@ VV:
     - ZZto2Nu2Q_powheg
     - ZZto4L_powheg
 
-SingleHiggs:
-  name: "Single Higgs"
+VVV:
+  name: "VVV"
+  color: "kMagenta-7"
+  datasets:
+    - WWW_4F
+    - WWZ_4F
+    - WZZ
+    - ZZZ
+
+ttV:
+  name: "t#bar{t}V"
+  color: "kGreen+3"
+  datasets:
+    - TTLNu_1Jets
+    - TTLL_MLL_50
+    - TTLL_MLL_4to50
+    - TTNuNu
+    - TTZ_Zto2Q
+
+H:
+  name: "H"
+  color: "kRed"
+  sub_processes:
+    - ggH
+    - VBFH
+    - VH
+    - ttH
+
+ggH:
+  name: "ggH"
   color: "kRed"
   datasets:
     - GluGluHto2Tau_UncorrelatedDecay_UnFiltered
     - GluGluHto2B_M125
     - GluGluHto2Wto2L2Nu_M125
+
+VBFH:
+  name: "VBF H"
+  color: "kRed-7"
+  datasets:
     - VBFHto2Tau_UncorrelatedDecay_UnFiltered
     - VBFHto2B_M125
-    - ggZH_Hto2B_Zto2L
-    - ggZH_Hto2B_Zto2Q
+    - VBFHto2Wto2L2Nu_M125
+
+VH:
+  name: "VH"
+  color: "kRed+2"
+  datasets:
     - WminusH_Hto2B_WtoLNu
     - WminusH_Hto2B_Wto2Q
     - WminusHto2Tau_UncorrelatedDecay_UnFiltered
     - WplusH_Hto2B_WtoLNu
     - WplusH_Hto2B_Wto2Q
     - WplusHto2Tau_UncorrelatedDecay_UnFiltered
+    - ZH_Hto2B_Zto2L
+    - ZH_Hto2B_Zto2Q
+    - ZHto2Tau_UncorrelatedDecay_UnFiltered
+    - ggZH_Hto2B_Zto2L
+    - ggZH_Hto2B_Zto2Q
+
+ttH:
+  name: "t#bar{t}H"
+  color: "kRed-9"
+  datasets:
     - TTHtoNon2B_M125
     - TTHto2B_M125
 
@@ -199,6 +247,108 @@ XtoHHto2Tau2B:
     parameters: [ MASS ]
     process_name: XtoHHto2Tau2B_${MASS}
     name_pattern: Xto2Tau2B ${MASS} GeV (x50)
+    to_plot:
+      - [ '300' ]
+      - [ '600' ]
+      - [ '1000' ]
+    plot_color: [ "kMagenta", "kCyan", "kGreen" ]
+    channels: [ "e", "mu", "eE", "eMu", "muMu" ]
+  datasets: [ ]
+
+GluGluToRadion_bbWW_2L:
+  name: "GluGluToRadion_bbWW_2L"
+  color: "kBlack"
+  is_meta_process: true
+  meta_setup:
+    dataset_name_pattern: GluGlutoRadiontoHHto2B2Vto2B2L2Nu_M_(\d+)  # GluGlutoRadiontoHHto2B2Vto2B([^_]+)_M_(\d+)
+    parameters: [ MASS ]
+    process_name: GluGluToRadion_bbWW_2L_${MASS}
+    name_pattern: GluGluToRadion bbWW 2L mass ${MASS} GeV
+    to_plot:
+      - [ '300' ]
+      - [ '600' ]
+      - [ '1000' ]
+    plot_color: [ "kBlack", "kBlue", "kRed" ]
+    channels: [ "eE", "eMu", "muMu" ]
+  datasets: [ ]
+
+GluGluToRadion_bbWW_1L:
+  name: "GluGluToRadion_bbWW_1L"
+  color: "kBlack"
+  is_meta_process: true
+  meta_setup:
+    dataset_name_pattern: GluGlutoRadiontoHHto2B2Vto2B2JLNu_M_(\d+)  # GluGlutoRadiontoHHto2B2Vto2B([^_]+)_M_(\d+)
+    parameters: [ MASS ]
+    process_name: GluGluToRadion_bbWW_1L_${MASS}
+    name_pattern: GluGluToRadion bbWW 1L mass ${MASS} GeV
+    to_plot:
+      - [ '300' ]
+      - [ '600' ]
+      - [ '1000' ]
+    plot_color: [ "kMagenta", "kCyan", "kGreen" ]
+    channels: [ "e", "mu" ]
+  datasets: [ ]
+
+GluGluToBulkGraviton_bbWW_2L:
+  name: "GluGluToBulkGraviton_bbWW_2L"
+  color: "kBlack"
+  is_meta_process: true
+  meta_setup:
+    dataset_name_pattern: GluGlutoBulkGravitontoHHto2B2Vto2B2L2Nu_M_(\d+)  # GluGlutoRadiontoHHto2B2Vto2B([^_]+)_M_(\d+)
+    parameters: [ MASS ]
+    process_name: GluGluToBulkGraviton_bbWW_2L_${MASS}
+    name_pattern: GluGluToBulkGraviton bbWW 2L mass ${MASS} GeV
+    to_plot:
+      - [ '300' ]
+      - [ '600' ]
+      - [ '1000' ]
+    plot_color: [ "kBlack", "kBlue", "kRed" ]
+    channels: [ "eE", "eMu", "muMu" ]
+  datasets: [ ]
+
+GluGluToBulkGraviton_bbWW_1L:
+  name: "GluGluToBulkGraviton_bbWW_1L"
+  color: "kBlack"
+  is_meta_process: true
+  meta_setup:
+    dataset_name_pattern: GluGlutoBulkGravitontoHHto2B2Vto2B2JLNu_M_(\d+)  # GluGlutoRadiontoHHto2B2Vto2B([^_]+)_M_(\d+)
+    parameters: [ MASS ]
+    process_name: GluGluToBulkGraviton_bbWW_1L_${MASS}
+    name_pattern: GluGluToBulkGraviton bbWW 1L mass ${MASS} GeV
+    to_plot:
+      - [ '300' ]
+      - [ '600' ]
+      - [ '1000' ]
+    plot_color: [ "kMagenta", "kCyan", "kGreen" ]
+    channels: [ "e", "mu" ]
+  datasets: [ ]
+
+GluGluToRadion_bbTauTau:
+  name: "GluGluToRadion_bbTauTau"
+  color: "kBlack"
+  is_meta_process: true
+  meta_setup:
+    dataset_name_pattern: GluGlutoRadiontoHHto2B2Tau_M_(\d+)
+    parameters: [ MASS ]
+    process_name: GluGluToRadion_bbTauTau_${MASS}
+    name_pattern: GluGluToRadion bbTauTau mass ${MASS} GeV
+    to_plot:
+      - [ '300' ]
+      - [ '600' ]
+      - [ '1000' ]
+    plot_color: [ "kMagenta", "kCyan", "kGreen" ]
+    channels: [ "e", "mu", "eE", "eMu", "muMu" ]
+  datasets: [ ]
+
+GluGluToBulkGraviton_bbTauTau:
+  name: "GluGluToBulkGraviton_bbTauTau"
+  color: "kBlack"
+  is_meta_process: true
+  meta_setup:
+    dataset_name_pattern: GluGlutoBulkGravitontoHHto2B2Tau_M_(\d+)
+    parameters: [ MASS ]
+    process_name: GluGluToBulkGraviton_bbTauTau_${MASS}
+    name_pattern: GluGluToBulkGraviton bbTauTau mass ${MASS} GeV
     to_plot:
       - [ '300' ]
       - [ '600' ]
@@ -404,8 +554,10 @@ custom_CI:
 custom_CI_Background_TT:
   name: "CI -- Background t#bar{t}"
   color: "kGreen-3"
+  genInfo: [ TT ]
   datasets:
     - TTto2L2Nu
+    - TTtoLNu2Q
 
 custom_CI_Background_DY:
   name: "CI -- Background DY"
@@ -426,6 +578,14 @@ custom_CI_Signal:
   color: "kBlack"
   datasets:
     - GluGlutoHHto2B2Vto2L2Nu_kl_1p00_kt_1p00_c2_0p00
+
+# No XtoYH sample exists for 2024 (2025/26 reuse its MC), so the one-lepton HH sample
+# stands in, as the two-lepton one does for custom_CI_Signal.
+custom_CI_Signal_SL:
+  name: "CI -- Signal (1L)"
+  color: "kBlue"
+  datasets:
+    - GluGlutoHHto2B2WtoLNu2Q_kl_1p00_kt_1p00_c2_0p00
 
 custom_CI_Data:
   name: "CI -- Data"

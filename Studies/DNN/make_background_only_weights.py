@@ -1,4 +1,8 @@
 import os
+import sys
+
+# create_dataset.py moved to Studies/DNN_Dataset upstream
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "DNN_Dataset"))
 from create_dataset import add_weight_file
 
 # Regenerates m600 weight files restricted to a single background, for the

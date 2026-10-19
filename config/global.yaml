@@ -8,7 +8,6 @@ bundles:
   # Code and configuration: hashed, so that editing any of it produces a different bundle
   # instead of jobs silently running whatever was packed the first time.
   core:
-    period_specific: false
     hashed: true
     patterns:
       - FLAF
@@ -23,25 +22,21 @@ bundles:
   # The installed environment: large, and only ever changes on a reinstall, so it is kept
   # out of the hashed bundle.
   soft:
-    period_specific: false
     patterns:
       - soft/flaf_env
   cmssw:
-    period_specific: false
     patterns:
       - soft/CMSSW_16_0_6
   inputFileList:
-    period_specific: true
     patterns:
-      - data/{version}/InputFileTask/{period}
+      - data/{version}/InputFileTask/{era}
     task_requires:
       module: FLAF.AnaProd.tasks
       class: InputFileTask
   AnaTupleFileList:
-    period_specific: true
     patterns:
-      - data/{version}/AnaTupleFileListBuilderTask/{period}
-      - data/{version}/AnaTupleFileListTask/{period}
+      - data/{version}/AnaTupleFileListBuilderTask/{era}
+      - data/{version}/AnaTupleFileListTask/{era}
     # Both producers, or the bundle is packed as soon as the builder is done, while the
     # per-dataset lists of AnaTupleFileListTask are still being written.
     task_requires:
@@ -50,7 +45,6 @@ bundles:
       - module: FLAF.AnaProd.tasks
         class: AnaTupleFileListTask
   inference:
-    period_specific: false
     patterns:
       - inference
       - StatInference
@@ -70,7 +64,40 @@ nEventsPerFile:
   signals: 100000
   backgrounds: 100000
 
-corrections:
+# The merged anaTuple keeps weight_base and weight_base_*_rel, which the histogram stage
+# reads, plus weight_xs, weight_gen and weight_lumi. Each shape producer's members are only
+# an input to building weight_base, so they are dropped here, named one by one: a new shape
+# producer has to be added to this list, it is not swept up by a pattern.
+anaTupleMerge_drop_columns:
+  - "^weight_pu_"
+  - "^weight_ps_"
+  - "^weight_top_pt_"
+  - "^weight_pdf_"
+  - "^weight_qcd_scale_"
+
+# Columns no systematic shift changes. They are stored in the central tree only, and an event
+# selected only by a shift gets them from that shift, so its shifted-tree weight_base is its
+# real weight (FuseAnaTuples checks that every variation selecting an event agrees). Generator-
+# and event-level quantities only: generator information attached to a reconstructed object
+# (lepN_gen_*, centralJet_matchedGenJet_*, *_hadronFlavour) follows the selected object and
+# changes with the shift. HLT_* stays out: Analysis/hh_bbww.py defines every trigger column that
+# GetColumnNames() does not list, and a column taken from the central tree is not listed there.
+anaTuple_shift_invariant_columns:
+  - "^(run|luminosityBlock|event)$"
+  - "^(period|isData|X_mass|X_spin)$"
+  - "^weight_(gen|lumi|xs|xs_ds)$"
+  - "^weight_(pu|ps|pdf|qcd_scale|top_pt)_"
+  - "^Pileup_nTrueInt$"
+  - "^LHE_"
+  - "^LHEPart_"
+  - "^gen(HVV|Hbb|V[12]|V[12]prod[12]|b[12])_"
+  - "^TTInfo_"
+  - "^genTop_"
+
+# Anchored: Run3_2024 and later inherit this block with `<<: *corrections_default` and override
+# only the entries that differ there (btag, dy_hhbbtautau), so a correction added here reaches
+# every era.
+corrections: &corrections_default
   mu:
     stages: [ HistTuple, AnalysisCache ]
     columns:
@@ -100,28 +127,9 @@ corrections:
   gen: { stage: AnaTuple }
   pu:
     stages: [ AnaTuple, AnaTupleMerge ]
-    enabled:
-      AnaTuple: true
-      AnaTupleMerge: false
-  # Parton-shower ISR/FSR. Stages mirror pu because the mechanism is the same one: the
-  # weights are defined at AnaTuple, where the inclusive sums of
-  # weight_gen * weight_pu_Central * weight_ps_<var> are accumulated into the anaCache
-  # denominators, and AnaTupleMerge reads the persisted branches back to build
-  # weight_base_isr{Up,Down}_rel / weight_base_fsr{Up,Down}_rel. Dividing each variation
-  # by its own denominator is what makes the nuisance shape-only.
-  #
-  # AnaTupleMerge must stay disabled: the merged tuple holds PS_Weight, not PSWeight, so
-  # an enabled producer there would hit its missing-input path. It raises rather than
-  # shadowing the persisted values, but the config is what should prevent it.
-  #
-  # No `processes:` -- applied to all MC including signal, which is what makes ps_isr
-  # and ps_fsr single correlated nuisances. It is one Pythia shower setting.
   parton_shower:
     stages: [ AnaTuple, AnaTupleMerge ]
     branch: PSWeight
-    enabled:
-      AnaTuple: true
-      AnaTupleMerge: false
   base: { stage: AnaTupleMerge }
   JEC: { stage: AnaTuple }
   JER:
@@ -143,10 +151,22 @@ corrections:
   #   pt_ll: ll_pt
   dy_hhbbtautau:
     stages: [ AnalysisCache, HistTuple ]
-    processes: [ DY_M_10to50, DYto2L_InclusivePlusBinned ]
+    processes: [ DY_M_10to50, DYto2L_InclusivePlusBinned, custom_CI_Background_DY ]
     njets_branch: Njets # Use nCentralJets, not raw nJet
     ntags_branch: nBTaggedJets
     pt_ll_gen: ll_pt_gen
+  top_pt:
+    stages: [ AnaTuple, AnaTupleMerge ]
+    processes: [ TT, custom_CI_Background_TT ]
+    branch: genTop_pt
+    parameterization: data_nlo
+  pdf:
+    stages: [ AnaTuple, AnaTupleMerge ]
+    branch: LHEPdfWeight
+    n_members: 103
+  qcd_scale:
+    stages: [ AnaTuple, AnaTupleMerge ]
+    branch: LHEScaleWeight
 extraFormat_for_triggerMatchingAndSF:
   pt: "nano"
 muon_pt_for_presel: "nano"
@@ -193,52 +213,126 @@ payload_producers:
     producers_module_name: Analysis.DNN_Application
     producer_name: DNNProducer
     DL_Resolved:
-      version: "DoubleLepton_Parametric_Resolved_v1"
+      version: "DoubleLepton_Parametric_Resolved_v2"
       parametric: True
     DL_Boosted:
-      version: "DoubleLepton_Parametric_Boosted_v1"
+      version: "DoubleLepton_Parametric_Boosted_v2"
       parametric: True
     SL_Resolved: null
     SL_Boosted: null
     columns:
+      - M250_Signal
+      - M260_Signal
+      - M270_Signal
+      - M280_Signal
       - M300_Signal
+      - M320_Signal
+      - M350_Signal
+      - M360_Signal
       - M400_Signal
+      - M450_Signal
       - M500_Signal
       - M550_Signal
       - M600_Signal
       - M650_Signal
       - M700_Signal
+      - M750_Signal
       - M800_Signal
+      - M850_Signal
       - M900_Signal
       - M1000_Signal
+      - M1100_Signal
+      - M1200_Signal
+      - M1300_Signal
+      - M1400_Signal
+      - M1500_Signal
 
+      - M250_TT
+      - M260_TT
+      - M270_TT
+      - M280_TT
       - M300_TT
+      - M320_TT
+      - M350_TT
+      - M360_TT
       - M400_TT
+      - M450_TT
       - M500_TT
       - M550_TT
       - M600_TT
       - M650_TT
       - M700_TT
+      - M750_TT
       - M800_TT
+      - M850_TT
       - M900_TT
       - M1000_TT
+      - M1100_TT
+      - M1200_TT
+      - M1300_TT
+      - M1400_TT
+      - M1500_TT
 
+      - M250_DY
+      - M260_DY
+      - M270_DY
+      - M280_DY
+      - M300_DY
+      - M320_DY
+      - M350_DY
+      - M360_DY
+      - M400_DY
+      - M450_DY
+      - M500_DY
+      - M550_DY
+      - M600_DY
+      - M650_DY
+      - M700_DY
+      - M750_DY
+      - M800_DY
+      - M850_DY
+      - M900_DY
+      - M1000_DY
+      - M1100_DY
+      - M1200_DY
+      - M1300_DY
+      - M1400_DY
+      - M1500_DY
+
+      - M250_Other
+      - M260_Other
+      - M270_Other
+      - M280_Other
       - M300_Other
+      - M320_Other
+      - M350_Other
+      - M360_Other
       - M400_Other
+      - M450_Other
       - M500_Other
       - M550_Other
       - M600_Other
       - M650_Other
       - M700_Other
+      - M750_Other
       - M800_Other
+      - M850_Other
       - M900_Other
       - M1000_Other
+      - M1100_Other
+      - M1200_Other
+      - M1300_Other
+      - M1400_Other
+      - M1500_Other
     dependencies:
     n_cpus: 4
     max_runtime: 8.0
     cmssw_env: False
     awkward_based: True
     uproot_stepsize: '50MB'
+  # Unlike the parametric DNN above, this one carries a trained model per mass point
+  # (config/DNN/SingleLepton_IndependentMasses/<category>/*_nParity*_M<mass>.onnx), so its
+  # grid cannot be widened to the produced X->HH points before those models exist.
   TwoStageDNN:
     producers_module_name: Analysis.DNN_Application
     producer_name: TwoStageDNNProducer
@@ -477,14 +571,16 @@ categories:
   - recovery
   - res2b
   - boosted
-  - boosted_H
-  - boosted_W
-  - boosted_HW
+  # - boosted_H
+  # - boosted_W
+  # - boosted_HW
   # - baseline
   # - baseline_boosted
   # - baseline_resolved
 
 # This is for SR/CR definitions using multiclass DNN in defineControlRegions
+# The per-mass SL signal regions below are built from the TwoStageDNN scores, so this
+# grid follows the trained two-stage models, not the produced X->HH mass points.
 masspoints:
   - 300
   - 400
@@ -502,8 +598,8 @@ QCDRegions:
   - SR
   - TT_CR
   - DY_CR
-  - W_CR
-  - SR_mbb
+  # - W_CR
+  # - SR_mbb
 
   # SL signal and control regions
   # if you are running SL Hist*Task, you might want to uncomment these so that signal regions and SRs are created for the SL channel
@@ -628,7 +724,10 @@ scales:
 deepTauVersion: 2p1
 met_type: "PuppiMET"
 
-histTuple_flavor: default
+histTuple_flavor: Control_Plots
+
+# Clean up histTuple flavors: DNN_Training, Control_Plots, Signal_Extraction
+
 histTuple_flavors:
   binary_DNN_outputs:
     fullResolution_variables: [ ]
@@ -666,7 +765,7 @@ histTuple_flavors:
       - name: binary_DNN_m1000_vs_HME
         vars: [ TwoStageDNN_M1000_binary, DeepHME_mass ]
 
-  DNN_training:
+  DNN_Training:
     fullResolution_variables:
       - lep1_pt
       - lep1_eta
@@ -761,6 +860,16 @@ histTuple_flavors:
       - llmet_mass
       - bbllmet_mass
       - ll_bb_pt_ratio
+      - Pzeta
+      - Pzeta_visible
+      - CosThetaStar_HH
+      - HelicityCosTheta_Hbb
+      - HelicityCosTheta_HWW
+      - Phi_HH
+      - Phi1_HWW
+      - bb_dR_HbbFrame
+      - ll_dR_HWWFrame
+      - MX_reduced
 
       - bb_mass_PNetRegPtRawCorr_PNetRegPtRawCorrNeutrino
 
@@ -817,8 +926,7 @@ histTuple_flavors:
       - DeepHME_mass
       - lep1_pt
 
-  default:
-    # DNN Inputs
+  Control_Plots:
     fullResolution_variables:
       # Add one default fullres for CI to validate it works
       - lep1_pt
@@ -894,6 +1002,16 @@ histTuple_flavors:
       - MT2_blbl2_ptratio
       - ll_mass
       - bb_CosTheta
+      - Pzeta
+      - Pzeta_visible
+      - CosThetaStar_HH
+      - HelicityCosTheta_Hbb
+      - HelicityCosTheta_HWW
+      - Phi_HH
+      - Phi1_HWW
+      - bb_dR_HbbFrame
+      - ll_dR_HWWFrame
+      - MX_reduced
 
       - lep1_Muon_pfRelIso04_all
       - lep2_Muon_pfRelIso04_all
@@ -954,70 +1072,31 @@ histTuple_flavors:
       # - bjet_lepWfromH_minDphi
       - WW_pt
 
-      - DNN_M300_Signal
-      - DNN_M400_Signal
-      - DNN_M500_Signal
-      - DNN_M550_Signal
-      - DNN_M600_Signal
-      - DNN_M650_Signal
-      - DNN_M700_Signal
-      - DNN_M800_Signal
-      - DNN_M900_Signal
-      - DNN_M1000_Signal
+  # The integration CI's flavor: what its datacards read plus a few observables to plot.
+  # Every variable is booked per variation, channel and category, so `default` does not
+  # fit the CI pod's memory once a process has more than one dataset.
+  CI:
+    # One fullres variable, to keep that path tested.
+    fullResolution_variables:
+      - lep1_pt
 
+    variables:
+      - lep1_pt
+      - lep1_eta
+      - lep2_pt
+      - PuppiMET_pt
+      - bjet1_pt
+      - bjet1_btagPNetB
+      - ll_mass
+      - DeepHME_mass
+      - CosThetaStar_HH
+
+      # Limit inputs at the CI's MX=300: CI_card_SL.yaml reads the binary score,
+      # CI_card.yaml the DNN-vs-HME plane.
+      - TwoStageDNN_M300_binary
+      - DNN_M300_Signal
       - name: DNN_m300_vs_HME
         vars: [ DNN_M300_Signal, DeepHME_mass ]
-      - name: DNN_m400_vs_HME
-        vars: [ DNN_M400_Signal, DeepHME_mass ]
-      - name: DNN_m500_vs_HME
-        vars: [ DNN_M500_Signal, DeepHME_mass ]
-      - name: DNN_m550_vs_HME
-        vars: [ DNN_M550_Signal, DeepHME_mass ]
-      - name: DNN_m600_vs_HME
-        vars: [ DNN_M600_Signal, DeepHME_mass ]
-      - name: DNN_m650_vs_HME
-        vars: [ DNN_M650_Signal, DeepHME_mass ]
-      - name: DNN_m700_vs_HME
-        vars: [ DNN_M700_Signal, DeepHME_mass ]
-      - name: DNN_m800_vs_HME
-        vars: [ DNN_M800_Signal, DeepHME_mass ]
-      - name: DNN_m900_vs_HME
-        vars: [ DNN_M900_Signal, DeepHME_mass ]
-      - name: DNN_m1000_vs_HME
-        vars: [ DNN_M1000_Signal, DeepHME_mass ]
-
-      # two-stage dnn outputs
-      - TwoStageDNN_M300_binary
-      - TwoStageDNN_M400_binary
-      - TwoStageDNN_M500_binary
-      - TwoStageDNN_M550_binary
-      - TwoStageDNN_M600_binary
-      - TwoStageDNN_M650_binary
-      - TwoStageDNN_M700_binary
-      - TwoStageDNN_M800_binary
-      - TwoStageDNN_M900_binary
-      - TwoStageDNN_M1000_binary
-
-      - name: binary_DNN_m300_vs_HME
-        vars: [ TwoStageDNN_M300_binary, DeepHME_mass ]
-      - name: binary_DNN_m400_vs_HME
-        vars: [ TwoStageDNN_M400_binary, DeepHME_mass ]
-      - name: binary_DNN_m500_vs_HME
-        vars: [ TwoStageDNN_M500_binary, DeepHME_mass ]
-      - name: binary_DNN_m550_vs_HME
-        vars: [ TwoStageDNN_M550_binary, DeepHME_mass ]
-      - name: binary_DNN_m600_vs_HME
-        vars: [ TwoStageDNN_M600_binary, DeepHME_mass ]
-      - name: binary_DNN_m650_vs_HME
-        vars: [ TwoStageDNN_M650_binary, DeepHME_mass ]
-      - name: binary_DNN_m700_vs_HME
-        vars: [ TwoStageDNN_M700_binary, DeepHME_mass ]
-      - name: binary_DNN_m800_vs_HME
-        vars: [ TwoStageDNN_M800_binary, DeepHME_mass ]
-      - name: binary_DNN_m900_vs_HME
-        vars: [ TwoStageDNN_M900_binary, DeepHME_mass ]
-      - name: binary_DNN_m1000_vs_HME
-        vars: [ TwoStageDNN_M1000_binary, DeepHME_mass ]
 
   DL_DNN_Inputs:
     # DL DNN Inputs
@@ -1060,53 +1139,149 @@ histTuple_flavors:
       - "fatbjet_tau3"
       - "fatbjet_tau4"
       - "fatbjet_msoftdrop"
+      - "Pzeta"
+      - "Pzeta_visible"
+      - "CosThetaStar_HH"
+      - "HelicityCosTheta_Hbb"
+      - "HelicityCosTheta_HWW"
+      - "Phi_HH"
+      - "Phi1_HWW"
+      - "ll_dR_HWWFrame"
+      - "MX_reduced"
 
       - DeepHME_mass
 
-  DNN_Outputs:
+  Signal_Extraction_DL:
     # DNN Outputs (Shapes)
     fullResolution_variables: [ ]
 
     variables:
       - DeepHME_mass
 
+      - DNN_M250_Signal
+      - DNN_M260_Signal
+      - DNN_M270_Signal
+      - DNN_M280_Signal
       - DNN_M300_Signal
+      - DNN_M320_Signal
+      - DNN_M350_Signal
+      - DNN_M360_Signal
       - DNN_M400_Signal
+      - DNN_M450_Signal
       - DNN_M500_Signal
       - DNN_M550_Signal
       - DNN_M600_Signal
       - DNN_M650_Signal
       - DNN_M700_Signal
+      - DNN_M750_Signal
       - DNN_M800_Signal
+      - DNN_M850_Signal
       - DNN_M900_Signal
       - DNN_M1000_Signal
+      - DNN_M1100_Signal
+      - DNN_M1200_Signal
+      - DNN_M1300_Signal
+      - DNN_M1400_Signal
+      - DNN_M1500_Signal
 
+      - DNN_M250_TT
+      - DNN_M260_TT
+      - DNN_M270_TT
+      - DNN_M280_TT
       - DNN_M300_TT
+      - DNN_M320_TT
+      - DNN_M350_TT
+      - DNN_M360_TT
       - DNN_M400_TT
+      - DNN_M450_TT
       - DNN_M500_TT
       - DNN_M550_TT
       - DNN_M600_TT
       - DNN_M650_TT
       - DNN_M700_TT
+      - DNN_M750_TT
       - DNN_M800_TT
+      - DNN_M850_TT
       - DNN_M900_TT
       - DNN_M1000_TT
+      - DNN_M1100_TT
+      - DNN_M1200_TT
+      - DNN_M1300_TT
+      - DNN_M1400_TT
+      - DNN_M1500_TT
 
+      - DNN_M250_DY
+      - DNN_M260_DY
+      - DNN_M270_DY
+      - DNN_M280_DY
+      - DNN_M300_DY
+      - DNN_M320_DY
+      - DNN_M350_DY
+      - DNN_M360_DY
+      - DNN_M400_DY
+      - DNN_M450_DY
+      - DNN_M500_DY
+      - DNN_M550_DY
+      - DNN_M600_DY
+      - DNN_M650_DY
+      - DNN_M700_DY
+      - DNN_M750_DY
+      - DNN_M800_DY
+      - DNN_M850_DY
+      - DNN_M900_DY
+      - DNN_M1000_DY
+      - DNN_M1100_DY
+      - DNN_M1200_DY
+      - DNN_M1300_DY
+      - DNN_M1400_DY
+      - DNN_M1500_DY
+
+      - DNN_M250_Other
+      - DNN_M260_Other
+      - DNN_M270_Other
+      - DNN_M280_Other
       - DNN_M300_Other
+      - DNN_M320_Other
+      - DNN_M350_Other
+      - DNN_M360_Other
       - DNN_M400_Other
+      - DNN_M450_Other
       - DNN_M500_Other
       - DNN_M550_Other
       - DNN_M600_Other
       - DNN_M650_Other
       - DNN_M700_Other
+      - DNN_M750_Other
       - DNN_M800_Other
+      - DNN_M850_Other
       - DNN_M900_Other
       - DNN_M1000_Other
+      - DNN_M1100_Other
+      - DNN_M1200_Other
+      - DNN_M1300_Other
+      - DNN_M1400_Other
+      - DNN_M1500_Other
 
+      - name: DNN_m250_vs_HME
+        vars: [ DNN_M250_Signal, DeepHME_mass ]
+      - name: DNN_m260_vs_HME
+        vars: [ DNN_M260_Signal, DeepHME_mass ]
+      - name: DNN_m270_vs_HME
+        vars: [ DNN_M270_Signal, DeepHME_mass ]
+      - name: DNN_m280_vs_HME
+        vars: [ DNN_M280_Signal, DeepHME_mass ]
       - name: DNN_m300_vs_HME
         vars: [ DNN_M300_Signal, DeepHME_mass ]
+      - name: DNN_m320_vs_HME
+        vars: [ DNN_M320_Signal, DeepHME_mass ]
+      - name: DNN_m350_vs_HME
+        vars: [ DNN_M350_Signal, DeepHME_mass ]
+      - name: DNN_m360_vs_HME
+        vars: [ DNN_M360_Signal, DeepHME_mass ]
       - name: DNN_m400_vs_HME
         vars: [ DNN_M400_Signal, DeepHME_mass ]
+      - name: DNN_m450_vs_HME
+        vars: [ DNN_M450_Signal, DeepHME_mass ]
       - name: DNN_m500_vs_HME
         vars: [ DNN_M500_Signal, DeepHME_mass ]
       - name: DNN_m550_vs_HME
@@ -1117,12 +1292,26 @@ histTuple_flavors:
         vars: [ DNN_M650_Signal, DeepHME_mass ]
       - name: DNN_m700_vs_HME
         vars: [ DNN_M700_Signal, DeepHME_mass ]
+      - name: DNN_m750_vs_HME
+        vars: [ DNN_M750_Signal, DeepHME_mass ]
       - name: DNN_m800_vs_HME
         vars: [ DNN_M800_Signal, DeepHME_mass ]
+      - name: DNN_m850_vs_HME
+        vars: [ DNN_M850_Signal, DeepHME_mass ]
       - name: DNN_m900_vs_HME
         vars: [ DNN_M900_Signal, DeepHME_mass ]
       - name: DNN_m1000_vs_HME
         vars: [ DNN_M1000_Signal, DeepHME_mass ]
+      - name: DNN_m1100_vs_HME
+        vars: [ DNN_M1100_Signal, DeepHME_mass ]
+      - name: DNN_m1200_vs_HME
+        vars: [ DNN_M1200_Signal, DeepHME_mass ]
+      - name: DNN_m1300_vs_HME
+        vars: [ DNN_M1300_Signal, DeepHME_mass ]
+      - name: DNN_m1400_vs_HME
+        vars: [ DNN_M1400_Signal, DeepHME_mass ]
+      - name: DNN_m1500_vs_HME
+        vars: [ DNN_M1500_Signal, DeepHME_mass ]
 
   TwoStageDNN_Outputs:
     # DNN Outputs (Shapes)

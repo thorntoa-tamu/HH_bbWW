@@ -2,10 +2,10 @@ from Studies.HME.new.hmeVariables import GetHMEVariables
 
 
 class HMEProducer:
-    def __init__(self, cfg, payload_name, period):
+    def __init__(self, cfg, payload_name, era):
         self.cfg = cfg
         self.payload_name = payload_name
-        self.period = period
+        self.era = era
 
     def run(self, dfw):
         if "ncentralJet" not in dfw.df.GetColumnNames():
