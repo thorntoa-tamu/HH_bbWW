@@ -23,6 +23,7 @@ from src.model_helper import (
     ParametricDNN,
     ONNXDeployWrapper,
     WeightedStandardCrossEntropyLoss,
+    DiscoLoss,
 )
 
 try:
@@ -41,7 +42,9 @@ device = torch.device(
 
 
 def save_loss_history(history, out_dir, regime):
-    """Per-epoch train/test loss and learning rate: loss_history_{regime}.json and a plot."""
+    """Per-epoch train/test loss and learning rate: loss_history_{regime}.json and a plot.
+    With DisCo the losses are cross-entropy + lambda * dCorr^2, and the DisCo term alone is
+    drawn dashed."""
     with open(os.path.join(out_dir, f"loss_history_{regime}.json"), "w") as f:
         json.dump(history, f, indent=1)
     best = int(np.argmin(history["test_loss"]))
@@ -50,8 +53,13 @@ def save_loss_history(history, out_dir, regime):
     )
     ax.plot(history["epoch"], history["train_loss"], label="train")
     ax.plot(history["epoch"], history["test_loss"], label="test (early stopping)")
+    if "train_disco" in history:
+        ax.plot(history["epoch"], history["train_disco"], "C0--", label="train DisCo")
+        ax.plot(history["epoch"], history["test_disco"], "C1--", label="test DisCo")
     ax.axvline(history["epoch"][best], color="gray", ls="--", label="saved epoch")
-    ax.set_ylabel("Weighted cross-entropy")
+    ax.set_ylabel(
+        "Cross-entropy + DisCo" if "train_disco" in history else "Weighted cross-entropy"
+    )
     ax.set_title(f"{regime.upper()} loss history")
     ax.legend()
     ax.grid(alpha=0.3)
@@ -163,6 +171,20 @@ def main():
 
     extra_vars = cfg["extra_variables"]
     train_cfg = cfg["training"]
+
+    # DisCo: lambda * dCorr^2(disco variable, signal probability) on background events
+    disco_cfg = train_cfg.get("disco", {})
+    disco_lambda = disco_cfg.get("lambda", 0.0)
+    disco_variable = disco_cfg.get("variable", "DeepHME_mass")
+    use_disco = disco_lambda > 0
+    if use_disco:
+        if any(disco_variable in feats for feats in feature_map.values()):
+            raise ValueError(
+                f"DisCo variable {disco_variable} must not be an input feature"
+            )
+        if disco_variable not in extra_vars:
+            extra_vars = extra_vars + [disco_variable]
+        print(f"--> DisCo on {disco_variable} with lambda = {disco_lambda}")
 
     # With 'spin' as an input, validation events are scored once per spin hypothesis
     spin_is_input = any("spin" in feats for feats in feature_map.values())
@@ -326,6 +348,12 @@ def main():
             )
             batch_size = train_cfg["batch_size"]
             eval_batch_size = train_cfg["eval_batch_size"]
+            if use_disco:
+                # dCorr memory is O(batch^2), and the test DisCo term should be computed on
+                # batches of the training size
+                eval_batch_size = batch_size
+                d_train_dev = train_manager.get_column_tensor(disco_variable).to(device)
+                d_test_dev = test_manager.get_column_tensor(disco_variable).to(device)
 
             model = ParametricDNN(
                 input_dim=len(current_features),
@@ -335,6 +363,7 @@ def main():
             ).to(device)
 
             criterion = WeightedStandardCrossEntropyLoss()
+            disco_criterion = DiscoLoss(disco_lambda) if use_disco else None
             optimizer = optim.AdamW(
                 model.parameters(),
                 lr=train_cfg["learning_rate"],
@@ -354,6 +383,8 @@ def main():
             early_stopping_patience = train_cfg.get("early_stopping_patience", 10)
             epochs_no_improve = 0
             history = {"epoch": [], "train_loss": [], "test_loss": [], "lr": []}
+            if use_disco:
+                history.update({"train_disco": [], "test_disco": []})
 
             for epoch in range(1, epochs + 1):
                 train_manager.randomize_background_masses()
@@ -363,6 +394,7 @@ def main():
 
                 model.train()
                 train_loss = torch.zeros((), device=device)
+                train_disco = torch.zeros((), device=device)
                 n_train = (len(X_train_epoch) // batch_size) * batch_size  # drop_last
                 perm = torch.randperm(len(X_train_epoch), device=device)
                 for start in range(0, n_train, batch_size):
@@ -372,27 +404,45 @@ def main():
 
                     outputs = model(X_train_epoch[idx])
                     loss = criterion(outputs, batch_y, w_train_epoch[idx])
+                    if use_disco:
+                        disco = disco_criterion(
+                            outputs, batch_y, w_train_epoch[idx], d_train_dev[idx]
+                        )
+                        loss = loss + disco
+                        train_disco += disco.detach() * len(batch_y)
                     loss.backward()
                     optimizer.step()
 
                     train_loss += loss.detach() * len(batch_y)
 
                 train_loss = train_loss.item() / n_train
+                train_disco = train_disco.item() / n_train
 
                 model.eval()
                 val_loss = torch.zeros((), device=device)
+                val_disco = torch.zeros((), device=device)
                 with torch.no_grad():
                     for start in range(0, len(X_test_dev), eval_batch_size):
                         sl = slice(start, start + eval_batch_size)
                         outputs = model(X_test_dev[sl])
                         loss = criterion(outputs, y_test_dev[sl], w_test_dev[sl])
+                        if use_disco:
+                            disco = disco_criterion(
+                                outputs, y_test_dev[sl], w_test_dev[sl], d_test_dev[sl]
+                            )
+                            loss = loss + disco
+                            val_disco += disco * len(y_test_dev[sl])
                         val_loss += loss * len(y_test_dev[sl])
                 val_loss = val_loss.item() / len(X_test_dev)
+                val_disco = val_disco.item() / len(X_test_dev)
 
                 history["epoch"].append(epoch)
                 history["train_loss"].append(train_loss)
                 history["test_loss"].append(val_loss)
                 history["lr"].append(optimizer.param_groups[0]["lr"])
+                if use_disco:
+                    history["train_disco"].append(train_disco)
+                    history["test_disco"].append(val_disco)
                 scheduler.step(val_loss)
 
                 if val_loss < best_loss:
@@ -408,6 +458,11 @@ def main():
                 if epoch % 10 == 0 or epoch == 1:
                     print(
                         f"    [{regime.upper()}] Epoch {epoch:2d}/{epochs} | Train Loss: {train_loss:.5f} | Test Loss: {val_loss:.5f}"
+                        + (
+                            f" | Train DisCo: {train_disco:.5f} | Test DisCo: {val_disco:.5f}"
+                            if use_disco
+                            else ""
+                        )
                     )
 
                 if epochs_no_improve >= early_stopping_patience:

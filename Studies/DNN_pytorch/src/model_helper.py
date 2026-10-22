@@ -357,6 +357,10 @@ class DynamicMassManager:
         w_tensor = torch.tensor(self.df["class_weight"].values, dtype=torch.float32)
         return X_tensor, y_tensor, w_tensor
 
+    def get_column_tensor(self, column):
+        """Unscaled column in the row order of get_scaled_tensors (e.g. the DisCo variable)."""
+        return torch.tensor(self.df[column].values, dtype=torch.float32)
+
 
 def score_hypotheses(model, scaler, df, features, hypotheses, device, batch_size=65536):
     """
@@ -450,3 +454,58 @@ class WeightedStandardCrossEntropyLoss(nn.Module):
     def forward(self, logits, targets, weights):
         loss = self.ce(logits, targets)
         return (loss * weights).mean()
+
+
+def distance_corr(var_1, var_2, normedweight):
+    """
+    Weighted squared distance correlation, dCorr^2 (arXiv:2007.14400), ported from
+    Studies/DNN/DNN_Class.py. var_1, var_2 and normedweight are 1D tensors of the same length;
+    the weights must sum to the number of entries. Zero iff the two variables are independent.
+    Memory is O(N^2) in the number of entries.
+    """
+    amat = (var_1[:, None] - var_1[None, :]).abs()
+    bmat = (var_2[:, None] - var_2[None, :]).abs()
+
+    amatavg = (amat * normedweight).mean(dim=1)
+    bmatavg = (bmat * normedweight).mean(dim=1)
+
+    Amat = (
+        amat - amatavg[None, :] - amatavg[:, None] + (amatavg * normedweight).mean()
+    )
+    Bmat = (
+        bmat - bmatavg[None, :] - bmatavg[:, None] + (bmatavg * normedweight).mean()
+    )
+
+    # No per-row abs: the row sums of dCov^2 have to be allowed to cancel
+    ABavg = (Amat * Bmat * normedweight).mean(dim=1)
+    AAavg = (Amat * Amat * normedweight).mean(dim=1)
+    BBavg = (Bmat * Bmat * normedweight).mean(dim=1)
+
+    dCov2 = (ABavg * normedweight).mean()
+    dVar2_1 = (AAavg * normedweight).mean()
+    dVar2_2 = (BBavg * normedweight).mean()
+
+    dCorr = dCov2 / torch.sqrt((dVar2_1 * dVar2_2).abs() + 1e-12)
+
+    # float32 cancellation near independence can leave dCov^2 slightly below zero
+    return dCorr.clamp(min=0.0)
+
+
+class DiscoLoss(nn.Module):
+    """
+    lambda * dCorr^2(decorrelation variable, signal probability) on the background events of
+    the batch with a finite, positive decorrelation variable (e.g. DeepHME_mass).
+    """
+
+    def __init__(self, lambda_disco):
+        super(DiscoLoss, self).__init__()
+        self.lambda_disco = lambda_disco
+
+    def forward(self, logits, targets, weights, disco_var):
+        mask = (targets != 0) & torch.isfinite(disco_var) & (disco_var > 0)
+        if mask.sum() < 2:
+            return logits.new_zeros(())
+        score = torch.softmax(logits[mask], dim=1)[:, 0]
+        w = weights[mask]
+        w = w * len(w) / (w.sum() + 1e-12)
+        return self.lambda_disco * distance_corr(disco_var[mask], score, w)
